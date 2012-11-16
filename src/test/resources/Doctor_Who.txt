@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/"
+	xmlns:dbpedia-owl="http://dbpedia.org/ontology/"
+	xmlns:dcterms="http://purl.org/dc/terms/"
+	xmlns:dbpprop="http://dbpedia.org/property/" >
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Shada">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Who">
+    <dbpedia-owl:wikiPageDisambiguates rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/David_Whitaker_%28screenwriter%29">
+    <dbpedia-owl:knownFor rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Cobwebs_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Harvest_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Orbis_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Project_Lazarus">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Neverland_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Colditz_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Project_Twilight">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Living_Legend_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dale_Smith_%28writer%29">
+    <dbpedia-owl:genre rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+    <dbpprop:genre rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Whispers_of_Terror">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Spectre_of_Lanyon_Moor">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Apocalypse_Element">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Scapegoat_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Holy_Terror">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Minuet_in_Hell">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/...ish_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/100_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_and_the_Pirates">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Wormery">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Whispering_Forest">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/City_of_Spires">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Project_Destiny_%28Doctor_Who_audio%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dudley_Simpson">
+    <dbpedia-owl:knownFor rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Torchwood_Declassified">
+    <dbpedia-owl:related rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Horror_of_Glam_Rock">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Vengeance_of_Morbius">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_and_the_Warlord">
+    <dbpedia-owl:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Year_of_the_Pig">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/DW">
+    <dbpedia-owl:wikiPageDisambiguates rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Master_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor">
+    <dbpedia-owl:wikiPageDisambiguates rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dust_Breeding">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Rapture_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Genocide_Machine">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Chimes_of_Midnight">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Sword_of_Orion">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Haunting_of_Thomas_Brewster">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Son_of_the_Dragon_%28Doctor_Who_audio%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Visions_%28convention%29">
+    <dbpedia-owl:genre rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+    <dbpprop:genre rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Flip-Flop_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Book_of_Kells_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dr_Who">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/flickrwrappr/photos/Doctor_Who">
+    <owl:sameAs rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Last_of_the_Titans">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Ratings_War">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Wishing_Beast_&amp;_The_Vanity_Box">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Lurkers_at_Sunlight%27s_Edge">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beast_of_Orlok">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Zygon_Who_Fell_to_Earth">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Girl_Who_Never_Was">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Human_Resources_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dr_who">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Lars_Pearson">
+    <dbpedia-owl:notableWork rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who">
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/2005TelevisionSeriesDebuts" />
+    <rdf:type rdf:resource="http://dbpedia.org/ontology/TelevisionShow" />
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/First-runSyndicatedTelevisionProgramsInTheUnitedStates" />
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/PBSNetworkShows" />
+    <rdf:type rdf:resource="http://dbpedia.org/ontology/Work" />
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/BBCWalesTelevisionProgrammes" />
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/BBCTelevisionProgrammes" />
+    <rdf:type rdf:resource="http://umbel.org/umbel/rc/TVShow_IBT" />
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing" />
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/BritishScienceFictionTelevisionProgrammes" />
+    <rdf:type rdf:resource="http://schema.org/CreativeWork" />
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/1963TelevisionSeriesDebuts" />
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/1989TelevisionSeriesEndings" />
+    <owl:sameAs rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+    <owl:sameAs rdf:resource="http://rdf.freebase.com/ns/m/02906" />
+    <rdfs:comment xml:lang="en">Doctor Who is a British science fiction television programme produced by the BBC. The programme depicts the adventures of a time-travelling humanoid alien known as the Doctor who explores the universe in a sentient time machine called the TARDIS. Along with a series of companions, he faces a variety of foes while working to save civilisations, help people and right wrongs.</rdfs:comment>
+    <rdfs:comment xml:lang="zh">《異世奇人》（英語：Template:Lang） 是一部由英國廣播公司出品的長壽英國科幻電視劇。此片描述了一名神奇的名為「博士」（Doctor）的時間領主用他一般表面是50年代英國警亭的時間機器TARDIS（Time And Relative Dimension(s) In Space，時間和空間相對維度的縮寫）在時間、空間中旅行的冒險。他與其搭檔（companion）在時間、空間中探索悠遊、打擊邪惡力量、拯救文明、幫助人民、糾正錯誤。 這部被健力士世界紀錄大全列為世界上最長的科幻電視影集，從其整體播出收視率、DVD和書籍出售、iTunes下載量、“非法下載”來看，也被列入有史以來“最成功”的科幻電視影集。此片開播之初，其充滿想像力的劇情、低成本卻有創意的特效及前衛的電音配樂（英國廣播公司音效工作室原創）等原因都讓它備受各界肯定。這個節目在大英帝國被認為是英國流行文化中佔有相當重要的地位的一部分，在別的地方也成為了一個邪典電視喜好。這個節目影響了好幾代英國電視界專業人士，他們中很多人從小便看它長大。許多影評人和普羅大眾贊同這是英國電視史上最好的電視節目之一，贏得包括英國影藝學院電影電視獎（BAFTA）最佳電視劇獎、從2005年到2010年的5次英國戲劇類國家電視獎。 這個節目原始從1963年播放至1989年。1996年在通過一個非正常播出的電視電影嘗試復活而未成功之後，這個節目在2005年重新開始，由BBC威爾士部分（BBC Wales）內部在卡迪夫出品。第1季由BBC出品；第2季和第3季由於收到了由加拿大廣播公司（CBC）貢獻的發展資金，CBC成為了聯合出品人。 《異世奇人》也擁有多種介質的衍生劇，包括現在的電視節目《珍姐科幻大冒險》和《超疑特工》，獨立的節目《K-9》和1981年《K-9與它的夥伴們》（K-9 and Company）試播一集。 博士已經主要由11位演員扮演。從一位到另一位演員的改變被寫成重生，由此，博士的身體會改變，某種程度上，性格也會改變。儘管每個的描寫方式都不同，有時不同的化身會相遇，他們都會被描繪成同一個角色。博士目前由Matt Smith扮演，他在David Tennant 2010年1月1日最後出現之後接過這個角色。重新運行的第五季節目開始於2010年4月3日，第11任博士由Karen Gillan扮演的Amy Pond伴隨；這季後半部分，博士得到了第二個助手，由Arthur Darvill扮演的Rory Williams。第6季將先於2011年春天播出7個星期，後半部分將在秋天播出。</rdfs:comment>
+    <rdfs:comment xml:lang="it">Doctor Who è una popolare serie televisiva britannica di fantascienza prodotta dalla BBC a partire dal 1963. Narra delle avventure di un viaggiatore del tempo noto come &quot;il Dottore&quot;, con trame che vanno dalla fantascienza al racconto gotico. Il telefilm, con i suoi 27 anni di programmazione e più di 700 episodi (realizzati a colori solo a partire dal 1970) detiene tuttora il record di serie televisiva di fantascienza più longeva.</rdfs:comment>
+    <rdfs:comment xml:lang="pl">Doctor Who – popularny brytyjski serial science fiction, produkowany przez BBC. Nadawany jest od 1963. W 1989 przerwano emisję serialu, jednak w 1996 powstał film telewizyjny, a dzięki jego dobremu przyjęciu serię wznowiono w 2005. Doctor Who widnieje w Księdze Rekordów Guinnessa jako najdłuższy serial science fiction na świecie (prześcignął serialową wersję Star Treka liczącą 726 odcinków) i na stałe wpisał się do kultury brytyjskiej.</rdfs:comment>
+    <rdfs:comment xml:lang="no">Doctor Who er en britisk TV-serie produsert av BBC som handler om en mystisk tidsreisende som kaller seg selv The Doctor («Doktoren»). Doktoren reiser i tid og rom sammen med sine følgesvenner i en tidsmaskin som utvendig likner en politiboks. Serien er ifølge Guinness rekordbok den science fiction-serien som har gått lengst på TV. Den er også en viktig del av britisk populærkultur.</rdfs:comment>
+    <rdfs:comment xml:lang="es">Doctor Who es una serie de televisión británica de ciencia ficción producida por la BBC, y una secuela en forma de película producida por Universal Studios bajo licencia de la compañía británica en 1996. El programa muestra las aventuras de un misterioso viajero en el tiempo conocido como El Doctor que explora el tiempo y el espacio en su nave TARDIS con sus compañeros, arreglando problemas y corrigiendo errores.</rdfs:comment>
+    <rdfs:comment xml:lang="ru">Доктор Кто — британский научно-фантастический телесериал компании Би-би-си о загадочном инопланетном путешественнике во времени, известном как Доктор. Вместе со своими спутниками он исследует время и пространство, попутно решая разные проблемы и восстанавливая справедливость. «Доктор Кто» — самый продолжительный научно-фантастический сериал в мире и важная часть британской поп-культуры.</rdfs:comment>
+    <rdfs:comment xml:lang="sv">Doctor Who är en brittisk science fiction-TV-serie som produceras av BBC. Programmet skildrar en mystisk utomjordisk tidsresenär som kallas för &quot;The Doctor&quot; och hans äventyrliga resor i rum- och tidsfarkosten TARDIS vars exteriör ser ut som en blå 1950-tals poliskiosk. Tillsammans med sina medresenärer utforskar han tid och rum, löser diverse problem och möter monster. Serien blandar friskt genrerna äventyr, science fiction, humor och skräck.</rdfs:comment>
+    <rdfs:comment xml:lang="ja">ドクター・フー 1963年から、イギリスBBCで放映されているSFテレビドラマシリーズ。本項で詳述する。 映画『キングコングの逆襲』に登場した悪役。 日米合作のテレビアニメ『キングコング』（1967年）に登場する悪役。 細野不二彦の漫画『ダブル・フェイス』に登場する人物 (Dr WHOO) Template:継続中の作品 『ドクター・フー』（Doctor Who）は、イギリスのSFドラマ。</rdfs:comment>
+    <rdfs:comment xml:lang="fi">Doctor Who on brittiläinen BBC:n tuottama scifi-televisiosarja. Television pisimpään jatkunut scifi-sarja kertoo salaperäisen, ainoastaan nimellä Tohtori (&quot;the Doctor&quot;) tunnetun aikamatkaajan seikkailuista. Tohtorin motiivit eivät ole selvillä, mutta hän taistelee useita maapallon ja koko maailmankaikkeuden uhkia vastaan. Hänen suurimpia vihollisiaan ovat muun muassa dalekit, kybermiehet ja Mestari. Tohtorilla on usein mukanaan myös matkakumppani.</rdfs:comment>
+    <rdfs:comment xml:lang="fr">Doctor Who est une série télévisée britannique de science-fiction. La série originale compte 679 épisodes de 26 minutes (dont 255 en noir et blanc), 15 épisodes de 45 minutes et un épisode de 90 minutes, créée par Sydney Newman et Donald Wilson et diffusée du Modèle:Date au Modèle:Date sur BBC One. Il s&#39;agit de la plus longue série de science-fiction du monde. En France, la série a été diffusée à partir du Modèle:Date sur TF1.</rdfs:comment>
+    <rdfs:comment xml:lang="pt">Doctor Who é uma série premiada de ficção científica britânica, produzida e transmitida pela BBC. Nela acompanhamos as aventuras de um misterioso viajante do tempo conhecido apenas como &quot;O Doutor&quot; (&quot;the Doctor&quot;) que viaja na sua máquina do tempo, conhecida como TARDIS, cuja aparência exterior se assemelha a uma cabine da polícia londrina dos anos 60. Juntamente com os seus companheiros, ele explora o espaço e o tempo, por vezes corrigindo os males e resolvendo problemas que encontra.</rdfs:comment>
+    <rdfs:comment xml:lang="de">Vorlage:Lang ist eine britische Science-Fiction-Fernsehserie, die seit 1963 von der BBC produziert wird. Sie handelt von einem mysteriösen Zeitreisenden, der nur als ‚der Doktor‘ bekannt ist. Er reist mit seinen Begleitern in einer Zeit-Raum-Maschine, der TARDIS, die von außen wie eine altmodische, britische Polizei-Notrufzelle aussieht. Der Doktor trifft dabei auf eine Vielfalt von Gegnern, hilft den Leuten denen er begegnet und rettet ganze Zivilisationen.</rdfs:comment>
+    <rdfs:comment xml:lang="nl">Doctor Who is een Britse sciencefictiontelevisieserie geproduceerd door de BBC. De afleveringen vertellen de verhalen van een door de tijd reizende avonturier genaamd &quot;The Doctor&quot;. Doctor Who liep oorspronkelijk van 1963 tot 1989 en was hiermee de - officieel - langstlopende SF-serie. In 1996 werd geprobeerd Doctor Who nieuw leven in te blazen met een televisiefilm die als een soort pilot moest dienen voor een nieuwe serie, waarin Paul McGann als de Achtste Doctor verscheen.</rdfs:comment>
+    <rdfs:label xml:lang="en">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="zh">異世奇人</rdfs:label>
+    <rdfs:label xml:lang="pl">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="de">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="sv">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="ru">Доктор Кто</rdfs:label>
+    <rdfs:label xml:lang="nl">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="pt">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="es">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="no">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="ja">ドクター・フー</rdfs:label>
+    <rdfs:label xml:lang="it">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="fr">Doctor Who</rdfs:label>
+    <rdfs:label xml:lang="fi">Doctor Who</rdfs:label>
+    <foaf:name xml:lang="en">Doctor Who</foaf:name>
+    <dbpedia-owl:executiveProducer rdf:resource="http://dbpedia.org/resource/Beth_Willis_%28producer%29" />
+    <dbpedia-owl:executiveProducer rdf:resource="http://dbpedia.org/resource/List_of_Doctor_Who_producers%23Executive_producer_credits" />
+    <dbpedia-owl:executiveProducer rdf:resource="http://dbpedia.org/resource/Steven_Moffat" />
+    <dbpedia-owl:executiveProducer rdf:resource="http://dbpedia.org/resource/Piers_Wenger" />
+    <dbpedia-owl:abstract xml:lang="ru">Доктор Кто — британский научно-фантастический телесериал компании Би-би-си о загадочном инопланетном путешественнике во времени, известном как Доктор. Вместе со своими спутниками он исследует время и пространство, попутно решая разные проблемы и восстанавливая справедливость. «Доктор Кто» — самый продолжительный научно-фантастический сериал в мире и важная часть британской поп-культуры. Он получил признание за образность историй, творческие низкобюджетные спецэффекты и новаторское использование электронной музыки (созданной BBC Radiophonic Workshop). Элементы сериала известны и узнаваемы даже не его фанатами. В Великобритании и множестве других стран «Доктор Кто» стал культовым фаворитом телевидения и повлиял на поколения британских телевизионных сценаристов, многие из которых были его давними зрителями. Он получил признание критиков и публики как одна из самых лучших британских телепрограмм и премию BAFTA за Лучший Сериал в 2006 году. Изначально сериал шёл с 1963 по 1989 год. В 1996 году вышел телевизионный фильм «Доктор Кто», в 2005 году был успешно возобновлён телесериал, при этом нумерация сезонов началась сначала. Также во вселенной Доктора Кто есть четыре сериала-ответвления — «Торчвуд», «Приключения Сары Джейн», единственная пилотная серия «K-9 и компания» и новый сериал «K-9». На данный момент роль Доктора исполнили 11 актёров. 1 января 2010 вышел последний эпизод с участием Дэвида Теннанта в роли Десятого Доктора, и Рассела Т. Дэвиса и Джули Гарднер в качестве исполнительных продюсеров сериала. Им на смену пришли Мэтт Смит, Стивен Моффат и Пирс Венджер. Новую спутницу Доктора играет шотландская актриса Карен Гиллан, уже появлявшаяся в сериале в эпизоде «Огни Помпеи» в роли одной из прорицательниц. В России первые три сезона сериала транслировались на телеканале «СТС», где Доктора озвучивал Александр Котов. Позже права на показ 4-х сезонов «Нового Доктора» приобрёл телеканал «Настоящее страшное телевидение», а также первые 2 сезона телеканал «Syfy».</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="no">Doctor Who er en britisk TV-serie produsert av BBC som handler om en mystisk tidsreisende som kaller seg selv The Doctor («Doktoren»). Doktoren reiser i tid og rom sammen med sine følgesvenner i en tidsmaskin som utvendig likner en politiboks. Serien er ifølge Guinness rekordbok den science fiction-serien som har gått lengst på TV. Den er også en viktig del av britisk populærkultur. Doctor Who er kjent for fantasifulle historier og banebrytende bruk av elektronisk musikk (først produsert av BBC Radiophonic Workshop og senere av andre komponister). Den er også kjent for oppfinnsomme lavbudsjettseffekter som ble brukt frem til TV-filmen i 1996. I Storbritannia og andre land har serien blitt en kultserie på linje med den amerikanske Star Trek og har hatt stor innflytelse på flere generasjoner britiske manusforfattere; mange av dem vokste opp med serien. Den har også blitt roset av både kritikere og publikum som et av de beste britiske TV-programmene. Serien ble opprinnelig vist på fjernsyn fra 1963 til 1989, da den ble satt på pause av BBC. En TV-film ble laget i 1996 og serien kom tilbake for fullt i mars 2005. De nye episodene blir produsert av BBC Wales, mens den canadiske TV-stasjonen CBC bidrar med finansieringen. CBC er i rulleteksten listet opp som medprodusent selv om den ikke har noen innvirkning på serien. I Norge viste NRK2 sesongen fra 2005 fra og med 28. september 2005.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="en">Doctor Who is a British science fiction television programme produced by the BBC. The programme depicts the adventures of a time-travelling humanoid alien known as the Doctor who explores the universe in a sentient time machine called the TARDIS. Along with a series of companions, he faces a variety of foes while working to save civilisations, help people and right wrongs. The programme is listed in Guinness World Records as the longest-running science fiction television show in the world, and as the &quot;most successful&quot; science fiction series of all time, in terms of its overall broadcast ratings, DVD and book sales, iTunes traffic, and &quot;illegal downloads&quot;. It has been recognised for its imaginative stories, creative low-budget special effects during its original run, and pioneering use of electronic music (originally produced by the BBC Radiophonic Workshop). The show is a significant part of British popular culture in the United Kingdom, and elsewhere it has become a cult television favourite. The show has influenced generations of British television professionals, many of whom grew up watching the series. It has received recognition from critics and the public as one of the finest British television programmes, including the BAFTA Award for Best Drama Series in 2006, and five consecutive wins at the National Television Awards from 2005 to 2010, in the Drama category while under Russell T Davies&#39; reign as executive producer. In 2011 Matt Smith became the first actor to be nominated for a BAFTA for portraying the Doctor, but lost to Daniel Rigby. The programme originally ran from 1963 to 1989. After an unsuccessful attempt to revive regular production with a backdoor pilot in the form of a 1996 television film, the programme was relaunched in 2005, produced in-house by BBC Wales in Cardiff. The first series was produced by the BBC; series two and three had some development money contributed by the Canadian Broadcasting Corporation (CBC), which was credited as a co-producer. Doctor Who also spawned spin-offs in multiple media, including The Sarah Jane Adventures, Torchwood, K-9, and a single 1981 pilot episode of K-9 and Company. The Doctor has been principally played by eleven actors. The transition from one actor to another is written into the plot of the show as regeneration, whereby the character of the Doctor takes on a new body and, to some extent, new personality. Although each portrayal is different, and on occasion the various incarnations have even met one another, they are all meant to be aspects of the same character. The Doctor is currently portrayed by Matt Smith, who took up the role after David Tennant&#39;s final appearance in an episode broadcast on 1 January 2010. A fifth series of the relaunched programme began on 3 April 2010, in which the Eleventh Doctor is accompanied by Amy Pond, portrayed by Karen Gillan, who was joined later in the series by fiancé (later husband) Rory Williams, played by Arthur Darvill. The show&#39;s sixth series, began on 23 April 2011, with Darvill now appearing as a regular Doctor Who companion with Gillan. The series ran for seven episodes before a three month hiatus, returning in August for the remaining six.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="zh">《異世奇人》（英語：Template:Lang） 是一部由英國廣播公司出品的長壽英國科幻電視劇。此片描述了一名神奇的名為「博士」（Doctor）的時間領主用他一般表面是50年代英國警亭的時間機器TARDIS（Time And Relative Dimension(s) In Space，時間和空間相對維度的縮寫）在時間、空間中旅行的冒險。他與其搭檔（companion）在時間、空間中探索悠遊、打擊邪惡力量、拯救文明、幫助人民、糾正錯誤。 這部被健力士世界紀錄大全列為世界上最長的科幻電視影集，從其整體播出收視率、DVD和書籍出售、iTunes下載量、“非法下載”來看，也被列入有史以來“最成功”的科幻電視影集。此片開播之初，其充滿想像力的劇情、低成本卻有創意的特效及前衛的電音配樂（英國廣播公司音效工作室原創）等原因都讓它備受各界肯定。這個節目在大英帝國被認為是英國流行文化中佔有相當重要的地位的一部分，在別的地方也成為了一個邪典電視喜好。這個節目影響了好幾代英國電視界專業人士，他們中很多人從小便看它長大。許多影評人和普羅大眾贊同這是英國電視史上最好的電視節目之一，贏得包括英國影藝學院電影電視獎（BAFTA）最佳電視劇獎、從2005年到2010年的5次英國戲劇類國家電視獎。 這個節目原始從1963年播放至1989年。1996年在通過一個非正常播出的電視電影嘗試復活而未成功之後，這個節目在2005年重新開始，由BBC威爾士部分（BBC Wales）內部在卡迪夫出品。第1季由BBC出品；第2季和第3季由於收到了由加拿大廣播公司（CBC）貢獻的發展資金，CBC成為了聯合出品人。 《異世奇人》也擁有多種介質的衍生劇，包括現在的電視節目《珍姐科幻大冒險》和《超疑特工》，獨立的節目《K-9》和1981年《K-9與它的夥伴們》（K-9 and Company）試播一集。 博士已經主要由11位演員扮演。從一位到另一位演員的改變被寫成重生，由此，博士的身體會改變，某種程度上，性格也會改變。儘管每個的描寫方式都不同，有時不同的化身會相遇，他們都會被描繪成同一個角色。博士目前由Matt Smith扮演，他在David Tennant 2010年1月1日最後出現之後接過這個角色。重新運行的第五季節目開始於2010年4月3日，第11任博士由Karen Gillan扮演的Amy Pond伴隨；這季後半部分，博士得到了第二個助手，由Arthur Darvill扮演的Rory Williams。第6季將先於2011年春天播出7個星期，後半部分將在秋天播出。</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="de">Vorlage:Lang ist eine britische Science-Fiction-Fernsehserie, die seit 1963 von der BBC produziert wird. Sie handelt von einem mysteriösen Zeitreisenden, der nur als ‚der Doktor‘ bekannt ist. Er reist mit seinen Begleitern in einer Zeit-Raum-Maschine, der TARDIS, die von außen wie eine altmodische, britische Polizei-Notrufzelle aussieht. Der Doktor trifft dabei auf eine Vielfalt von Gegnern, hilft den Leuten denen er begegnet und rettet ganze Zivilisationen. Die Serie lief zuerst von 1963 bis 1989 und wurde dann 2005 wiederbelebt. Die sechste Staffel der neuen Serie wird seit April 2011 von der BBC gesendet. Der Doktor wurde bis jetzt von elf Schauspielern verkörpert. Der Übergang von einem Schauspieler zum Nächsten geschieht in der Serie durch die &quot;Regeneration&quot;, durch die der Doktor einen neuen Körper und zu einem gewissen Teil auch eine neue Persönlichkeit annimmt. Die Fernsehserie steht im Guinness-Buch der Rekorde als die am längsten laufende und erfolgreichste Science-Fiction-Serie aller Zeiten bezüglich Einschaltquoten, DVD- und Buchverkäufen, iTunes-Zugriffen und illegaler Downloads. Sie ist ein wichtiger Teil der britischen Popkultur, gilt vor allem in Großbritannien als Kult-Fernsehserie und nahm Einfluss auf Generationen britischer Fernsehproduzenten, die mit Vorlage:Lang aufwuchsen. Die Serie erhielt Preise sowohl von Kritikern als auch von den Zuschauern, einschließlich der BAFTA-Auszeichnung für die beste Drama-Serie 2006, und gewann seit 2005 fünfmal in Folge den National Television Award in der Kategorie Drama. In einer Abstimmung über die 100 besten britischen Fernsehsendungen landete die Serie auf Platz drei.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="pl">Doctor Who – popularny brytyjski serial science fiction, produkowany przez BBC. Nadawany jest od 1963. W 1989 przerwano emisję serialu, jednak w 1996 powstał film telewizyjny, a dzięki jego dobremu przyjęciu serię wznowiono w 2005. Doctor Who widnieje w Księdze Rekordów Guinnessa jako najdłuższy serial science fiction na świecie (prześcignął serialową wersję Star Treka liczącą 726 odcinków) i na stałe wpisał się do kultury brytyjskiej.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="sv">Doctor Who är en brittisk science fiction-TV-serie som produceras av BBC. Programmet skildrar en mystisk utomjordisk tidsresenär som kallas för &quot;The Doctor&quot; och hans äventyrliga resor i rum- och tidsfarkosten TARDIS vars exteriör ser ut som en blå 1950-tals poliskiosk. Tillsammans med sina medresenärer utforskar han tid och rum, löser diverse problem och möter monster. Serien blandar friskt genrerna äventyr, science fiction, humor och skräck. TV-serien är noterad i Guinness rekordbok som den äldsta science fiction-TV-serien i världen och är också en betydande del av den brittiska populärkulturen. Serien är känd för sina fantasifulla berättelser, kreativa lågbudget specialeffekter under de ursprungliga åren och dess banbrytande användning av elektronisk musik (ursprungligen producerat av BBC Radiophonic Workshop). I Storbritannien och på andra håll har serien blivit något av en kultfavorit bland de som växte upp med serien och har påverkat generationer av människor som arbetar inom den brittiska TV-världen. Doctor Who har fått erkännande från kritiker och allmänhet som ett av de främsta brittiska TV-programmen, däribland erhöll serien en BAFTA för bästa dramaserie 2006. Programmet sändes ursprungligen mellan åren 1963 och 1989 varefter serien lades ner efter 26 säsonger. Efter ett misslyckat försök att återuppliva serien med en TV-film år 1996 återlanserades den framgångsrikt 2005. Doctor Who produceras nu av BBC Wales i Cardiff. En del av finansieringen av den nya serien kommer från medproducenten Canadian Broadcasting Corporation (CBC). Doctor Who har också gett upphov till flera avknoppningar, inklusive de nuvarande TV-serierna Torchwood och The Sarah Jane Adventures, samt ett enda pilotavsnitt av K-9 and Company från 1981. Seriens ledande huvudrollsinnehavare, &quot;Doktorn&quot;, har sedan starten porträtterats av inte mindre än elva olika skådespelare. Övergången från en skådespelare till en annan är inskriven i seriens intrig som en form av regenerering och de olika rollerna behandlas ofta som distinkta från varandra i den mån att i vissa avsnitt kan de olika inkarnationerna genom tidsresor möta varandra och arbeta tillsammans. I säsong 4 som sändes från 5 april till 5 juli 2008 spelade Catherine Tate Doktorns följeslagare. Ett extra julavsnitt med titeln &quot;The Next Doctor&quot; sändes under 2008 och följdes av ytterligare fyra specialavsnitt under 2009 och början av 2010. Nästa säsong sändes under 2010. Tennant lämnade serien efter de fyra specialavsnitten. Den elfte Doktorn porträtteras av Matt Smith. Som följeslagare har han den unga Amy Pond spelad av Karen Gillan, och sedan slutet av säsong 5 även hennes make Rory Williams spelad av Arthur Darvill.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="nl">Doctor Who is een Britse sciencefictiontelevisieserie geproduceerd door de BBC. De afleveringen vertellen de verhalen van een door de tijd reizende avonturier genaamd &quot;The Doctor&quot;. Doctor Who liep oorspronkelijk van 1963 tot 1989 en was hiermee de - officieel - langstlopende SF-serie. In 1996 werd geprobeerd Doctor Who nieuw leven in te blazen met een televisiefilm die als een soort pilot moest dienen voor een nieuwe serie, waarin Paul McGann als de Achtste Doctor verscheen. Hoewel deze film een kijkcijfersucces was in het Verenigd Koninkrijk werd het niets in Amerika, waar men deze nieuwe serie wilde produceren, en het project werd dan ook niet voortgezet. Uiteindelijk werd de serie in 2005 toch hervat op de BBC met Christopher Eccleston als de Negende Doctor gevolgd door David Tennant als de Tiende Doctor die op zijn beurt weer werd opgevolgd door Matt Smith als de Elfde Doctor. De Doctor beweegt zich voort in tijd en ruimte in de TARDIS. Dit &#39;voertuig&#39; – dat van binnen groter is dan van buiten – had oorspronkelijk de eigenschap zich aan te passen aan de omgeving waarin het zich bevond. Echter, nog voor de aanvang van de serie, in 1963, is het bij een bezoek aan Londen &#39;blijven steken&#39; in de vorm van een politiehokje. Zo een blauwe telefooncel waarin men de politie kon bellen was tot de jaren &#39;70 veel te zien in de straten van het Verenigd Koninkrijk. Het geluid van de door de tijd bewegende TARDIS werd in 1963 gemaakt door een sleutel over de snaar van een piano te schrapen. Dit geluid is altijd hetzelfde gebleven.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="fi">Doctor Who on brittiläinen BBC:n tuottama scifi-televisiosarja. Television pisimpään jatkunut scifi-sarja kertoo salaperäisen, ainoastaan nimellä Tohtori (&quot;the Doctor&quot;) tunnetun aikamatkaajan seikkailuista. Tohtorin motiivit eivät ole selvillä, mutta hän taistelee useita maapallon ja koko maailmankaikkeuden uhkia vastaan. Hänen suurimpia vihollisiaan ovat muun muassa dalekit, kybermiehet ja Mestari. Tohtorilla on usein mukanaan myös matkakumppani. Doctor Who on saavuttanut niin kotimaassaan kuin maailmanlaajuisestikin kulttisarjan maineen ja onkin yksi brittiläisen populaarikulttuurin kulmakivistä. Vuonna 2000 se rankattiin kolmanneksi 100 parhaimman brittiläisen televisio-ohjelman joukossa. Alkuperäistä sarjaa esitettiin vuosina 1963 – 1989. Ohjelmaa ovat esittäneet Suomessa MTV3 Scifi ja BBC Prime -kanavat. Doctor Whosta on tehty myös kolme elokuvaa, viimeisin vuonna 1996, tosin televisiota varten. Kaksi aiempaa elokuvaa tehtiin 1960-luvulla. Ne perustuvat sarjan jaksoihin, joissa dalekit esiintyivät ensimmäisiä kertoja. Tohtoria niissä näytteli Peter Cushing. Sarjan uuden version esitys alkoi vuonna 2005, ja sen tuotannosta vastasivat tuolloin käsikirjoittaja Russell T Davies ja BBC Walesin Julie Gardner. Davies kehitti ohjelmasta myöhemmin myös spin-off-sarjat Torchwood ja The Sarah Jane Adventures. Steven Moffat aloitti sarjan pääkäsikirjoittajana sekä tuottajana sen viidennellä tuotantokaudella, joka esitettiin Britanniassa keväällä 2010. Tohtoria on sarjassa esittänyt 11 eri näyttelijää. Nykyistä Tohtoria näyttelee Matt Smith, joka aloitti roolissaan Britanniassa pääsiäisenä 2010. Uusimmalla tuotantokaudella Tohtorin matkakumppania esittää Karen Gillan. YLE TV2 alkoi esittää uutta sarjaa 10. syyskuuta 2006 alkaen. Kanava on esittänyt ensimmäisen kauden kahteen kertaan, viimeksi syksyllä 2007, mutta sarjan jatkokausia ei sen mukaan näillä näkymin hankita.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="fr">Doctor Who est une série télévisée britannique de science-fiction. La série originale compte 679 épisodes de 26 minutes (dont 255 en noir et blanc), 15 épisodes de 45 minutes et un épisode de 90 minutes, créée par Sydney Newman et Donald Wilson et diffusée du Modèle:Date au Modèle:Date sur BBC One. Il s&#39;agit de la plus longue série de science-fiction du monde. En France, la série a été diffusée à partir du Modèle:Date sur TF1. Cette dernière a commencé la diffusion avec les aventures du Quatrième Docteur. Une deuxième série, faisant suite à la première, est diffusée depuis le Modèle:Date sur BBC One, depuis le Modèle:Date sur France 4 et depuis le Modèle:Date sur Ztélé. En Belgique elle est diffusée depuis le Modèle:Date sur La Deux. Considérées comme un tout, les deux séries comptent plus de 770 épisodes.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="pt">Doctor Who é uma série premiada de ficção científica britânica, produzida e transmitida pela BBC. Nela acompanhamos as aventuras de um misterioso viajante do tempo conhecido apenas como &quot;O Doutor&quot; (&quot;the Doctor&quot;) que viaja na sua máquina do tempo, conhecida como TARDIS, cuja aparência exterior se assemelha a uma cabine da polícia londrina dos anos 60. Juntamente com os seus companheiros, ele explora o espaço e o tempo, por vezes corrigindo os males e resolvendo problemas que encontra. A série está referenciada no Guiness como &quot;a mais longa série de ficção científica do mundo&quot;, sendo também um ícone da cultura popular britânica. É reconhecida pelas histórias imaginativas, pelos seus criativos e baratos efeitos especiais (no período 1963-1989) e pelo uso pioneiro de música electrónica. A série foi exibida durante o período de 1963 até 1989, suspensa até 1996 (exibição de um telefilme co-produzido pela FOX e pela BBC) e relançada com grande sucesso em 2005, desta vez produzida no País de Gales pela BBC. Doctor Who tem também múltiplos spin-offs e presença noutros formatos que não o televisivo (livros, audio, etc). O papel do &quot;Doutor&quot; é atualmente interpetado pelo actor Matt Smith. Um episódio especial de Natal foi emitido no dia 25 de Dezembro de 2007, com Kylie Minogue no papel de companhia, e em 2008 tivemos a quarta temporada da nova série, com produção já encerrada. Para a quarta temporada Catherine Tate retomou o papel de Donna Noble, do episódio especial de Natal de 2006, e juntou-se à equipe do TARDIS. Freema Agyeman igualmente se juntou à equipe como Martha Jones, mas o seu regresso posterior só veio a ocorrer nos últimos episódios da temporada, após uma participação especial na série spin-off Torchwood. Outras presenças na quarta temporada foram de John Barrowman e Billie Piper que regressaram como o charmoso Capitão Jack Harkness e Rose Tyler, respectivamente. Após um especial de Natal em 2008 e mais quatro episódios especiais em 2009, Doctor Who regressou em 2010 com uma quinta temporada e um novo doutor.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="ja">ドクター・フー 1963年から、イギリスBBCで放映されているSFテレビドラマシリーズ。本項で詳述する。 映画『キングコングの逆襲』に登場した悪役。 日米合作のテレビアニメ『キングコング』（1967年）に登場する悪役。 細野不二彦の漫画『ダブル・フェイス』に登場する人物 (Dr WHOO) Template:継続中の作品 『ドクター・フー』（Doctor Who）は、イギリスのSFドラマ。</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="it">Doctor Who è una popolare serie televisiva britannica di fantascienza prodotta dalla BBC a partire dal 1963. Narra delle avventure di un viaggiatore del tempo noto come &quot;il Dottore&quot;, con trame che vanno dalla fantascienza al racconto gotico. Il telefilm, con i suoi 27 anni di programmazione e più di 700 episodi (realizzati a colori solo a partire dal 1970) detiene tuttora il record di serie televisiva di fantascienza più longeva. La serie ha offerto anche una delle sigle musicali più ricordate, tanto da finire come estratto nella celeberrima canzone dei Pink Floyd One of These Days.</dbpedia-owl:abstract>
+    <dbpedia-owl:abstract xml:lang="es">Doctor Who es una serie de televisión británica de ciencia ficción producida por la BBC, y una secuela en forma de película producida por Universal Studios bajo licencia de la compañía británica en 1996. El programa muestra las aventuras de un misterioso viajero en el tiempo conocido como El Doctor que explora el tiempo y el espacio en su nave TARDIS con sus compañeros, arreglando problemas y corrigiendo errores. El Doctor Who está en el Libro Guinness de los Récords como la serie de televisión de ciencia ficción de mayor duración del mundo y es también un elemento significativo de la cultura popular británica. Ha sido reconocida por sus historias imaginativas, efectos especiales creativos de bajo coste durante la serie original y el uso pionero de la música electrónica. El programa se convirtió en una serie de culto e influyó en varias generaciones de profesionales de la televisión británica. Ha recibido el reconocimiento por parte de críticos y audiencia como uno de los mejores programas británicos de televisión, ganando un BAFTA a la Mejor Serie Dramática en 2006. La serie original se trasmitió desde 1963 a 1989. En 1996 se hizo una película para televisión y el programa volvió a ser emitido con éxito en 2005, producido por BBC Wales. Parte del presupuesto para desarrollar la nueva serie proviene de la Canadian Broadcasting Corporation (CBC), que aparece en los créditos como coproductora. Doctor Who también ha creado varios productos derivados, como las series de televisión Torchwood o Las aventuras de Sarah Jane Smith, además de novelas y cómics. El relanzamiento del programa comenzó como un especial de Navidad. La tercera serie, con David Tennant como el Doctor y Freema Agyeman como su compañera, comenzó el 31 de marzo de 2007 en BBC One. Durante el año 2009, debido a problemas de agenda de David Tennant, la serie se vio reducida a sólo cuatro especiales (el último de ellos compuesto de 2 partes, emitidas en días distintos). Finalmente, Tennant decidió dejar la serie, siendo sustituido por el joven Matt Smith. El 3 de abril de 2010 se estrenó la quinta temporada de la serie, presentando a este nuevo Doctor y con Karen Gillan interpretando a su compañera, Amy Pond.</dbpedia-owl:abstract>
+    <dbpedia-owl:composer rdf:resource="http://dbpedia.org/resource/Murray_Gold" />
+    <dbpedia-owl:composer rdf:resource="http://dbpedia.org/resource/Doctor_Who%23Incidental_music" />
+    <dbpedia-owl:starring rdf:resource="http://dbpedia.org/resource/List_of_actors_who_have_played_the_Doctor" />
+    <dbpedia-owl:starring rdf:resource="http://dbpedia.org/resource/Arthur_Darvill" />
+    <dbpedia-owl:starring rdf:resource="http://dbpedia.org/resource/Karen_Gillan" />
+    <dbpedia-owl:starring rdf:resource="http://dbpedia.org/resource/Companion_%28Doctor_Who%29" />
+    <dbpedia-owl:starring rdf:resource="http://dbpedia.org/resource/Matt_Smith_%28actor%29" />
+    <dbpedia-owl:format rdf:resource="http://dbpedia.org/resource/Monaural" />
+    <dbpedia-owl:format rdf:resource="http://dbpedia.org/resource/Stereophonic_sound" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.bbc.co.uk/doctorwho/rss.xml" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.bbc.co.uk/doctorwho/s4/" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.drwhoguide.com/" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.imdb.com/title/tt0436992/combined" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.imdb.com/title/tt0056751/combined" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.drwho-online.co.uk/" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.spacecast.com/shows/doctorwho.aspx" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.gallifreybase.com/" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.shannonsullivan.com/drwho/" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.bbc.co.uk/doctorwho/" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.syfy.com/doctorwho" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.bafta.org/learning/webcasts/inside-doctor-who,642,BA.html" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.bbc.co.uk/doctorwho/classic/" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.bbcamerica.com/content/123/index.jsp" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.imdb.com/title/tt0116118/combined" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.cbc.ca/doctorwho/" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.teletronic.co.uk/who1.htm" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://doctorwhotv.co.uk/" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.bbc.co.uk/archive/changingwho/index.shtml" />
+    <dbpedia-owl:wikiPageExternalLink rdf:resource="http://www.bbc.co.uk/doctorwho/archive.shtml" />
+    <dbpedia-owl:numberOfSeasons rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">26</dbpedia-owl:numberOfSeasons>
+    <dbpedia-owl:numberOfSeasons rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</dbpedia-owl:numberOfSeasons>
+    <dbpedia-owl:thumbnail rdf:resource="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Doctor_Who_2010_title.jpg/200px-Doctor_Who_2010_title.jpg" />
+    <dbpedia-owl:openingTheme rdf:resource="http://dbpedia.org/resource/Doctor_Who_theme_music" />
+    <foaf:homepage rdf:resource="http://www.bbc.co.uk/doctorwho/" />
+    <dbpedia-owl:numberOfEpisodes rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">777</dbpedia-owl:numberOfEpisodes>
+    <dbpedia-owl:releaseDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1963-11-23</dbpedia-owl:releaseDate>
+    <dbpedia-owl:completionDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1996-05-12</dbpedia-owl:completionDate>
+    <dbpedia-owl:completionDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1989-12-06</dbpedia-owl:completionDate>
+    <dbpedia-owl:completionDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2005-03-26</dbpedia-owl:completionDate>
+    <foaf:depiction rdf:resource="http://upload.wikimedia.org/wikipedia/commons/a/ae/Doctor_Who_2010_title.jpg" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:2000s_British_television_series" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:PBS_network_shows" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:Doctor_Who" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:English-language_television_series" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:BBC_Wales_television_programmes" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:1960s_British_television_series" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:1980s_British_television_series" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:1989_television_series_endings" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:BAFTA_winners_%28television_series%29" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:British_science_fiction_television_programmes" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:1963_television_series_debuts" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:Space_adventure_series" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:BBC_television_programmes" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:2010s_British_television_series" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:1963_in_British_television" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:1970s_British_television_series" />
+    <dcterms:subject rdf:resource="http://dbpedia.org/resource/Category:First-run_syndicated_television_programs_in_the_United_States" />
+    <dbpprop:starring xml:lang="en">Various Doctors</dbpprop:starring>
+    <dbpprop:starring xml:lang="en">Various companions</dbpprop:starring>
+    <dbpprop:filename xml:lang="en">Doctor Who theme excerpt.ogg</dbpprop:filename>
+    <dbpprop:composer rdf:resource="http://dbpedia.org/resource/Doctor_Who%23Incidental_music" />
+    <dbpprop:camera rdf:resource="http://dbpedia.org/resource/Multiple-camera_setup" />
+    <dbpprop:executiveProducer rdf:resource="http://dbpedia.org/resource/List_of_Doctor_Who_producers%23Executive_producer_credits" />
+    <dbpprop:showName xml:lang="en">Doctor Who</dbpprop:showName>
+    <dbpprop:audioFormat xml:lang="en">Monaural</dbpprop:audioFormat>
+    <dbpprop:audioFormat xml:lang="en">Stereo</dbpprop:audioFormat>
+    <dbpprop:websiteTitle xml:lang="en">Doctor Who at the BBC</dbpprop:websiteTitle>
+    <dbpprop:onDemand rdf:resource="http://dbpedia.org/resource/BBC_iPlayer" />
+    <dbpprop:onDemand rdf:resource="http://dbpedia.org/resource/Virgin_Media" />
+    <dbpprop:listEpisodes xml:lang="en">List of Doctor Who serials</dbpprop:listEpisodes>
+    <dbpprop:numEpisodes rdf:datatype="http://www.w3.org/2001/XMLSchema#int">777</dbpprop:numEpisodes>
+    <dbpprop:wikiPageUsesTemplate rdf:resource="http://dbpedia.org/resource/Template:Infobox_television" />
+    <dbpprop:wikiPageUsesTemplate rdf:resource="http://dbpedia.org/resource/Template:BBC_Online" />
+    <dbpprop:wikiPageUsesTemplate rdf:resource="http://dbpedia.org/resource/Template:Listen" />
+    <dbpprop:wikiPageUsesTemplate rdf:resource="http://dbpedia.org/resource/Template:S-ttl" />
+    <dbpprop:rss rdf:resource="http://www.bbc.co.uk/doctorwho/rss.xml" />
+    <dbpprop:years rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2005</dbpprop:years>
+    <dbpprop:genre xml:lang="en">Science fiction drama</dbpprop:genre>
+    <dbpprop:firstAired xml:lang="en">Classic series:</dbpprop:firstAired>
+    <dbpprop:firstAired rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1963-11-23</dbpprop:firstAired>
+    <dbpprop:numSeasons rdf:datatype="http://www.w3.org/2001/XMLSchema#int">26</dbpprop:numSeasons>
+    <dbpprop:opentheme rdf:resource="http://dbpedia.org/resource/Doctor_Who_theme_music" />
+    <dbpprop:lastAired xml:lang="en">New series:</dbpprop:lastAired>
+    <dbpprop:lastAired rdf:datatype="http://www.w3.org/2001/XMLSchema#int">12</dbpprop:lastAired>
+    <dbpprop:lastAired rdf:datatype="http://www.w3.org/2001/XMLSchema#int">6</dbpprop:lastAired>
+    <dbpprop:lastAired rdf:datatype="http://www.w3.org/2001/XMLSchema#int">26</dbpprop:lastAired>
+    <dbpprop:lastAired xml:lang="en">Television film:</dbpprop:lastAired>
+    <dbpprop:numSeries rdf:datatype="http://www.w3.org/2001/XMLSchema#int">6</dbpprop:numSeries>
+    <dbpprop:title xml:lang="en">Doctor Who Series 5</dbpprop:title>
+    <dbpprop:title xml:lang="en">Doctor Who theme excerpt</dbpprop:title>
+    <dbpprop:title rdf:resource="http://dbpedia.org/resource/British_Academy_Television_Award_for_Best_Drama_Series" />
+    <dbpprop:title rdf:resource="http://dbpedia.org/resource/British_Academy_Television_Awards" />
+    <dbpprop:title rdf:resource="http://dbpedia.org/resource/National_Television_Awards" />
+    <dbpprop:title xml:lang="en">Doctor Who</dbpprop:title>
+    <dbpprop:title xml:lang="en">Most Popular Drama</dbpprop:title>
+    <dbpprop:id xml:lang="en">wales/southeast/sites/doctorwho</dbpprop:id>
+    <dbpprop:id xml:lang="en">doctorwho</dbpprop:id>
+    <dbpprop:caption xml:lang="en">Current Doctor Who main title card</dbpprop:caption>
+    <dbpprop:website rdf:resource="http://www.bbc.co.uk/doctorwho/" />
+    <dbpprop:country xml:lang="en">United Kingdom</dbpprop:country>
+    <dbpprop:description xml:lang="en">An excerpt from the classic theme music to Doctor Who</dbpprop:description>
+    <foaf:page rdf:resource="http://en.wikipedia.org/wiki/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Russell_T_Davies">
+    <dbpedia-owl:notableWork rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Deimos_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Jubilee_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Paul_Magrs">
+    <dbpedia-owl:notableWork rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Hothouse_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Invaders_from_Mars_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Storm_Warning_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/No_More_Lies_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Time_Reef_&amp;_A_Perfect_World">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Bloodtide_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%28disambiguation%29">
+    <dbpedia-owl:wikiPageDisambiguates rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Fearmonger">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Shadow_of_the_Scourge">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_One_Doctor">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Seasons_of_Fear">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Embrace_the_Darkness">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Dark_Flame">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who:_Destiny_of_the_Doctors">
+    <dbpedia-owl:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who:_Return_to_Earth">
+    <dbpedia-owl:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Worldwide_Web_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Veiled_Leopard">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Robophobia">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Heroes_of_Sontar">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Totally_Doctor_Who">
+    <dbpedia-owl:related rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Death_in_Blackpool">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Freakshow_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%28series_4%29">
+    <dbpprop:showName rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/House_of_Blue_Fire">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Blood_of_the_Daleks">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_who">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Situation_Vacant">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Verity_Lambert">
+    <dbpedia-owl:knownFor rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/K-9_and_Company">
+    <dbpedia-owl:related rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+    <dbpprop:spinOffTo rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Phobos_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Sandman_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Katy_Manning">
+    <dbpedia-owl:knownFor rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dreamtime_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/K-9_%28TV_series%29">
+    <dbpedia-owl:related rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+    <dbpprop:spinOffTo rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Valhalla_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Time_Lord_%28role-playing_game%29">
+    <dbpedia-owl:genre rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+    <dbpprop:genre rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Sarah_Jane_Adventures">
+    <dbpedia-owl:related rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+    <dbpprop:spinOffTo rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Stones_of_Venice_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Immortal_Beloved_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_Confidential">
+    <dbpedia-owl:related rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+    <dbpprop:spinOffTo rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Marian_Conspiracy">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Fires_of_Vulcan">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Crimes_of_Thomas_Brewster">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Time_of_the_Daleks">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Bang-Bang-a-Boom%21">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/A_Death_in_the_Family_%28Doctor_Who_audio%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Davros_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/LIVE_34">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Unregenerate%21">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Scaredy_Cat_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dr._Who">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Julie_Gardner">
+    <dbpprop:notableWorks rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Company_of_Friends">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Brotherhood_of_the_Daleks">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doc_Who">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doc._Who">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who:_The_First_Adventure">
+    <dbpedia-owl:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Top_Trumps:_Doctor_Who">
+    <dbpedia-owl:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Exotron_&amp;_Urban_Myths">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Frozen_Time">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Brave_New_Town">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Mind%27s_Eye_&amp;_Mission_of_the_Viyrans">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Doomwood_Curse">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Bride_of_Peladon">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Lucie_Miller_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Condemned_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Dark_Husband">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Boy_That_Time_Forgot">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Feast_of_Axos">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Raincloud_Man">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Skull_of_Sobek">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Grand_Theft_Cosmos">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Blue_Forgotten_Planet">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Recorded_Time_and_Other_Stories">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Sisters_of_the_Flame">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Plague_of_the_Daleks">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%28series_6%29">
+    <dbpprop:showName rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who:_Evacuation_Earth">
+    <dbpedia-owl:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/A_Thousand_Tiny_Wings">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Survival_of_the_Fittest_&amp;_Klein%27s_Story">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Kiss_of_Death_%28Doctor_Who_audio%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/DoctorWho">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%28series_1%29">
+    <dbpprop:showName rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Cradle_of_the_Snake">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Silver_Turk">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Angel_of_Scutari">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Cuddlesome">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Discontinuity_Guide">
+    <dbpedia-owl:nonFictionSubject rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dr_Who%3F">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%28series_3%29">
+    <dbpprop:showName rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%28series_2%29">
+    <dbpprop:showName rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Wirrn_Dawn">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Mists_of_Time">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Eight_Truths">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Architects_of_History">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Eternal_Summer">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Relative_Dimensions">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who:_The_Adventure_Games">
+    <dbpedia-owl:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who:_The_Mazes_of_Time">
+    <dbpedia-owl:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctorwho">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Roo">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%28series_5%29">
+    <dbpprop:showName rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Death_Collectors_&amp;_Spider%27s_Shadow">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/I.D._&amp;_Urgent_Calls">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Davros_Mission">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dead_London">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_Glossary_of_Terms_and_Names">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%E2%80%93_The_New_Series">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who%3F">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Industrial_Evolution">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_and_the_Mines_of_Terror">
+    <dbpedia-owl:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/To_the_Death_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Nevermore_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_classic_series">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%28new_series%29">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Demons_of_Red_Lodge_and_Other_Stories">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Patient_Zero_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Drwho">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/DrWho">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Paper_Cuts_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Rat_Trap_%28Doctor_Who_audio%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_New_Series">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Max_Warp">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Wreck_of_the_Titan_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Legend_of_the_Cybermen">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Enemy_of_the_Daleks">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Michael_Ball_Show">
+    <dbpprop:aux rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Forty-five_%28audio_drama%29">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Cannibalists">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Prisoner_of_the_Sun">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Resurrection_of_Mars">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Kingdom_of_Silver_&amp;_Keepsake">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Magic_Mousetrap">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_new_series">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Doomsday_Quatrain">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_doctor_and_Rose">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Doctor_and_Rose">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Castle_of_Fear">
+    <dbpprop:series rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Archangel_Network">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Nightmare_child">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Docter_Who">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Who_doctor">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_%28TV_series%29">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Anna_Zhou">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_series">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Dr.Who">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/Doctor_Who_-_The_New_Series">
+    <dbpedia-owl:wikiPageRedirects rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://en.wikipedia.org/wiki/Doctor_Who">
+    <foaf:primaryTopic rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://mpii.de/yago/resource/Doctor_Who">
+    <owl:sameAs rdf:resource="http://dbpedia.org/resource/Doctor_Who" />
+  </rdf:Description>
+</rdf:RDF>
