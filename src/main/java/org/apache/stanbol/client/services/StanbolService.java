@@ -20,7 +20,7 @@ package org.apache.stanbol.client.services;
  * Main interface for stanbol services
  * 
  * @author efoncubierta
- *
+ * 
  */
 public interface StanbolService
 {

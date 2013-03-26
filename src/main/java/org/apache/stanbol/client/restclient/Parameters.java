@@ -22,10 +22,14 @@ import java.util.HashMap;
  * Represent a collection of URL parameters
  * 
  * @author efoncubierta
- *
+ * @author Rafa Haro
+ * 
  */
-public class Parameters extends HashMap<String, String> {
+public class Parameters extends HashMap<String, String>
+{
 
-	private static final long serialVersionUID = 4697378594723200983L;
+   private static final long serialVersionUID = 4697378594723200983L;
+ 
+   // TODO Do we really need this?
 
 }

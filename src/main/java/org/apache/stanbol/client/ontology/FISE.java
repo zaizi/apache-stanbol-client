@@ -25,25 +25,35 @@ import com.hp.hpl.jena.rdf.model.impl.ResourceImpl;
  * FISE ontology definitions
  * 
  * @author efoncubierta
- *
+ * @author Rafa Haro
+ * 
  */
-public class FISE {
+public class FISE
+{
 
-	public static final String URI = "http://fise.iks-project.eu/ontology/";
-	
-	public static final Resource ENHANCEMENT = new ResourceImpl(URI, "Enhancement");
-	public static final Resource ENTITY_ANNOTATION = new ResourceImpl(URI, "EntityAnnotation");
-	public static final Resource TEXT_ANNOTATION = new ResourceImpl(URI, "TextAnnotation");
-	
-	public static final Property EXTRACTED_FROM = new PropertyImpl(URI + "extracted-from");
-	public static final Property CONFIDENCE = new PropertyImpl(URI + "confidence");
-	
-	public static final Property ENTITY_LABEL = new PropertyImpl(URI + "entity-label");
-	public static final Property ENTITY_REFERENCE = new PropertyImpl(URI + "entity-reference");
-	public static final Property ENTITY_TYPE = new PropertyImpl(URI + "entity-type");
-	
-	public static final Property SELECTED_TEXT = new PropertyImpl(URI + "selected-text");
-	public static final Property SELECTION_CONTEXT = new PropertyImpl(URI + "selection-context");
-	public static final Property START = new PropertyImpl(URI + "start");
-	public static final Property END = new PropertyImpl(URI + "end");
+    public static final String URI = "http://fise.iks-project.eu/ontology/";
+    public static final String USER_METADATA_URI = "http://fise.iks-project.eu/ontology/usermetadata/";
+    public static final String USER_METADATA_PREFIX = "um";
+
+    public static final Resource ENHANCEMENT = new ResourceImpl(URI, "Enhancement");
+    public static final Resource ENTITY_ANNOTATION = new ResourceImpl(URI, "EntityAnnotation");
+    public static final Resource TEXT_ANNOTATION = new ResourceImpl(URI, "TextAnnotation");
+    public static final Resource USER_ANNOTATION = new ResourceImpl(URI, "UserAnnotation");
+
+    public static final Property USER_METADATA = new PropertyImpl(URI + "user-metadata");
+    public static final Property USER_METADATA_VALUE = new PropertyImpl(URI + "user-metadata-value");
+    public static final Resource USER_METADATA_ANNOTATION = new ResourceImpl(URI, "UserMetadataAnnotation");
+
+    public static final Property EXTRACTED_FROM = new PropertyImpl(URI + "extracted-from");
+    public static final Property CONFIDENCE = new PropertyImpl(URI + "confidence");
+
+    public static final Property ENTITY_LABEL = new PropertyImpl(URI + "entity-label");
+    public static final Property ENTITY_REFERENCE = new PropertyImpl(URI + "entity-reference");
+    public static final Property ENTITY_TYPE = new PropertyImpl(URI + "entity-type");
+    public static final Property ENTITY_SITE = new PropertyImpl(URI + "site");
+
+    public static final Property SELECTED_TEXT = new PropertyImpl(URI + "selected-text");
+    public static final Property SELECTION_CONTEXT = new PropertyImpl(URI + "selection-context");
+    public static final Property START = new PropertyImpl(URI + "start");
+    public static final Property END = new PropertyImpl(URI + "end");
 }

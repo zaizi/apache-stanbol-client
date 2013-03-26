@@ -20,27 +20,30 @@ package org.apache.stanbol.client.exception;
  * Generic exception for Apache Stanbol client
  * 
  * @author efoncubierta
- *
+ * 
  */
-public class StanbolClientException extends Exception {
-	private static final long serialVersionUID = 784007711275322771L;
+public class StanbolClientException extends Exception
+{
+    private static final long serialVersionUID = 784007711275322771L;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param msg Exception message
-	 */
-	public StanbolClientException(String msg) {
-		super(msg);
-	}
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param msg Exception message
-	 * @param e Catched exception
-	 */
-	public StanbolClientException(String msg, Throwable e) {
-		super(msg, e);
-	}
+    /**
+     * Constructor
+     * 
+     * @param msg Exception message
+     */
+    public StanbolClientException(String msg)
+    {
+        super(msg);
+    }
+
+    /**
+     * Constructor
+     * 
+     * @param msg Exception message
+     * @param e Catched exception
+     */
+    public StanbolClientException(String msg, Throwable e)
+    {
+        super(msg, e);
+    }
 }
