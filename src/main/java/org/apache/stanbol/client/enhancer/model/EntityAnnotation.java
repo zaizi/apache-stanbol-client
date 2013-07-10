@@ -54,7 +54,7 @@ public class EntityAnnotation extends Annotation
         super(resource);
         this.entityLabel = resource.hasProperty(FISE.ENTITY_LABEL) ? resource.getProperty(FISE.ENTITY_LABEL).getString() : null;
         this.entityReference = resource.hasProperty(FISE.ENTITY_REFERENCE) ? resource.getPropertyResourceValue(FISE.ENTITY_REFERENCE).getURI() : null;
-        this.site = resource.hasProperty(FISE.ENTITY_SITE) ? resource.getProperty(FISE.ENTITY_SITE).getString() : null;
+        this.site = resource.hasProperty(FISE.ENTITYHUB_SITE) ? resource.getProperty(FISE.ENTITYHUB_SITE).getString() : null;
         
         if(resource.hasProperty(FISE.ENTITY_TYPE)){
             entityTypes = new ArrayList<String>();

@@ -1,5 +1,6 @@
 package org.apache.stanbol.client.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -44,12 +45,15 @@ public class StanbolClientTest
 {
 
     private static final String STANBOL_ENDPOINT = "http://localhost:8080/";
+    
     private static final String TEST_EN_FILE = "test_en.txt";
     private static final String TEST_EN2_FILE = "test_en2.txt";
     private static final String TEST_ES_FILE = "test_es.txt";
     private static final String TEST_RDF_FILE = "Doctor_Who.txt";
+    
     private static final String TEST_INDEX_NAME = "TestIndex";
     private static final String TEST_INDEX_LDPROGRAM = "@prefix find:<http://stanbol.apache.org/ontology/entityhub/find/>; find:labels = rdfs:label[@en] :: xsd:string; find:comment = rdfs:comment[@en] :: xsd:string; find:categories = dc:subject :: xsd:anyURI; find:mainType = rdf:type :: xsd:anyURI;";
+    
     private static final String TEST_URI = "workspace://SpacesStore/d8185c88-44bb-49d4-85a7-2ae2c1028a2c";
     //private static final String TEST_URI = "urn:content-item-sha1-04617f62be8dbd432f286ff1d69a4118be9c5062";
     
@@ -78,6 +82,8 @@ public class StanbolClientTest
         assertNotNull(enhancements);
         assertFalse(enhancements.getEnhancements().size() == 0);
         assertTrue(enhancements.getEntityAnnotations().size() == 5);
+        
+        assertEquals(enhancements.getEntityAnnotations().iterator().next().getSite(), "dbpedia");
         
         List<String> labels = new ArrayList<String>();
         for(EntityAnnotation ea:enhancements.getEntityAnnotations())
