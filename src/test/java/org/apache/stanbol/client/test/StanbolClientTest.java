@@ -52,7 +52,11 @@ public class StanbolClientTest
     private static final String TEST_RDF_FILE = "Doctor_Who.txt";
     
     private static final String TEST_INDEX_NAME = "TestIndex";
-    private static final String TEST_INDEX_LDPROGRAM = "@prefix find:<http://stanbol.apache.org/ontology/entityhub/find/>; find:labels = rdfs:label[@en] :: xsd:string; find:comment = rdfs:comment[@en] :: xsd:string; find:categories = dc:subject :: xsd:anyURI; find:mainType = rdf:type :: xsd:anyURI;";
+    private static final String TEST_INDEX_LDPROGRAM = "@prefix find:<http://stanbol.apache.org/ontology/entityhub/find/>;"
+    		+ " find:labels = rdfs:label[@en] :: xsd:string; "
+    		+ "find:comment = rdfs:comment[@en] :: xsd:string;"
+    		+ " find:categories = dc:subject :: xsd:anyURI; "
+    		+ "find:mainType = rdf:type :: xsd:anyURI;";
     
     private static final String TEST_URI = "workspace://SpacesStore/d8185c88-44bb-49d4-85a7-2ae2c1028a2c";
     //private static final String TEST_URI = "urn:content-item-sha1-04617f62be8dbd432f286ff1d69a4118be9c5062";
@@ -74,14 +78,14 @@ public class StanbolClientTest
         final StanbolClient client = new StanbolClientImpl(STANBOL_ENDPOINT);
         
         EnhancementResult eRes = client.enhancer().enhance(TEST_URI, "Paris is the capital of France");
-        assertTrue(eRes.getEntityAnnotations().size() == 5);
+        assertTrue(eRes.getEntityAnnotations().size() == 6);
         eRes.filterByConfidence(0.2);
-        assertTrue(eRes.getEntityAnnotations().size() == 3);
+        assertTrue(eRes.getEntityAnnotations().size() == 5);
 
         EnhancementResult enhancements = client.enhancer().enhance(TEST_URI, "Paris is the capital of France");
         assertNotNull(enhancements);
         assertFalse(enhancements.getEnhancements().size() == 0);
-        assertTrue(enhancements.getEntityAnnotations().size() == 5);
+        assertTrue(enhancements.getEntityAnnotations().size() == 6);
         
         assertEquals(enhancements.getEntityAnnotations().iterator().next().getSite(), "dbpedia");
         
@@ -402,8 +406,9 @@ public class StanbolClientTest
         assertNotNull(paris);
         assertTrue(paris.getUri().equals(parisId));
         assertTrue(paris.getReferencedSite().equals("dbpedia"));
-        assertTrue(paris.getCategories().get(1).equals("European Capitals of Culture"));
-        assertTrue(paris.getPropertyValue("http://dbpedia.org/ontology/", "populationTotal").get(0).equals("2193031"));
+        assertTrue(paris.getCategories().get(1).equals("3rd-century BC establishments"));
+        assertEquals(paris.getPropertyValue("http://dbpedia.org/ontology/", "populationTotal").get(0), "2211297");
+
 
         // Test Lookup
         paris = client.entityhub().lookup(parisId, true);
@@ -418,8 +423,8 @@ public class StanbolClientTest
 
         entities = client.entityhub().search("dbpedia", "Paris*", null, "en", program, 10, 0);
         assertTrue(!entities.isEmpty());
-        assertTrue(entities.get(2).getPropertyValue("http://stanbol.apache.org/ontology/entityhub/find/", "labels").
-                get(0).equals("Paris, France"));
+        assertEquals(entities.get(2).getPropertyValue("http://stanbol.apache.org/ontology/entityhub/find/", "labels").
+                get(0), "Paris Saint-Germain F.C.");
         
         // Test ldpath
         program = new LDPathProgram();
