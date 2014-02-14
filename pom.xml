@@ -15,7 +15,7 @@
 
 	<groupId>org.apache.stanbol</groupId>
 	<artifactId>org.apache.stanbol.client</artifactId>
-	<version>0.20.0-SNAPSHOT</version>
+	<version>0.30.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Apache Stanbol Client</name>
