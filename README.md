@@ -45,9 +45,12 @@ Below you can find some code examples showing part of the covered features for e
 
 #### Simple Content Enhancement
 
-    final StanbolClient client = new StanbolClientImpl(STANBOL_ENDPOINT);
-    EnhancementResult eRes = 
-              client.enhancer().enhance(TEST_URI, "Paris is the capital of France");
+    final StanbolClientFactory factory = new StanbolClientFactory(STANBOL_ENDPOINT);
+    final Enhancer client = factory.createEnhancerClient();
+    EnhancerParameters parameters = EnhancerParameters.
+    			builder().
+    			buildDefault("Paris is the capital of France);
+    EnhancementStructure eRes = client.enhance(parameters);
     
     for(TextAnnotation ta: eRes.getTextAnnotations()){
         System.out.println("********************************************");
@@ -82,7 +85,7 @@ Produces:
 
     EnhancementResult eRes = 
         client.enhancer().enhance(TEST_URI, "Paris is the capital of France");
-    eRes.disambiguate();
+    eRes.getBestAnnotations();
 
 This piece of code removes all Entity Annotations from the results with confidence value less than the highest candidate's value, therefore it would print the following:
 
@@ -110,9 +113,12 @@ This piece of code removes all Entity Annotations from the results with confiden
 
 #### Enhance a File or InputStream with any Enhancement Engine
 
-    EnhancementResult eRes = 
-        client.enhancer().enhance(TEST_URI,
-        this.getClass().getClassLoader().getResourceAsStream(TEST_EN_FILE), "language");
+    parameters = EnhancerParameters.
+    			builder().
+    			setContent(this.getClass().getClassLoader().getResourceAsStream(TEST_EN_FILE)).
+    			build();
+        
+        enhancements = client.enhance(parameters);
     
     assertTrue(eRes.getEnhancements().size() == 1);
     TextAnnotation annotation = (TextAnnotation) eRes.getEnhancements().get(0);
