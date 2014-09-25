@@ -16,19 +16,17 @@
  */
 package org.apache.stanbol.client.enhancer.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+
+import jersey.repackaged.com.google.common.collect.Sets;
 
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 
 /**
  * Represents an enhancement in the FISE ontology
  * 
- * @author efoncubierta
- * @author Rafa Haro
+ * @author Rafa Haro <rharo@zaizi.com>
  * 
  */
 public abstract class Enhancement
@@ -37,37 +35,44 @@ public abstract class Enhancement
     /**
      * Jena Resource
      */
-    protected Resource resource;
+    Resource resource;
 
     // properties
     private final String uri;
     private final String created; // http://purl.org/dc/terms/created
     private final String creator; // http://purl.org/dc/terms/creator
-    private List<Enhancement> relation; // http://purl.org/dc/terms/relation
+    private Collection<Enhancement> relation; // http://purl.org/dc/terms/relation
 
     /**
      * Constructor
      * 
      * @param resource Jena resource modeling the RDF Enhancement
      */
-    public Enhancement(Resource resource)
+    protected Enhancement(Resource resource)
     {
         this.resource = resource;
         this.uri = resource.getURI();
         this.created = resource.hasProperty(DCTerms.created) ? resource.getProperty(DCTerms.created).getString() : null;
         this.creator = resource.hasProperty(DCTerms.creator) ? resource.getProperty(DCTerms.creator).getString() : null;
+        this.relation = Sets.newHashSet();
         
-        this.relation = new ArrayList<Enhancement>();
-        
-        if (resource.hasProperty(DCTerms.relation))
-        {
-            final StmtIterator relationsIterator = resource.listProperties(DCTerms.relation);
-            while (relationsIterator.hasNext())
-            {
-                final Statement relationStatement = relationsIterator.next();
-                this.relation.add(EnhancementParser.parse(relationStatement.getObject().asResource()));
-            }
-        }
+//        if (resource.hasProperty(DCTerms.relation))
+//        {
+//            final StmtIterator relationsIterator = resource.listProperties(DCTerms.relation);
+//            while (relationsIterator.hasNext())
+//            {
+//                final Statement relationStatement = relationsIterator.next();
+//                this.relation.add(EnhancementParser.parse(relationStatement.getObject().asResource()));
+//            }
+//        }
+    }
+    
+    void addRelation(Enhancement e){
+    	this.relation.add(e);
+    }
+    
+    void setRelations(Collection<Enhancement> relations){
+    	this.relation = relations;
     }
 
     /**
@@ -105,7 +110,7 @@ public abstract class Enhancement
      * 
      * @return dc:relation property
      */
-    public List<Enhancement> getRelation()
+    public Collection<Enhancement> getRelation()
     {
         return relation;
     }
