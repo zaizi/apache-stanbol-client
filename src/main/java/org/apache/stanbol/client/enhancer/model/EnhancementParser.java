@@ -16,16 +16,15 @@
  */
 package org.apache.stanbol.client.enhancer.model;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.stanbol.client.contenthub.store.model.DefaultMetadata;
-import org.apache.stanbol.client.contenthub.store.model.Metadata;
-import org.apache.stanbol.client.ontology.FISE;
+import jersey.repackaged.com.google.common.collect.Maps;
+
+import org.apache.stanbol.client.entityhub.model.Entity;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ResIterator;
@@ -38,7 +37,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
 /**
  * Utility class for extracting Enhancements and Metadata objects from RDF Graphs
  * 
- * @author Rafa Haro
+ * @author Rafa Haro <rharo@zaizi.com>
  * 
  */
 public class EnhancementParser
@@ -50,11 +49,11 @@ public class EnhancementParser
      * @param model Jena model
      * @return List of enhancements
      */
-    public static List<Enhancement> parse(Model model)
+    static Collection<Enhancement> parse(Model model)
     {
-        List<Enhancement> enhancements = new ArrayList<Enhancement>();
+        Map<String, Enhancement> enhancements = Maps.newHashMap();
 
-        final ResIterator enhancementsIterator = model.listSubjectsWithProperty(RDF.type, FISE.ENHANCEMENT);
+        final ResIterator enhancementsIterator = model.listSubjectsWithProperty(RDF.type, EnhancementStructureOntology.ENHANCEMENT);
         while (enhancementsIterator.hasNext())
         {
             final Resource enhancementResource = enhancementsIterator.next();
@@ -62,10 +61,27 @@ public class EnhancementParser
 
             if (enhancement != null)
             {
-                enhancements.add(enhancement);
+                enhancements.put(enhancementResource.getURI(), enhancement);
             }
         }
-        return enhancements;
+
+        processRelations(enhancements);
+        return enhancements.values();
+    }
+    
+    private static void processRelations(Map<String, Enhancement> enhancements){
+    	Collection<Enhancement> annotations = enhancements.values();
+    	for(Enhancement e:annotations){
+    		if (e.resource.hasProperty(DCTerms.relation)){
+    			final StmtIterator relationsIterator = e.resource.listProperties(DCTerms.relation);
+    			while (relationsIterator.hasNext())
+    			{
+    				final Statement relationStatement = relationsIterator.next();
+    				String relationUri = relationStatement.getObject().asResource().getURI();
+    				e.addRelation(enhancements.get(relationUri));
+    			}
+    		}
+    	}
     }
     
     /**
@@ -74,11 +90,11 @@ public class EnhancementParser
      * @param model Jena Model
      * @return Map of {@link TextAnnotation} - Set of {@link EntityAnnotation}
      */
-    public static Map<TextAnnotation, SortedSet<EntityAnnotation>> parseRelations(Model model){
+     static Map<TextAnnotation, SortedSet<EntityAnnotation>> parseRelations(Model model){
         Map<TextAnnotation, SortedSet<EntityAnnotation>> result = new HashMap<TextAnnotation, SortedSet<EntityAnnotation>>();
         
         Map<String, TextAnnotation> entityMapping = new HashMap<String, TextAnnotation>();
-        final ResIterator enhancementsIterator = model.listSubjectsWithProperty(RDF.type, FISE.TEXT_ANNOTATION);
+        final ResIterator enhancementsIterator = model.listSubjectsWithProperty(RDF.type, EnhancementStructureOntology.TEXT_ANNOTATION);
         while(enhancementsIterator.hasNext())
         {
             final Resource enhancementResource = enhancementsIterator.next();
@@ -90,7 +106,7 @@ public class EnhancementParser
             }
         }
 
-        final ResIterator entityIterator = model.listSubjectsWithProperty(RDF.type, FISE.ENTITY_ANNOTATION);
+        final ResIterator entityIterator = model.listSubjectsWithProperty(RDF.type, EnhancementStructureOntology.ENTITY_ANNOTATION);
         while(entityIterator.hasNext())
         {
             final Resource entityResource = entityIterator.next();
@@ -101,7 +117,7 @@ public class EnhancementParser
                 while(relationIterator.hasNext()){
                     Statement nextStatement = relationIterator.next();
                     if(nextStatement.getObject().isResource() && 
-                            nextStatement.getObject().asResource().hasProperty(RDF.type, FISE.TEXT_ANNOTATION)){
+                            nextStatement.getObject().asResource().hasProperty(RDF.type, EnhancementStructureOntology.TEXT_ANNOTATION)){
                         String taURI = nextStatement.getObject().asResource().getURI();
                         SortedSet<EntityAnnotation> list = result.get(entityMapping.get(taURI));
                         list.add((EntityAnnotation) entity);
@@ -119,7 +135,7 @@ public class EnhancementParser
      * @param resource Jena resource
      * @return Enhancement
      */
-    public static Enhancement parse(Resource resource)
+    private static Enhancement parse(Resource resource)
     {
         Enhancement enhancement = null;
 
@@ -130,13 +146,13 @@ public class EnhancementParser
             {
                 final Statement stmt = types.next();
 
-                if (FISE.TEXT_ANNOTATION.equals(stmt.getObject()))
+                if (EnhancementStructureOntology.TEXT_ANNOTATION.equals(stmt.getObject()))
                 {
                     enhancement = new TextAnnotation(resource);
                 }
-                else if (FISE.ENTITY_ANNOTATION.equals(stmt.getObject()))
+                else if (EnhancementStructureOntology.ENTITY_ANNOTATION.equals(stmt.getObject()))
                 {
-                    enhancement = new EntityAnnotation(resource);
+                    enhancement = new EntityAnnotation(resource, parseEntity(resource));
                 }
             }
         }
@@ -144,46 +160,19 @@ public class EnhancementParser
         return enhancement;
     }
 
-    /**
-     * Parse Custom Metadata from Enhancement Graph
-     * 
-     * @param model Enhancement Graph
-     * @return List of Metadata
-     */
-    public static List<Metadata> parseMetadata(Model model)
-    {
-        List<Metadata> result = new ArrayList<Metadata>();
-        ResIterator iterator = model.listResourcesWithProperty(RDF.type, FISE.USER_ANNOTATION);
-        while (iterator.hasNext())
-        {
-            Resource nextMetadataResource = iterator.next();
-            Statement dc = nextMetadataResource.getProperty(DCTerms.creator);
-            String creator = null;
-            if (dc != null)
-                creator = dc.getObject().asLiteral().getString();
-            dc = nextMetadataResource.getProperty(DCTerms.type);
-            String type = null;
-            if (dc != null)
-                type = dc.getObject().asLiteral().getString();
-
-            ResIterator metadataIterator = model.listResourcesWithProperty(DCTerms.relation, nextMetadataResource);
-            while(metadataIterator.hasNext()){
-                Resource nextMetadataValueResource = metadataIterator.next();
-                String namespace = nextMetadataValueResource.getNameSpace();
-                String name = nextMetadataValueResource.getLocalName();
-
-                List<String> value = new ArrayList<String>();
-                StmtIterator sIt = nextMetadataValueResource.listProperties(FISE.USER_METADATA_VALUE);
-                while (sIt.hasNext())
-                {
-                    Statement nextResource = sIt.next();
-                    value.add(nextResource.getObject().asLiteral().getString());
-                }
-
-                result.add(new DefaultMetadata(name, value, namespace, type, creator, nextMetadataResource.getURI()));
-            }
-        }
-
-        return result;
-    }
+	private static Entity parseEntity(Resource eaUri) {
+		if(eaUri.hasProperty(EnhancementStructureOntology.ENTITY_REFERENCE)){
+			
+			final Resource entity = 
+					eaUri.getPropertyResourceValue(EnhancementStructureOntology.ENTITY_REFERENCE); // Should be only one
+			
+			String siteStr = null;
+			Statement site = eaUri.getProperty(EnhancementStructureOntology.ENTITYHUB_SITE);
+			if(site != null)
+				siteStr = site.getObject().asLiteral().toString();
+			return new Entity(entity, siteStr);
+		}
+		
+		return null;
+	}
 }

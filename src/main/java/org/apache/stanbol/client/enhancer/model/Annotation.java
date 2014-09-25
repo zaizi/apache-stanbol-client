@@ -16,15 +16,13 @@
  */
 package org.apache.stanbol.client.enhancer.model;
 
-import org.apache.stanbol.client.ontology.FISE;
-
 import com.hp.hpl.jena.rdf.model.Resource;
 
 /**
- * Represents an annotation in the FISE ontology
+ * Represents an annotation in the Stanbol EnhancementStructure
  * 
  * @author efoncubierta
- * @author Rafa Haro
+ * @author Rafa Haro <rharo@zaizi.com>
  * 
  */
 public class Annotation extends Enhancement implements Comparable<Annotation>
@@ -39,11 +37,13 @@ public class Annotation extends Enhancement implements Comparable<Annotation>
      * 
      * @param resource Jena resource
      */
-    public Annotation(Resource resource)
+    protected Annotation(Resource resource)
     {
         super(resource);
-        this.extractedFrom = resource.hasProperty(FISE.EXTRACTED_FROM) ? resource.getPropertyResourceValue(FISE.EXTRACTED_FROM).getURI() : null;
-        this.confidence = resource.hasProperty(FISE.CONFIDENCE) ? resource.getProperty(FISE.CONFIDENCE).getDouble() : null;
+        this.extractedFrom = resource.hasProperty(EnhancementStructureOntology.EXTRACTED_FROM) ? 
+        		resource.getPropertyResourceValue(EnhancementStructureOntology.EXTRACTED_FROM).getURI() : null;
+        this.confidence = resource.hasProperty(EnhancementStructureOntology.CONFIDENCE) ? 
+        		resource.getProperty(EnhancementStructureOntology.CONFIDENCE).getDouble() : null;
     }
 
     /**

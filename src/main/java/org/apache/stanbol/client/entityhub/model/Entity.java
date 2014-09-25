@@ -21,8 +21,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import jersey.repackaged.com.google.common.collect.Maps;
 
 import com.hp.hpl.jena.rdf.model.LiteralRequiredException;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -39,7 +42,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 /**
  * Represent an Entity from the EntityHub
  * 
- * @author Rafa Haro
+ * @author Rafa Haro <rharo@zaizi.com>
  * 
  */
 public class Entity
@@ -67,6 +70,12 @@ public class Entity
         else
             this.site = "queryResult";
     }
+    
+    public Entity(Resource resource, String site){
+    	this.resource = resource;
+    	this.uri = resource.getURI();
+    	this.site = site;
+    }
 
     /**
      * Get Entity URI
@@ -83,7 +92,7 @@ public class Entity
      * 
      * @return All labels for the entity
      */
-    public List<String> getLabels()
+    public Collection<String> getLabels()
     {
 
         List<String> result = new ArrayList<String>();
@@ -101,7 +110,7 @@ public class Entity
      * @param language
      * @return All labels for the entity in the passed language
      */
-    public List<String> getLabels(String language)
+    public Collection<String> getLabels(String language)
     {
         List<String> result = new ArrayList<String>();
         StmtIterator iterator = resource.listProperties(RDFS.label);
@@ -115,27 +124,37 @@ public class Entity
 
         return result;
     }
+    
+    /**
+     * Get a Map of language code and associated label in that language
+     * 
+     * @return
+     */
+    public Map<String, String> getLabelsByLanguage(){
+    	Map<String, String> labels = Maps.newHashMap();
+    	StmtIterator iterator = resource.listProperties(RDFS.label);
+
+        while (iterator.hasNext())
+        {
+            Statement nextSt = iterator.next();
+            labels.put(nextSt.getLanguage(), nextSt.getString());
+        }
+
+        return labels;
+    }
 
     /**
      * Get Entity's Categories
      * 
      * @return All categories for the entity
      */
-    public List<String> getCategories()
+    public Collection<String> getCategories()
     {
         List<String> result = new ArrayList<String>();
         StmtIterator iterator = resource.listProperties(DCTerms.subject);
 
         while (iterator.hasNext())
-        {
-            Statement nextNode = iterator.next();
-            String namespace = nextNode.getObject().asResource().getNameSpace();
-            String literal = nextNode.getObject().toString();
-            String normalizedNamespace = namespace.substring(0, namespace.lastIndexOf(':') + 1);
-            String normalizedLiteral = literal.replace(normalizedNamespace, "").replace("_", " ");
-            result.add(normalizedLiteral);
-
-        }
+        	result.add(iterator.next().getObject().toString());
 
         return result;
     }
@@ -145,7 +164,7 @@ public class Entity
      * 
      * @return All types for the entity
      */
-    public List<String> getTypes()
+    public Collection<String> getTypes()
     {
         List<String> result = new ArrayList<String>();
         StmtIterator iterator = resource.listProperties(RDF.type);
@@ -157,8 +176,7 @@ public class Entity
             if (!namespace.equals("http://www.w3.org/2002/07/owl#"))
             {
                 String literal = nextNode.getObject().toString();
-                String normalizedLiteral = this.uncaps(literal.replace(namespace, ""));
-                result.add(normalizedLiteral);
+                result.add(literal);
             }
         }
 
@@ -172,18 +190,92 @@ public class Entity
      * @param propertyName Property Name
      * @return List of values for the Property
      */
-    public List<String> getPropertyValue(String namespace, String propertyName)
+    public Collection<String> getPropertyValues(String namespace, String propertyName)
     {
-        return getPropertyValue(namespace, propertyName, true);
+        return getPropertyValues(namespace, propertyName, true);
     }
     
     /**
+     * Get the List of Entity Property's Values as Strings
+     * 
+     * @param property Property's URI
+     * @return List of literal values for the property
+     */
+    public Collection<String> getPropertyValues(String property){
+    	Property p = resource.getModel().createProperty(property);
+    	return getPropertyStringValues(p);
+    }
+    
+    /**
+     * Return all Literal values of the property for the specified language
+     * 
+     * @param property Property's URI
+     * @param language Language
+     * @return 
+     */
+    public Collection<String> getPropertyValuesByLanguage(String property, String language){
+    	Property p = resource.getModel().createProperty(property);
+    	return getPropertyValuesByLanguage(p, language);
+    }
+    
+    /**
+     * Return all Literal values of the property for the specified language
+     * 
+     * @param property {@link Property}
+     * @param language Language
+     * @return
+     */
+    public Collection<String> getPropertyValuesByLanguage(Property property, String language){
+    	List<String> result = new ArrayList<String>();
+        StmtIterator iterator = resource.listProperties(property);
+        while (iterator.hasNext())
+        {
+            Statement nextSt = iterator.next();
+            if (nextSt.getLiteral().getLanguage().equals(language))
+                result.add(nextSt.getString());
+        }
+        return result;
+    }
+    
+    /**
+     * Returns a Map of Language Code-Property value 
+     * 
+     * @param property Property's URI
+     * @return
+     */
+    public Map<String, String> getPropertyValuesByLanguage(String property){
+    	Property p = resource.getModel().createProperty(property);
+    	return getPropertyValuesByLanguage(p);
+    }
+    
+    /**
+     * Returns a Map of Language Code-Property value
+     * 
+     * @param property {@link Property}
+     * @return
+     */
+    public Map<String, String> getPropertyValuesByLanguage(Property property) {
+		Map<String, String> result = Maps.newHashMap();
+		StmtIterator iterator = resource.listProperties(property);
+        while (iterator.hasNext())
+        {
+            Statement nextSt = iterator.next();
+            RDFNode object = nextSt.getObject();
+            if(object.isLiteral() &&
+            		object.asLiteral().getLanguage() != null)
+            	result.put(object.asLiteral().getLanguage(), object.asLiteral().getString());
+            	
+        }
+		return result;
+	}
+
+	/**
      * Get the List of Entity's Property Values
      * 
-     * @param property Property
-     * @return List of values for the Property
+     * @param property {@link Property}
+     * @return List of literal values for the Property
      */
-    public List<RDFNode> getPropertyValues(Property property)
+    public Collection<RDFNode> getPropertyValues(Property property)
     {
         List<RDFNode> result = new ArrayList<RDFNode>();
         StmtIterator iterator = resource.listProperties(property);
@@ -200,7 +292,7 @@ public class Entity
      * @param property Property
      * @return List of values for the Property
      */
-    public List<String> getPropertyStringValues(Property property)
+    public Collection<String> getPropertyStringValues(Property property)
     {
         List<String> result = new ArrayList<String>();
         StmtIterator iterator = resource.listProperties(property);
@@ -223,7 +315,7 @@ public class Entity
      * @param getLocalName Resources' LocalName extraction flag
      * @return List of values for the Entity Property
      */
-    public List<String> getPropertyValue(String namespace, String propertyName, boolean getLocalName)
+    public Collection<String> getPropertyValues(String namespace, String propertyName, boolean getLocalName)
     {
 
         List<String> result = new ArrayList<String>();
@@ -264,7 +356,7 @@ public class Entity
      * 
      * @return List of Properties' URIs
      */
-    public List<String> getProperties()
+    public Collection<String> getProperties()
     {
         List<String> result = new ArrayList<String>();
         StmtIterator iterator = resource.listProperties();
@@ -274,11 +366,12 @@ public class Entity
     }
 
     /**
-     * Get Entity Description by language
+     * Get Entity Descriptions by language
      * 
-     * @return Entity Comment
+     * @param language
+     * @return Entity's Descriptions in the passed language
      */
-    public List<String> getComment(String language)
+    public Collection<String> getComments(String language)
     {
         List<String> result = new ArrayList<String>();
         StmtIterator iterator = resource.listProperties(RDFS.comment);
@@ -291,6 +384,37 @@ public class Entity
         }
 
         return result;
+    }
+    
+    /**
+     * Get Entity's Descriptions in all languages
+     * 
+     * @return
+     */
+    public Collection<String> getComments(){
+    	List<String> result = new ArrayList<String>();
+    	StmtIterator iterator = resource.listProperties(RDFS.comment);
+        while (iterator.hasNext())
+        	result.add(iterator.next().getLiteral().getString());
+    	return result;
+    }
+    
+    /**
+     * Get a Map of language code and associated description in that language
+     * 
+     * @return
+     */
+    public Map<String, String> getCommentsByLanguage(){
+    	Map<String, String> comments = Maps.newHashMap();
+    	StmtIterator iterator = resource.listProperties(RDFS.comment);
+
+        while (iterator.hasNext())
+        {
+            Statement nextSt = iterator.next();
+            comments.put(nextSt.getLanguage(), nextSt.getString());
+        }
+
+        return comments;
     }
 
     /**
@@ -323,45 +447,5 @@ public class Entity
         resource.getModel().write(buffer, "RDF/XML");
         InputStream is= new ByteArrayInputStream(buffer.toByteArray());
         return is;
-    }
-
-    /*** Aux Private Methods ***/
-    private String uncaps(String string)
-    {
-        String result = "";
-        char[] charArray = string.toCharArray();
-        for (int i = 1; i < charArray.length; i++)
-        {
-            List<Character> nextStr = new ArrayList<Character>();
-            nextStr.add(charArray[i - 1]);
-
-            if (Character.isUpperCase(charArray[i]))
-            {
-                for (; i < charArray.length && Character.isUpperCase(charArray[i]); i++)
-                    nextStr.add(charArray[i]);
-
-                i--;
-                nextStr.remove(nextStr.size() - 1);
-            }
-
-            if (Character.isLowerCase(charArray[i]))
-                for (; i < charArray.length
-                        && (charArray[i] == '_' || charArray[i] == '-' || Character.isLowerCase(charArray[i])); i++)
-                    nextStr.add(charArray[i]);
-
-            char[] nextStrArray = new char[nextStr.size()];
-            Iterator<Character> it = nextStr.iterator();
-            int j = 0;
-            while (it.hasNext())
-            {
-                nextStrArray[j] = it.next();
-                j++;
-            }
-
-            result += new String(nextStrArray) + " ";
-
-        }
-
-        return result.substring(0, result.length() - 1);
     }
 }

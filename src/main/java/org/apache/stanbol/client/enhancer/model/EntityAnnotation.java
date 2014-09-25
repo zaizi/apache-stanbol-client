@@ -19,9 +19,8 @@ package org.apache.stanbol.client.enhancer.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.stanbol.client.EntityHub;
 import org.apache.stanbol.client.entityhub.model.Entity;
-import org.apache.stanbol.client.entityhub.services.StanbolEntityhubService;
-import org.apache.stanbol.client.ontology.FISE;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -31,7 +30,7 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * Represents an entity annotation in the FISE ontology
  * 
  * @author efoncubierta
- * @author Rafa Haro
+ * @author Rafa Haro <rharo@zaizi.com>
  * 
  */
 public class EntityAnnotation extends Annotation
@@ -42,6 +41,7 @@ public class EntityAnnotation extends Annotation
     private final String entityReference; // http://fise.iks-project.eu/ontology/entity-reference
     private final List<String> entityTypes; // http://fise.iks-project.eu/ontology/entity-type
     private final String site; // http://fise.iks-project.eu/ontology/entity-site
+    private final Entity entity;
     
 
     /**
@@ -49,21 +49,24 @@ public class EntityAnnotation extends Annotation
      * 
      * @param resource Jena resource
      */
-    public EntityAnnotation(Resource resource)
+    EntityAnnotation(Resource resource, 
+    		Entity dereferencedEntity)
     {
         super(resource);
-        this.entityLabel = resource.hasProperty(FISE.ENTITY_LABEL) ? resource.getProperty(FISE.ENTITY_LABEL).getString() : null;
-        this.entityReference = resource.hasProperty(FISE.ENTITY_REFERENCE) ? resource.getPropertyResourceValue(FISE.ENTITY_REFERENCE).getURI() : null;
-        this.site = resource.hasProperty(FISE.ENTITYHUB_SITE) ? resource.getProperty(FISE.ENTITYHUB_SITE).getString() : null;
+        this.entityLabel = resource.hasProperty(EnhancementStructureOntology.ENTITY_LABEL) ? resource.getProperty(EnhancementStructureOntology.ENTITY_LABEL).getString() : null;
+        this.entityReference = resource.hasProperty(EnhancementStructureOntology.ENTITY_REFERENCE) ? resource.getPropertyResourceValue(EnhancementStructureOntology.ENTITY_REFERENCE).getURI() : null;
+        this.site = resource.hasProperty(EnhancementStructureOntology.ENTITYHUB_SITE) ? resource.getProperty(EnhancementStructureOntology.ENTITYHUB_SITE).getString() : null;
         
-        if(resource.hasProperty(FISE.ENTITY_TYPE)){
+        if(resource.hasProperty(EnhancementStructureOntology.ENTITY_TYPE)){
             entityTypes = new ArrayList<String>();
-            StmtIterator iterator = resource.listProperties(FISE.ENTITY_TYPE);
+            StmtIterator iterator = resource.listProperties(EnhancementStructureOntology.ENTITY_TYPE);
             while(iterator.hasNext())
                 entityTypes.add(iterator.next().getObject().asResource().getURI());
         }
         else
             entityTypes = null;
+        
+        entity = dereferencedEntity;
     }
 
     /**
@@ -106,13 +109,17 @@ public class EntityAnnotation extends Annotation
         return site;
     }
     
+    public Entity getDereferencedEntity(){
+    	return entity;
+    }
+    
     /**
      * Retrieve the Entity Associated to the EntityAnnotation from Stanbol Local EntityHub 
      * 
-     * @param service {@link StanbolEntityhubService}
+     * @param service {@link EntityHub}
      * @return {@link Entity} object
      */
-    public Entity getEntity(StanbolEntityhubService service){
+    public Entity getEntity(EntityHub service){
         try
         {
             return service.get(this.entityReference);
@@ -127,10 +134,10 @@ public class EntityAnnotation extends Annotation
      * Retrieve the Entity Associated to the EntityAnnotation from Stanbol EntityHub Referenced site
      * 
      * @param site Referenced Site within EntityHUb
-     * @param service {@link StanbolEntityhubService}
+     * @param service {@link EntityHub}
      * @return {@link Entity} object
      */
-    public Entity getEntity(String site, StanbolEntityhubService service){
+    public Entity getEntity(String site, EntityHub service){
         try
         {
             return service.get(site, this.entityReference);

@@ -16,8 +16,6 @@
  */
 package org.apache.stanbol.client.enhancer.model;
 
-import org.apache.stanbol.client.ontology.FISE;
-
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 
@@ -25,7 +23,7 @@ import com.hp.hpl.jena.vocabulary.DCTerms;
  * Represents a text annotation from FISE ontology
  * 
  * @author efoncubierta
- * @author Rafa Haro
+ * @author Rafa Haro <rharo@zaizi.com>
  * 
  */
 public class TextAnnotation extends Annotation
@@ -44,14 +42,14 @@ public class TextAnnotation extends Annotation
      * 
      * @param resource Jena resource
      */
-    public TextAnnotation(Resource resource)
+    TextAnnotation(Resource resource)
     {
         super(resource);
         this.type = resource.hasProperty(DCTerms.type) ? resource.getPropertyResourceValue(DCTerms.type).getURI() : null;
-        this.selectedText = resource.hasProperty(FISE.SELECTED_TEXT) ? resource.getProperty(FISE.SELECTED_TEXT).getString() : null;
-        this.selectionContext = resource.hasProperty(FISE.SELECTION_CONTEXT) ? resource.getProperty(FISE.SELECTION_CONTEXT).getString() : null;
-        this.start = resource.hasProperty(FISE.START) ? resource.getProperty(FISE.START).getLong() : null;
-        this.end = resource.hasProperty(FISE.END) ? resource.getProperty(FISE.END).getLong() : null;
+        this.selectedText = resource.hasProperty(EnhancementStructureOntology.SELECTED_TEXT) ? resource.getProperty(EnhancementStructureOntology.SELECTED_TEXT).getString() : null;
+        this.selectionContext = resource.hasProperty(EnhancementStructureOntology.SELECTION_CONTEXT) ? resource.getProperty(EnhancementStructureOntology.SELECTION_CONTEXT).getString() : null;
+        this.start = resource.hasProperty(EnhancementStructureOntology.START) ? resource.getProperty(EnhancementStructureOntology.START).getLong() : null;
+        this.end = resource.hasProperty(EnhancementStructureOntology.END) ? resource.getProperty(EnhancementStructureOntology.END).getLong() : null;
         this.language = resource.hasProperty(DCTerms.language) ? resource.getProperty(DCTerms.language).getString() : null;
     }
 
