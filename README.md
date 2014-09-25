@@ -1,11 +1,10 @@
 # Apache Stanbol Client
 
-Apache Stanbol Client is a tool that let [Apache Stanbol](http://stanbol.apache.org/) integrators use Apache Stanbol in an easy way. It covers almost the full REST API for the following Stanbol components:
-**Enhancer**, **ContenHub**, **EntityHub** and **Sparql**.
+Apache Stanbol Client is a tool that let [Apache Stanbol](http://stanbol.apache.org/) integrators to use Apache Stanbol in an easy way. It covers almost the full REST API for the following Stanbol components:
+**Enhancer**, **EntityHub** and **Sparql**.
 
 Apache Stanbol Client can be distributed as a regular Java Library or can be integrated in your own project using Maven. The project is organized as a set of REST clients, one for each mentioned Stanbol Component. Each component Client has an implementation for all the RESTful services provided by the component API, managing the requests to the remote services and parsing service's responses for converting them to easy-to-use [POJOs](http://en.wikipedia.org/wiki/Plain_Old_Java_Object).
 
-Apache Stanbol Client has been developed using a combination of Open Source projects like [Jersey](http://jersey.java.net/) as RESTful client, [Apache Jena](http://jena.apache.org/) for RDF parsing and representation and [SolrJ](http://wiki.apache.org/solr/Solrj) for Solr based search.
 
 ## Build From the Source
 
@@ -29,7 +28,7 @@ Once the library has been installed in your maven local repository, add the depe
     <dependency>
           <groupId>org.apache.stanbol</groupId>
           <artifactId>org.apache.stanbol.client</artifactId>
-          <version>0.20.0-SNAPSHOT</version>
+          <version>1.0-SNAPSHOT</version>
     </dependency>
 
 To build a standalone library with all dependencies, run the following:
@@ -118,85 +117,8 @@ This piece of code removes all Entity Annotations from the results with confiden
     assertTrue(eRes.getEnhancements().size() == 1);
     TextAnnotation annotation = (TextAnnotation) eRes.getEnhancements().get(0);
     assertTrue(annotation.getLanguage().equals("en"));
-    
-### [2. CONTENTHUB](http://stanbol.apache.org/docs/trunk/components/contenthub/contenthub5min)
+   
 
-#### Create a ContentItem
-
-    ContentHubDocumentRequest request = new ContentHubDocumentRequest();
-    request.setURI(TEST_URI);
-    request.setTitle(TEST_TITLE);
-    InputStream stream = 
-         this.getClass().getClassLoader().getResourceAsStream(TEST_EN_FILE);
-    request.setContentFile(testFile);
-    request.setContentStream(stream);
-
-    // Create a ContentItem in Default Index and Enhanced with the Default Engine
-    String docUri = client.contenthub().
-         add(StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, "default", request);
-
-#### Retrieve a ContentItem
-
-    ContentItem ci = client.contenthub().
-           get(StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, docUri, true);
-        
-    assertNotNull(ci);
-    assertFalse(ci.getEnhancements().size() == 0);
-    assertNotNull(ci.getEnhancementResult());
-    assertFalse(ci.getRawContent() == null);
-    assertTrue(ci.getMetadata().isEmpty());
-    assertNotNull(ci.getEnhancementGraph());
-
-#### Delete a ContentItem
-
-    client.contenthub().
-           delete(StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, docUri);
-
-#### Create a ContentItem with Metadata
-
-The Custom Metadata created by the user is inserted in the RDF Enhancement Graph as User Annotations extracted from the documents allowing, for instance, to perform future SPARQL queries
-
-    List<Metadata> metadata = new ArrayList<Metadata>();
-    metadata.add(new TestMetadata("Tags", Arrays.asList("Tag1", "Tag2")));
-    metadata.add(new TestMetadata("Source", Arrays.asList("Source1")));
-
-    request.setMetadata(metadata);
-    docUri = client.contenthub().
-           add(StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, "default", request);
-
-    ci = client.contenthub().get(StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, docUri, true);
-
-    assertTrue(docUri.equals(request.getURI()));
-    assertTrue(ci.getEnhancementCount() == 0);
-    assertTrue(ci.getMetadata().size() == 2);
-    assertTrue(ci.getMetadata("Tags").getValue().contains("Tag1"));
-    assertTrue(ci.getEnhancementGraph().
-          listResourcesWithProperty(RDF.type, FISE.USER_ANNOTATION).hasNext());
-
-#### Create a ContentItem with Metadata and previous Enhancements
-
-    EnhancementResult enhancements = client.enhancer().enhance(TEST_URI,
-                this.getClass().getClassLoader().getResourceAsStream(TEST_EN_FILE));
-    request.setContentStream(this.getClass().
-          getClassLoader().getResourceAsStream(TEST_EN_FILE));
-    
-    enhancements.disambiguate();
-    request.setEnhancementGraph(enhancements.getEnhancementGraph());
-    request.setMetadata(metadata);
-
-    docUri = client.contenthub().
-          add(StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, "default", request);
-
-    ci = client.contenthub().
-          get(StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, docUri, false);
-
-    assertTrue(ci.getEnhancementCount() == enhancements.getEnhancements().size());
-
-#### Create and Delete a Custom Index within ContentHub using LDPath Programs
-
-    client.contenthub().createIndex(TEST_INDEX_NAME, 
-                  new LDPathProgram(TEST_INDEX_LDPROGRAM));
-    client.contenthub().deleteIndex(TEST_INDEX_NAME);
 
 ### [3. ENTITYHUB](http://stanbol.apache.org/docs/trunk/components/entityhub/)
 
@@ -245,98 +167,6 @@ The Custom Metadata created by the user is inserted in the RDF Enhancement Graph
          "http://stanbol.apache.org/ontology/entityhub/find/", "labels").
                                                    get(0).equals("Paris, France"));
 
-### [4. FEATURED SEARCH](http://stanbol.apache.org/docs/trunk/components/contenthub/contenthub5min)
-
-This services provides search functionalities over the submitted content items to the Contenthub
-
-#### Simple Featured Search
-
-Keyword Search against Default ContentHub Index. Find all the documents containing the keyword "Murdoch". All possible facets are returned
-
-     final StanbolContenthubFeaturedSearchService featuredService = 
-                                                              client.featuredSearch();
-  
-    StanbolSearchResult searchResult = featuredService.search(
-                StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, 
-                "Murdoch", null, null, null, 0, 0);
-
-    assertTrue(searchResult.getItemResults().size() == 1);
-    assertTrue(searchResult.getFacetResults().size() == 4);
-    FacetResult facet = searchResult.getFacetResult(SolrFieldName.ORGANIZATIONS.toString());
-    assertTrue(facet.getFacetField().getValueCount() == 3);
-    assertTrue(facet.getFacetField().getValues().get(0).getName().equals("BBC"));
-
-#### Refine Search using constraints
-
-Find all documents containing the keyword "people" and with the value ***BBC*** for the Facet Field ***ORGANIZATIONS***
-
-    Map<String, List<String>> constraints = new HashMap<String, List<String>>();
-    String[] values = {"BBC"};
-    constraints.put(SolrFieldName.ORGANIZATIONS.toString(), Arrays.asList(values));
-
-    searchResult = featuredService.search(
-              StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, 
-              "people", null, constraints, null, 0, 0);
-
-    assertTrue(searchResult.getItemResults().size() == 1);
-    assertTrue(searchResult.getFacetResult(SolrFieldName.ORGANIZATIONS.toString()).
-                       getFacetField().getValues().get(0).getName().equals("BBC"));
-
-#### Faceted Search. Facet Fields Selection
-
-    List<String> filters = new ArrayList<String>();
-    filters.add(SolrFieldName.ORGANIZATIONS.toString());
-    searchResult = featuredService.facetedSearch(
-              StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, "people", filters);
-
-    assertTrue(searchResult.getFacetResults().size() == 1);
-    assertTrue(searchResult.getFacetResults().get(0).
-            getFacetField().getName().equals(SolrFieldName.ORGANIZATIONS.toString()));
-
-#### Solr (SolrJ) Based Featured Search
-
-    query = new SolrQuery("people");
-    query.addFilterQuery(SolrFieldName.PEOPLE.toString() + ":Michael Jordan");
-    searchResult = featuredService.solrSearch(
-                   StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, query);
-
-### [5.SOLR SEARCH](http://stanbol.apache.org/docs/trunk/components/contenthub/contenthub5min)
-
-ContentHub component manages an internal Apache Solr instance where ContentItems are stored along with the Semantic Information extracted using the Enhancement Engines. Solr Search services provide native Solr interface to the outside world retrieving the resultant content items (documents) from the Solr backend. 
-
-#### Simple SolrQuery
-
-    final StanbolContenthubSolrSearchService solrService = client.solrSearch();
-
-    SolrQuery sQuery = new SolrQuery();
-    sQuery.setQuery("people");
-    StanbolSearchResult searchResult = solrService.search(
-                   StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, sQuery);
-    assertTrue(searchResult.getItemResults().size() == 2);
-
-    sQuery.addFilterQuery(SolrFieldName.ORGANIZATIONS.toString() + ":BBC");
-    searchResult = solrService.search(
-                   StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, sQuery);
-    assertTrue(searchResult.getItemResults().size() == 1);
-
-    searchResult = solrService.search(
-                   StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, 
-                   "people AND people_t:\"Michael Jordan\"");
-    assertTrue(searchResult.getItemResults().size() == 1);
-
-
-#### Refine Search by Using Facet Constraints
-
-    Map<String, List<String>> constraints = new HashMap<String, List<String>>();
-    String[] values = {"BBC"};
-    constraints.put(SolrFieldName.ORGANIZATIONS.toString(), Arrays.asList(values));
-    searchResult = solrService.facetedSearch(
-           StanbolContenthubStoreService.STANBOL_DEFAULT_INDEX, "people", constraints);
-
-    assertTrue(searchResult.getItemResults().size() == 1);
-    assertTrue(searchResult.getFacetResult(
-         SolrFieldName.ORGANIZATIONS.toString()).getFacetField().
-         getValues().get(0).getName().equals("BBC"));
 
 ## License
 
