@@ -22,10 +22,9 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import jersey.repackaged.com.google.common.collect.Maps;
-
 import org.apache.stanbol.client.entityhub.model.Entity;
 
+import com.google.common.collect.Maps;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;

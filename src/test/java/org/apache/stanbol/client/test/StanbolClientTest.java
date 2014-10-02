@@ -22,8 +22,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import jersey.repackaged.com.google.common.collect.Lists;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.stanbol.client.Enhancer;
 import org.apache.stanbol.client.EntityHub;
@@ -37,18 +35,14 @@ import org.apache.stanbol.client.entityhub.model.LDPathProgram;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
