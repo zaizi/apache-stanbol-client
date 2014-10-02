@@ -25,8 +25,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import jersey.repackaged.com.google.common.collect.Maps;
-
+import com.google.common.collect.Maps;
 import com.hp.hpl.jena.rdf.model.LiteralRequiredException;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.NodeIterator;

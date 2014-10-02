@@ -33,8 +33,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
 
-import jersey.repackaged.com.google.common.collect.Sets;
-
 import org.apache.stanbol.client.enhancer.impl.EnhancerParameters.OutputFormat;
 import org.apache.stanbol.client.entityhub.model.Entity;
 import org.codehaus.jettison.json.JSONArray;
@@ -51,6 +49,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Doubles;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;

@@ -18,8 +18,7 @@ package org.apache.stanbol.client.enhancer.model;
 
 import java.util.Collection;
 
-import jersey.repackaged.com.google.common.collect.Sets;
-
+import com.google.common.collect.Sets;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 
