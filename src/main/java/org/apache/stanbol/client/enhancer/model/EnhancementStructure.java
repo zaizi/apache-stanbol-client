@@ -483,8 +483,10 @@ public class EnhancementStructure
      */
     public String toJSONString(){
     	Multimap<TextAnnotation, EntityAnnotation> annotations = getEntityAnnotationsByTextAnnotation();
+    	JSONObject result = new JSONObject();
     	Collection<JSONObject> aCol = Lists.newArrayList();
     	try{
+    		result.put("languages", getLanguages());
     		for(TextAnnotation nextTA:annotations.keySet()){
     			Collection<EntityAnnotation> eas = annotations.get(nextTA);
     			JSONObject next = new JSONObject();
@@ -528,7 +530,8 @@ public class EnhancementStructure
     			next.put("entities", entities);
     			aCol.add(next);
     		}
-    		JSONArray result = new JSONArray(aCol);
+    		JSONArray annotationsArr = new JSONArray(aCol);
+    		result.put("annotations", annotationsArr);
     		return result.toString();
     	} catch (JSONException e){
     		return new JSONArray().toString();
