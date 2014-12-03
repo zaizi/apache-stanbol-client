@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.stanbol.client.EntityHub;
@@ -40,6 +39,9 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.ResIterator;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 /**
  * EntityHub Service Client Implementation
@@ -50,309 +52,368 @@ import com.hp.hpl.jena.rdf.model.ResIterator;
 public class EntityHubImpl implements EntityHub
 {
 
-    private Logger logger = LoggerFactory.getLogger(EntityHubImpl.class);
-    
-    private UriBuilder builder;
+	private Logger logger = LoggerFactory.getLogger(EntityHubImpl.class);
 
-    /**
-     * Constructor
-     * 
-     * @param restClient REST Client
-     */
-    public EntityHubImpl(UriBuilder builder)
-    {
-        this.builder = builder;
-    }
+	private UriBuilder builder;
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#getReferencedSites()
-     */
-    @Override
-    public Collection<String> getReferencedSites() throws StanbolServiceException
-    {
-    	UriBuilder clientBuilder = 
-    			builder.clone().path(STANBOL_ENTITYHUB_PATH).
-    			path(STANBOL_ENTITYHUB_SITEMANAGER_PATH).
-    			path("referenced");
-    	
-    	URI uri = clientBuilder.build();
-        Response response = RestClientExecutor.get(uri, new MediaType("application", "rdf+xml"));
+	/**
+	 * Constructor
+	 * 
+	 * @param restClient REST Client
+	 */
+	public EntityHubImpl(UriBuilder builder)
+	{
+		this.builder = builder;
+	}
 
-        // Check HTTP status code
-        int status = response.getStatus();
-        if (status != 200 && status != 201 && status != 202)
-        {
-        	String stackTrace = response.readEntity(String.class);
-            throw new StanbolServiceException("[HTTP " + status + "] Error retrieving content from stanbol server: " + stackTrace);
-        }
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#getReferencedSites()
+	 */
+	@Override
+	public Collection<String> getReferencedSites() throws StanbolServiceException
+	{
+		UriBuilder clientBuilder = 
+				builder.clone().path(STANBOL_ENTITYHUB_PATH).
+				path(STANBOL_ENTITYHUB_SITEMANAGER_PATH).
+				path("referenced");
 
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("Sites sucessfully retrieved from " + response.getLocation());
-        }
+		URI uri = clientBuilder.build();
+		JSONArray array = null;
+		try{
+			array = RestClientExecutor.get(uri, 
+					new MediaType("application", "rdf+xml"), JSONArray.class);
 
-        List<String> result = Lists.newArrayList();
-        JSONArray array = response.readEntity(JSONArray.class);
-        for (int i = 0; i < array.length(); i++)
-            try
-            {
-                result.add(array.getString(i));
-            }
-            catch (JSONException e)
-            {
-                String message = "Malformed JSON response for EntityHub referenced service";
-                logger.error(message);
-                throw new StanbolServiceException(message);
-            }
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("Stanbol Sites sucessfully retrieved");
+			}
+		} catch(UniformInterfaceException e){
+			ClientResponse response = e.getResponse();  
 
-        return result;
-    }
+			// Check HTTP status code
+			int status = response.getStatus();
+			if (status != 200 && status != 201 && status != 202)
+			{
+				if(logger.isTraceEnabled()){
+					String stackTrace = response.getEntity(String.class);
+					logger.trace(stackTrace);
+				}
+				throw new StanbolServiceException("[HTTP " + status + "] Error retrieving sites from stanbol server");
+			}
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#get(java.lang.String)
-     */
-    @Override
-    public Entity get(String id) throws StanbolServiceException
-    {
-    	URI uri = 
-    			builder.clone().path(STANBOL_ENTITYHUB_PATH).
-    			path("entity").
-    			queryParam("id", id).
-    			build();
-    	return getAux(uri, id);
-    }
+		} catch(ClientHandlerException e){
+			String message = "Error parsing Response";
+			if(logger.isTraceEnabled())
+				logger.trace(message, e);
+			throw new StanbolServiceException(message);
+		}
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#get(java.lang.String, java.lang.String)
-     */
-    @Override
-    public Entity get(String site, String id) throws StanbolServiceException
-    {
-    	URI uri = 
-    			builder.clone().path(STANBOL_ENTITYHUB_PATH).
-    			path(STANBOL_ENTITYHUB_SITE_PATH).
-    			path(site).
-    			path("entity").
-    			queryParam("id", id).
-    			build();
-    	return getAux(uri, id);
-    }
+		List<String> result = Lists.newArrayList();
+		for (int i = 0; i < array.length(); i++)
+			try
+		{
+				result.add(array.getString(i));
+		}
+		catch (JSONException e)
+		{
+			String message = "Malformed JSON response for EntityHub referenced service";
+			logger.error(message);
+			throw new StanbolServiceException(message);
+		}
 
-    private Entity getAux(URI uri, String id) throws StanbolServiceException
-    {
+		return result;
+	}
 
-    	Response response = RestClientExecutor.get(uri, new MediaType("application", "rdf+xml"));
-    	
-        // Check HTTP status code
-        int status = response.getStatus();
-        if (status == 404){
-            return null;
-        }
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#get(java.lang.String)
+	 */
+	@Override
+	public Entity get(String id) throws StanbolServiceException
+	{
+		URI uri = 
+				builder.clone().path(STANBOL_ENTITYHUB_PATH).
+				path("entity").
+				queryParam("id", id).
+				build();
+		return getAux(uri, id);
+	}
 
-        if (status != 200 && status != 201 && status != 202)
-        {
-            throw new StanbolServiceException("[HTTP " + status + "] Error retrieving content from stanbol server");
-        }
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#get(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public Entity get(String site, String id) throws StanbolServiceException
+	{
+		URI uri = 
+				builder.clone().path(STANBOL_ENTITYHUB_PATH).
+				path(STANBOL_ENTITYHUB_SITE_PATH).
+				path(site).
+				path("entity").
+				queryParam("id", id).
+				build();
+		return getAux(uri, id);
+	}
 
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("Content " + id + " has been sucessfully loaded from " + response.getLocation());
-        }
+	private Entity getAux(URI uri, String id) throws StanbolServiceException
+	{
 
-        return parse(id, response.readEntity(InputStream.class), false);
-    }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#create(java.io.InputStream, java.lang.String, java.lang.Boolean)
-     */
-    @Override
-    public String create(InputStream is, String id, Boolean update) throws StanbolServiceException
-    {
-    	URI uri = 
-    			builder.clone().path(STANBOL_ENTITYHUB_PATH).
-    			path("entity").
-    			queryParam("id", id).
-    			queryParam("update", update).
-    			build();
-    	javax.ws.rs.client.Entity<?> entity = 
-    			javax.ws.rs.client.Entity.entity(is, new MediaType("application", "rdf+xml"));
-    			
-    	Response response = RestClientExecutor.post(uri, entity, MediaType.TEXT_XML_TYPE);
+		try{
+			InputStream response = RestClientExecutor.get(uri, 
+					new MediaType("application", "rdf+xml"),
+					InputStream.class);
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("Content " + id + " has been sucessfully loaded");
+			}
 
-    	int status = response.getStatus();
+			return parse(id, response, false);
+		}catch(UniformInterfaceException e){
 
-        if (status == 400)
-            throw new StanbolServiceException(id.toString()
-                    + " already exists within EntityHub. You might want to pass updated param with a true value");
+			ClientResponse response = e.getResponse();
+			int status = response.getStatus();
+			if (status == 404){
+				return null;
+			}
 
-        if (status != 200 && status != 201 && status != 202)
-        {
-            throw new StanbolServiceException("[HTTP " + status
-                    + "] Error while posting content into stanbol EntityHub");
-        }
+			if(logger.isTraceEnabled()){
+				String trace = response.getEntity(String.class);
+				logger.trace(trace);
+			}
 
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("Entity " + id + " has been sucessfully created at " + response.getLocation());
-        }
+			throw new StanbolServiceException("[HTTP " + status + "] Error retrieving Entity from the site");
 
-        return response.getLocation().toString();
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#create(org.apache.stanbol.client.entityhub.model.Entity, java.lang.Boolean)
-     */
-    @Override
-    public String create(Entity entity, Boolean update) throws StanbolServiceException
-    {
-       return create(entity.getStream(), entity.getUri(), update); 
-    }
+		}catch(ClientHandlerException e){
+			String message = "Error Parsing Entity Get Service Response";
+			if(logger.isTraceEnabled())
+				logger.trace(message, e);
+			throw new StanbolServiceException(message);
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#update(java.io.InputStream, java.lang.String, java.lang.Boolean)
-     */
-    @Override
-    public Entity update(InputStream is, String id, Boolean create) throws StanbolServiceException
-    {
-    	UriBuilder createBuilder = builder.
-    			clone().
-    			path(STANBOL_ENTITYHUB_PATH).
-    			path("entity");
-    	
-    	if (id != null && !id.equals(""))
-    		createBuilder = createBuilder.queryParam("id", id);
-    	if (!create)
-    		createBuilder = createBuilder.queryParam("create", create.toString());
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#create(java.io.InputStream, java.lang.String, java.lang.Boolean)
+	 */
+	@Override
+	public String create(InputStream is, String id, Boolean update) throws StanbolServiceException
+	{
+		URI uri = 
+				builder.clone().path(STANBOL_ENTITYHUB_PATH).
+				path("entity").
+				queryParam("id", id).
+				queryParam("update", update).
+				build();
 
-    	URI uri = createBuilder.build();
-    	
-    	javax.ws.rs.client.Entity<?> entity = 
-    			javax.ws.rs.client.Entity.entity(is, new MediaType("application", "rdf+xml"));
-    	
-    	Response response = RestClientExecutor.post(uri, entity, new MediaType("application", "rdf+xml"));
+		//    	javax.ws.rs.client.Entity<?> entity = 
+		//    			javax.ws.rs.client.Entity.entity(is, );
 
-        int status = response.getStatus();
+		try{
+			RestClientExecutor.post(uri, 
+					is, 
+					MediaType.TEXT_XML_TYPE,
+					new MediaType("application", "rdf+xml"),
+					String.class);
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("Entity " + id + " has been sucessfully created");
+			}
 
-        if (status == 400)
-            throw new StanbolServiceException(id.toString()
-                    + " already exists within EntityHub. You might want to pass updated param with a true value");
+			return id;
+		}catch(UniformInterfaceException e){
+			int status = e.getResponse().getStatus();
 
-        if (status != 200 && status != 201 && status != 202)
-        {
-            throw new StanbolServiceException("[HTTP " + status
-                    + "] Error while posting content into stanbol EntityHub");
-        }
+			if(logger.isTraceEnabled())
+				logger.trace(e.getResponse().getEntity(String.class));
 
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("Entity " + id + " has been sucessfully updated at " + response.getLocation());
-        }
+			if (status == 400)
+				throw new StanbolServiceException(id.toString()
+						+ " already exists within EntityHub. You might want to pass updated param with a true value");
 
-        return parse(id, response.readEntity(InputStream.class), false);
-    }
+			throw new StanbolServiceException("[HTTP " + status
+					+ "] Error while posting content into stanbol EntityHub");
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#update(org.apache.stanbol.client.entityhub.model.Entity, java.lang.Boolean)
-     */
-    @Override
-    public Entity update(Entity entity, Boolean create) throws StanbolServiceException
-    {
-       return update(entity.getStream(), entity.getUri(), create); 
-    }
-    
+		}catch(ClientHandlerException e){
+			String message = "Error parsing EntityHub Entity create service response";
+			if(logger.isTraceEnabled())
+				logger.trace(message, e);
+			throw new StanbolServiceException(message);
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#delete(java.lang.String)
-     */
-    @Override
-    public Boolean delete(String id) throws StanbolServiceException
-    {
-        return deleteAux(id);
-    }
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#create(org.apache.stanbol.client.entityhub.model.Entity, java.lang.Boolean)
+	 */
+	@Override
+	public String create(Entity entity, Boolean update) throws StanbolServiceException
+	{
+		return create(entity.getStream(), entity.getUri(), update); 
+	}
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#deleteAll()
-     */
-    @Override
-    public Boolean deleteAll() throws StanbolServiceException
-    {
-        return deleteAux("*");
-    }
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#update(java.io.InputStream, java.lang.String, java.lang.Boolean)
+	 */
+	@Override
+	public Entity update(InputStream is, String id, Boolean create) throws StanbolServiceException
+	{
+		UriBuilder createBuilder = builder.
+				clone().
+				path(STANBOL_ENTITYHUB_PATH).
+				path("entity");
 
-    private Boolean deleteAux(String id) throws StanbolServiceException
-    {
-    	URI uri = 
-    			builder.clone().path(STANBOL_ENTITYHUB_PATH).
-    			path("entity").
-    			queryParam("id", id).
-    			build();
-        
-    	Response response = RestClientExecutor.delete(uri);
+		if (id != null && !id.equals(""))
+			createBuilder = createBuilder.queryParam("id", id);
+		if (!create)
+			createBuilder = createBuilder.queryParam("create", create.toString());
 
-        int status = response.getStatus();
+		URI uri = createBuilder.build();
 
-        if (status == 404)
-            return false;
+		try{
+			InputStream response = RestClientExecutor.post(uri, 
+					is, 
+					new MediaType("application", "rdf+xml"),
+					new MediaType("application", "rdf+xml"),
+					InputStream.class);
 
-        if (status != 200 && status != 201 && status != 202)
-        {
-            throw new StanbolServiceException("[HTTP " + status + "] Error while deleting content into stanbol server");
-        }
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("Entity " + id + " has been sucessfully updated");
+			}
 
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("Entity " + id + " has been sucessfully deleted at " + response.getLocation());
-        }
+			return parse(id, response, false);
+		}catch(UniformInterfaceException e){
+			int status = e.getResponse().getStatus();
 
-        return true;
-    }
+			if(logger.isTraceEnabled())
+				logger.trace(e.getResponse().getEntity(String.class));
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.EntityHub#lookup(java.lang.String, java.lang.Boolean)
-     */
-    @Override
-    public Entity lookup(String id, Boolean create) throws StanbolServiceException
-    {
-    	URI uri = 
-    			builder.clone().path(STANBOL_ENTITYHUB_PATH).
-    			path("lookup").
-    			queryParam("id", id).
-    			queryParam("create", create.toString()).
-    			build();
-    	
-    	Response response = RestClientExecutor.get(uri, new MediaType("application", "rdf+xml"));
+			if (status == 400)
+				throw new StanbolServiceException(id.toString()
+						+ " already exists within EntityHub. You might want to pass updated param with a true value");
 
-        // Check HTTP status code
-        int status = response.getStatus();
+			throw new StanbolServiceException("[HTTP " + status
+					+ "] Error while posting content into stanbol EntityHub");
 
-        if (status == 404)
-            return null;
+		}catch(ClientHandlerException e){
+			String message = "Error parsing EntityHub Entity update service response";
+			if(logger.isTraceEnabled())
+				logger.trace(message, e);
+			throw new StanbolServiceException(message);
+		}
+	}
 
-        if (status == 403)
-            throw new StanbolServiceException(
-                    "Creation of new Symbols is not allowed in the current Stanbol Configuration");
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#update(org.apache.stanbol.client.entityhub.model.Entity, java.lang.Boolean)
+	 */
+	@Override
+	public Entity update(Entity entity, Boolean create) throws StanbolServiceException
+	{
+		return update(entity.getStream(), entity.getUri(), create); 
+	}
 
-        if (status != 200 && status != 201 && status != 202)
-        {
-            throw new StanbolServiceException("[HTTP " + status + "] Error retrieving content from stanbol server");
-        }
 
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("Entity " + id + " has been sucessfully looked up from " + response.getLocation());
-        }
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#delete(java.lang.String)
+	 */
+	@Override
+	public Boolean delete(String id) throws StanbolServiceException
+	{
+		return deleteAux(id);
+	}
 
-        return parse(id, response.readEntity(InputStream.class), true);
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#deleteAll()
+	 */
+	@Override
+	public Boolean deleteAll() throws StanbolServiceException
+	{
+		return deleteAux("*");
+	}
+
+	private Boolean deleteAux(String id) throws StanbolServiceException
+	{
+		URI uri = 
+				builder.clone().path(STANBOL_ENTITYHUB_PATH).
+				path("entity").
+				queryParam("id", id).
+				build();
+
+		ClientResponse response = RestClientExecutor.delete(uri);
+
+		int status = response.getStatus();
+
+		if (status == 404)
+			return false;
+
+		if (status != 200 && status != 201 && status != 202)
+		{
+			if(logger.isTraceEnabled())
+				logger.trace(response.getEntity(String.class));
+			throw new StanbolServiceException("[HTTP " + status + "] Error while deleting content into stanbol server");
+		}
+
+		if (logger.isDebugEnabled())
+		{
+			logger.debug("Entity " + id + " has been sucessfully deleted at " + response.getLocation());
+		}
+
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.apache.stanbol.client.EntityHub#lookup(java.lang.String, java.lang.Boolean)
+	 */
+	@Override
+	public Entity lookup(String id, Boolean create) throws StanbolServiceException
+	{
+		URI uri = 
+				builder.clone().path(STANBOL_ENTITYHUB_PATH).
+				path("lookup").
+				queryParam("id", id).
+				queryParam("create", create.toString()).
+				build();
+
+		try{
+			InputStream response = RestClientExecutor.get(uri, 
+					new MediaType("application", "rdf+xml"),
+					InputStream.class);
+
+			if (logger.isDebugEnabled())
+			{
+				logger.debug("Entity " + id + " has been sucessfully looked up");
+			}
+
+			return parse(id, response, true);
+		}catch(UniformInterfaceException e){
+			// Check HTTP status code
+			int status = e.getResponse().getStatus();
+
+			if(logger.isTraceEnabled())
+				logger.trace(e.getResponse().getEntity(String.class));
+			if (status == 404)
+				return null;
+
+			if (status == 403)
+				throw new StanbolServiceException(
+						"Creation of new Symbols is not allowed in the current Stanbol Configuration");
+
+			throw new StanbolServiceException("[HTTP " + status + "] Error retrieving content from stanbol server");
+
+		}catch(ClientHandlerException e){
+			String message = "Error parsing Entity";
+			if(logger.isTraceEnabled())
+				logger.trace(message, e);
+			throw new StanbolServiceException(message);
+		}
     }
 
     /**
@@ -410,22 +471,27 @@ public class EntityHubImpl implements EntityHub
 
     private List<Entity> searchAux(URI uri, String name) throws StanbolServiceException
     {
-    	Response response = RestClientExecutor.get(uri, new MediaType("application", "rdf+xml"));
-
-        // Check HTTP status code
-        int status = response.getStatus();
-        if (status != 200 && status != 201 && status != 202)
-        {
+    	InputStream response = null; 
+    			
+    	try{
+    		response = RestClientExecutor.get(uri, 
+    				new MediaType("application", "rdf+xml"),
+    				InputStream.class);
+    		if (logger.isDebugEnabled())
+            {
+                logger.debug("Entities by " + name + " has been found sucessfully");
+            }
+    		
+    	}catch(UniformInterfaceException e){
+    		if(logger.isTraceEnabled())
+    			logger.trace(e.getResponse().getEntity(String.class));
+            int status = e.getResponse().getStatus();
             throw new StanbolServiceException("[HTTP " + status + "] Error retrieving content from stanbol server");
-        }
-
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("Entities by " + name + " has been found sucessfully " + response.getLocation());
-        }
-
+    	}catch(ClientHandlerException e){
+    	
+    	}
         Model model = ModelFactory.createDefaultModel();
-        model.read(response.readEntity(InputStream.class), null);
+        model.read(response, null);
 
         List<Entity> result = Lists.newArrayList();
         ResIterator iterator = model.listSubjects();
@@ -478,17 +544,25 @@ public class EntityHubImpl implements EntityHub
 
     private Model ldpathAux(URI uri) throws StanbolServiceException
     {
-    	Response response = RestClientExecutor.get(uri, new MediaType("application", "rdf+xml"));
-
-    	// Check HTTP status code
-        int status = response.getStatus();
-        if (status != 200 && status != 201 && status != 202)
-        {
-            throw new StanbolServiceException("[HTTP " + status + "] Error retrieving content from stanbol server");
-        }
+    	InputStream response = null; 
+    	try{		
+    		response = RestClientExecutor.get(uri, 
+    				new MediaType("application", "rdf+xml"),
+    				InputStream.class);
+    		
+    	}catch(UniformInterfaceException e){
+    		if(logger.isTraceEnabled())
+    			logger.trace(e.getResponse().getEntity(String.class));
+    		throw new StanbolServiceException("[HTTP " + e.getResponse().getStatus() + "] Error retrieving content from stanbol server");
+    	}catch(ClientHandlerException e){
+    		String message = "Error parsing LDPath result";
+    		if(logger.isTraceEnabled())
+    			logger.trace(message, e);
+    		throw new StanbolServiceException(message);
+    	}
 
         Model model = ModelFactory.createDefaultModel();
-        model.read(response.readEntity(InputStream.class), null);
+        model.read(response, null);
         return model;
     }
     

@@ -16,9 +16,7 @@
  */
 package org.apache.stanbol.client.enhancer.impl;
 
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.stanbol.client.Enhancer;
@@ -27,6 +25,10 @@ import org.apache.stanbol.client.rest.RestClientExecutor;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 /**
  * Implementation of {@link Enhancer}
@@ -66,21 +68,38 @@ public class EnhancerImpl implements Enhancer
     		enhancerBuilder.path(STANBOL_CHAIN_PATH).path(parameters.getChain());
     	
     	// TODO Include Dereferrencing stuff
-
-    	Entity<?> entity = Entity.entity(parameters.getContent(), MediaType.TEXT_PLAIN_TYPE);
-    	Response response = RestClientExecutor.post(enhancerBuilder.build(), entity, parameters.getOutputFormat());
-
-    	int status = response.getStatus();
-    	if (status != 200 && status != 201 && status != 202)
-    	{
-    		throw new StanbolServiceException("[HTTP " + status + "] Error while enhancing content into stanbol server");
+    	
+    	try{
+    		EnhancementStructure response = RestClientExecutor.post(enhancerBuilder.build(),
+    			parameters.getContent(), 
+    			parameters.getOutputFormat(),
+    			MediaType.TEXT_PLAIN_TYPE,
+    			EnhancementStructure.class);
+    		
+    		if (logger.isDebugEnabled())
+        	{
+        		logger.debug("Content has been sucessfully enhanced");
+        	}
+    		
+    		return response;
+    	}catch(UniformInterfaceException e){
+    		ClientResponse response = e.getResponse();
+    		int status = response.getStatus();
+        	if (status != 200 && status != 201 && status != 202)
+        	{
+        		if(logger.isDebugEnabled())
+        			logger.debug("Error Enhancing Content", e);
+        		if(logger.isTraceEnabled()){
+        			String message = response.getEntity(String.class);
+        			logger.trace(message);
+        		}
+        	}
+        	
+        	throw new StanbolServiceException("[HTTP " + status + "] Error while enhancing content into stanbol server");
+    	}catch(ClientHandlerException e){
+    		if(logger.isTraceEnabled())
+    			logger.trace("Error parsing Stanbol Response", e);
+    		throw new StanbolServiceException("Error parsing Stanbol Response. Unexpected Return Format: " + e.getMessage());
     	}
-
-    	if (logger.isDebugEnabled())
-    	{
-    		logger.debug("Content has been sucessfully enhanced");
-    	}
-
-    	return response.readEntity(EnhancementStructure.class);
     }
 }

@@ -19,7 +19,6 @@ package org.apache.stanbol.client.sparql.impl;
 import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.stanbol.client.Sparql;
@@ -30,6 +29,9 @@ import org.slf4j.LoggerFactory;
 
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 /**
  * Stanbol Sparql Endpoint Client Implementation
@@ -71,27 +73,40 @@ public class SparqlImpl implements Sparql
         	sparqlBuilder = sparqlBuilder.queryParam("query", sparqlQuery);
         
         URI uri = sparqlBuilder.build();
-        Response response = RestClientExecutor.get(uri, new MediaType("application", "sparql-results+xml"));
-       
-        // Check HTTP status code
-        int status = response.getStatus();
-        if (status == 404){
-        	String stackTrace = response.readEntity(String.class);
-        	logger.error(stackTrace);
-            return null;
-        }
+        try{
+        	String response = RestClientExecutor.get(uri,
+        			new MediaType("application", "sparql-results+xml"), String.class);
+        	
+        	if (logger.isDebugEnabled())
+            {
+                logger.debug("SPARQL query sucessfully executed through " + graph + " graph at Stanbol Server");
+            }
+        	
+        	return ResultSetFactory.fromXML(response);
+        	
+        }catch(UniformInterfaceException e){
+        	ClientResponse response = e.getResponse();
+            
+            // Check HTTP status code
+            int status = response.getStatus();
+            if (status == 404){
+            	throw new StanbolServiceException("Stanbol Server unrecheable");
+            }
 
-        if (status != 200 && status != 201 && status != 202)
-        {
+            if (status != 200 && status != 201 && status != 202)
+            {
+            	if(logger.isTraceEnabled()){
+            		String trace = response.getEntity(String.class);
+            		logger.trace(trace);
+            	}
+            }
+            
             throw new StanbolServiceException("[HTTP " + status + "] Error executing the following SPARQL query in stanbol server:\n" + sparqlQuery);
+        }catch(ClientHandlerException e){
+        	String message = "Error Parsing SPARQL Service Response";
+        	if(logger.isTraceEnabled())
+        		logger.trace(message, e);
+        	throw new StanbolServiceException(message);
         }
-
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("SPARQL query sucessfully executed through " + graph + " graph at Stanbol Server");
-        }
-
-        return ResultSetFactory.fromXML(response.readEntity(String.class));
     }
-
 }

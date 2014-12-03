@@ -586,6 +586,9 @@ public class EnhancementStructure
 		public boolean isReadable(Class<?> type, Type genericType,
 				java.lang.annotation.Annotation[] annotations,
 				MediaType mediaType) {
+			
+			if(!type.isAssignableFrom(EnhancementStructure.class))
+				return false;
 			if(mediaType.isCompatible(OutputFormat.NT.value()) ||
 					mediaType.isCompatible(OutputFormat.RDFXML.value()) ||
 					mediaType.isCompatible(OutputFormat.TURTLE.value()))

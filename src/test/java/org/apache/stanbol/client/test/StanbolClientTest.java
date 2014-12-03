@@ -35,6 +35,7 @@ import org.apache.stanbol.client.entityhub.model.LDPathProgram;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class StanbolClientTest
 {
 	private static StanbolClientFactory factory;
 
-    private static final String STANBOL_ENDPOINT = "http://localhost:8080/";
+    private static final String STANBOL_ENDPOINT = "http://localhost:9090/";
     
     private static final String TEST_EN_FILE = "test_en.txt";
 //    private static final String TEST_EN2_FILE = "test_en2.txt";
@@ -73,7 +74,7 @@ public class StanbolClientTest
     public static void startClient(){
     	factory = new StanbolClientFactory(STANBOL_ENDPOINT);
     }
-
+    
     @Test
     public void testEnhancerBasic() throws Exception
     {
@@ -188,9 +189,10 @@ public class StanbolClientTest
 //        JsonElement je = jp.parse(jsonEnh);
 //        String prettyJsonString = gson.toJson(je);
 //        System.out.println(prettyJsonString);
-        JSONArray json = new JSONArray(jsonEnh);
-        Assert.assertEquals(json.getJSONObject(1).getString("start"), "24");
-        Assert.assertEquals(json.getJSONObject(1).getString("end"), "30");
+        JSONObject json = new JSONObject(jsonEnh);
+        JSONArray array = json.getJSONArray("annotations");
+        Assert.assertEquals(array.getJSONObject(1).getString("start"), "24");
+        Assert.assertEquals(array.getJSONObject(1).getString("end"), "30");
         
     }
     
