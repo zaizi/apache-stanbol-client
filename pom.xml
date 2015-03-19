@@ -15,7 +15,7 @@
 
 	<groupId>org.apache.stanbol</groupId>
 	<artifactId>client</artifactId>
-	<version>1.0-jaxrs-1.1</version>
+	<version>1.1-jaxrs-1.1</version>
 	<packaging>jar</packaging>
 
 	<name>Apache Stanbol Client</name>
