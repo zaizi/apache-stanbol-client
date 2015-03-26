@@ -1,4 +1,43 @@
-.classpath
-.project
-.settings
-target
+# JAVA --------------------------------------------------------------------------
+# (from https://github.com/github/gitignore/blob/master/Java.gitignore)
+*.class
+*.log
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# MAVEN ------------------------------------------------------------------------
+# (from https://github.com/github/gitignore/blob/master/Maven.gitignore)
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# EMACS -------------------------------------------------------------------------
+*~
+
+# ECLIPSE -----------------------------------------------------------------------
+# (from https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore)
+.loadpath
+.metadata
+.settings/
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally-stored "Eclipse launch configurations"
+*.launch
