@@ -44,7 +44,7 @@ import com.hp.hpl.jena.rdf.model.ResIterator;
 /**
  * EntityHub Service Client Implementation
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  *
  */
 public class EntityHubImpl implements EntityHub
@@ -57,7 +57,6 @@ public class EntityHubImpl implements EntityHub
     /**
      * Constructor
      * 
-     * @param restClient REST Client
      */
     public EntityHubImpl(UriBuilder builder)
     {
@@ -356,8 +355,7 @@ public class EntityHubImpl implements EntityHub
     }
 
     /**
-     * @throws StanbolServiceException
-     * @see EntityHub#search(String, String, String, String, int, int)
+     * @see EntityHub#search(String, String, String, LDPathProgram, int, int)
      */
     @Override
     public Collection<Entity> search(String name, String field, String language, LDPathProgram ldpath, int limit, int offset)
@@ -382,8 +380,7 @@ public class EntityHubImpl implements EntityHub
     }
 
     /**
-     * @throws StanbolServiceException
-     * @see EntityHub#search(String, String, String, String, String, int, int)
+     * @see EntityHub#search(String, String, String, String, LDPathProgram, int, int)
      */
     @Override
     public Collection<Entity> search(String site, String name, String field, String language, LDPathProgram ldpath,
@@ -443,8 +440,7 @@ public class EntityHubImpl implements EntityHub
     }
 
     /**
-     * @throws StanbolServiceException
-     * @see EntityHub#ldpath(List, String)
+     * @see EntityHub#ldpath(String, LDPathProgram)
      */
     @Override
     public Model ldpath(String context, LDPathProgram ldPathProgram) throws StanbolServiceException
@@ -459,8 +455,7 @@ public class EntityHubImpl implements EntityHub
     }
 
     /**
-     * @throws StanbolServiceException
-     * @see EntityHub#ldpath(String, List, String)
+     * @see EntityHub#ldpath(String, String, LDPathProgram)
      */
     @Override
     public Model ldpath(String site, String context, LDPathProgram ldPathProgram) throws StanbolServiceException

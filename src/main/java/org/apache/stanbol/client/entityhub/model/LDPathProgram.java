@@ -30,7 +30,7 @@ import org.apache.stanbol.client.exception.StanbolClientException;
  * to ease the integration of the Stanbol Client in other applications or frameworks. Currently, it supports the definitions of Namespaces
  * and fields and the parsing of LDPath programs in String formats 
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class LDPathProgram

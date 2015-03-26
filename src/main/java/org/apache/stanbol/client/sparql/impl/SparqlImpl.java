@@ -34,7 +34,7 @@ import com.hp.hpl.jena.query.ResultSetFactory;
 /**
  * Stanbol Sparql Endpoint Client Implementation
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  *
  */
 public class SparqlImpl implements Sparql
@@ -46,7 +46,6 @@ public class SparqlImpl implements Sparql
     /**
      * Constructor
      * 
-     * @param restClient REST Client
      */
     public SparqlImpl(UriBuilder builder)
     {

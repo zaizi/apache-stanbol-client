@@ -22,7 +22,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
  * Represents an annotation in the Stanbol EnhancementStructure
  * 
  * @author efoncubierta
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class Annotation extends Enhancement implements Comparable<Annotation>

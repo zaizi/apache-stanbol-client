@@ -21,7 +21,6 @@ import java.util.Collection;
 
 import org.apache.stanbol.client.entityhub.model.Entity;
 import org.apache.stanbol.client.entityhub.model.LDPathProgram;
-import org.apache.stanbol.client.exception.StanbolClientException;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 
 import com.hp.hpl.jena.rdf.model.Model;
@@ -29,7 +28,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 /**
  * Define operations for Stanbol Entityhub
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public interface EntityHub
@@ -111,7 +110,6 @@ public interface EntityHub
      * false, a {@link StanbolServiceException} will be thrown
      * 
      * @param entity Entity to be updated
-     * @param create If true and the Entity doesn't exist within the EntityHub, the Entity will be created
      * @return Data of the entity
      * @throws StanbolServiceException
      */
@@ -122,7 +120,7 @@ public interface EntityHub
      * 
      * @param id URI of the Entity to delete
      * @return boolean True is the Entity has been successfully deleted
-     * @throws StanbolClientException
+     * @throws StanbolServiceException
      */
     public Boolean delete(String id) throws StanbolServiceException;
 
@@ -130,7 +128,7 @@ public interface EntityHub
      * Delete all entities managed by the Entityhub
      * 
      * @return boolean
-     * @throws StanbolClientException
+     * @throws StanbolServiceException
      */
     public Boolean deleteAll() throws StanbolServiceException;
 

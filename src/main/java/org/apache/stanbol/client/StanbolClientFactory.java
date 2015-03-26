@@ -26,7 +26,7 @@ import org.apache.stanbol.client.sparql.impl.SparqlImpl;
 /**
  * Apache Stanbol Client Factory Interface
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class StanbolClientFactory

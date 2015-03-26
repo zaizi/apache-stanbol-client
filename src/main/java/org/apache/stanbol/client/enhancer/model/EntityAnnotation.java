@@ -30,7 +30,7 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * Represents an entity annotation in the FISE ontology
  * 
  * @author efoncubierta
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class EntityAnnotation extends Annotation

@@ -61,7 +61,7 @@ import com.hp.hpl.jena.vocabulary.DC;
 /**
  * Represents the result of Enhancement Services in Stanbol managing the list of resultant Enhancements and the RDF Enhancement Graph
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
 * 
  */
 public class EnhancementStructure 

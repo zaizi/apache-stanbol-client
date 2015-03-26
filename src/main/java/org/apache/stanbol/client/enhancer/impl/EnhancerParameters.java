@@ -30,7 +30,7 @@ import com.google.common.collect.Sets;
 /**
  * Collect all the parameters that can be sent to the enhancer in order to configure both the type of enrichment and the response
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  *
  */
 public class EnhancerParameters {

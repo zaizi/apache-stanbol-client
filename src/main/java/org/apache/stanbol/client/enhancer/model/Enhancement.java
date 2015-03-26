@@ -25,7 +25,7 @@ import com.hp.hpl.jena.vocabulary.DCTerms;
 /**
  * Represents an enhancement in the FISE ontology
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public abstract class Enhancement

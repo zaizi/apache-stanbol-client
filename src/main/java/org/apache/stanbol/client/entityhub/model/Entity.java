@@ -41,7 +41,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 /**
  * Represent an Entity from the EntityHub
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class Entity

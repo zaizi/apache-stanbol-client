@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Implementation of {@link Enhancer}
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class EnhancerImpl implements Enhancer
@@ -44,7 +44,6 @@ public class EnhancerImpl implements Enhancer
     /**
      * Constructor
      * 
-     * @param restClient REST Client
      */
     public EnhancerImpl(UriBuilder builder)
     {
