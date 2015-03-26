@@ -83,8 +83,7 @@ Produces:
 
 #### Local Disambiguation
 
-    EnhancementResult eRes = 
-        client.enhancer().enhance(TEST_URI, "Paris is the capital of France");
+    EnhancementStructure eRes = client.enhance(parameters);
     eRes.getBestAnnotations();
 
 This piece of code removes all Entity Annotations from the results with confidence value less than the highest candidate's value, therefore it would print the following:
@@ -105,23 +104,22 @@ This piece of code removes all Entity Annotations from the results with confiden
 
 #### Filter By Confidence
 
-    EnhancementResult eRes = 
-        client.enhancer().enhance(TEST_URI, "Paris is the capital of France");
+    EnhancementStructure eRes = client.enhance(parameters);
     assertTrue(eRes.getEntityAnnotations().size() == 5);
     eRes.filterByConfidence(0.2);
     assertTrue(eRes.getEntityAnnotations().size() == 3);
 
 #### Enhance a File or InputStream with any Enhancement Engine
 
-    parameters = EnhancerParameters.
-    			builder().
-    			setContent(this.getClass().getClassLoader().getResourceAsStream(TEST_EN_FILE)).
-    			build();
+    EnhancerParameters parameters = EnhancerParameters.
+    		builder().
+    		setContent(this.getClass().getClassLoader().getResourceAsStream(TEST_EN_FILE)).
+    		build();
         
-        enhancements = client.enhance(parameters);
+    EnhancementStructure eRes = client.enhance(parameters);
     
     assertTrue(eRes.getEnhancements().size() == 1);
-    TextAnnotation annotation = (TextAnnotation) eRes.getEnhancements().get(0);
+    TextAnnotation annotation = (TextAnnotation) eRes.getEnhancements().iterator().next();
     assertTrue(annotation.getLanguage().equals("en"));
    
 
