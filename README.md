@@ -39,7 +39,7 @@ This will create a jar with the project dependencies in the target directory.
 
 ## How to Use
 
-Below you can find some code examples showing part of the covered features for each Stanbol component. For a full specification of the Apache Stanbol Client API, consider explore the project [Javadoc]().
+Below you can find some code examples showing part of the covered features for each Stanbol component. For a full specification of the Apache Stanbol Client API, consider explore the project Javadoc.
 
 ### [1. ENHANCER](http://stanbol.apache.org/docs/trunk/components/enhancer/)
 
