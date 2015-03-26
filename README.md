@@ -49,7 +49,7 @@ Below you can find some code examples showing part of the covered features for e
     final Enhancer client = factory.createEnhancerClient();
     EnhancerParameters parameters = EnhancerParameters.
     			builder().
-    			buildDefault("Paris is the capital of France);
+    			buildDefault("Paris is the capital of France");
     EnhancementStructure eRes = client.enhance(parameters);
     
     for(TextAnnotation ta: eRes.getTextAnnotations()){
