@@ -31,7 +31,7 @@ import com.hp.hpl.jena.vocabulary.DCTerms;
 public abstract class Enhancement
 {
 
-    /**
+	/**
      * Jena Resource
      */
     Resource resource;
@@ -148,6 +148,24 @@ public abstract class Enhancement
             return false;
         return true;
     }
+    
+    /* (non-Javadoc)
+  	 * @see java.lang.Object#toString()
+  	 */
+  	@Override
+  	public String toString() {
+  		StringBuilder builder = new StringBuilder();
+  		builder.append("Enhancement [getUri()=");
+  		builder.append(getUri());
+  		builder.append(", getCreator()=");
+  		builder.append(getCreator());
+  		builder.append(", getCreated()=");
+  		builder.append(getCreated());
+  		builder.append(", getRelation()=");
+  		builder.append(getRelation());
+  		builder.append("]");
+  		return builder.toString();
+  	}
     
     
 }

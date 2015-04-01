@@ -147,4 +147,36 @@ public class EntityAnnotation extends Annotation
             return null;
         }
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("EntityAnnotation [getEntityLabel()=");
+		builder.append(getEntityLabel());
+		builder.append(", getEntityReference()=");
+		builder.append(getEntityReference());
+		builder.append(", getEntityTypes()=");
+		builder.append(getEntityTypes());
+		builder.append(", getSite()=");
+		builder.append(getSite());
+		builder.append(", getDereferencedEntity()=");
+		builder.append(getDereferencedEntity());
+		builder.append(", getExtractedFrom()=");
+		builder.append(getExtractedFrom());
+		builder.append(", getConfidence()=");
+		builder.append(getConfidence());
+		builder.append(", getUri()=");
+		builder.append(getUri());
+		builder.append(", getCreator()=");
+		builder.append(getCreator());
+		builder.append(", getCreated()=");
+		builder.append(getCreated());
+		builder.append(", getRelation()=");
+		builder.append(getRelation());
+		builder.append("]");
+		return builder.toString();
+	}
 }
