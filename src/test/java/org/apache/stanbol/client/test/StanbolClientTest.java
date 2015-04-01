@@ -18,9 +18,11 @@ package org.apache.stanbol.client.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.stanbol.client.Enhancer;
@@ -35,6 +37,7 @@ import org.apache.stanbol.client.entityhub.model.LDPathProgram;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -49,14 +52,31 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 public class StanbolClientTest
 {
 	private static StanbolClientFactory factory;
+	
+	private static final Properties PROPERTIES;
 
-    private static final String STANBOL_ENDPOINT = "http://localhost:8080/";
+    private static final String STANBOL_ENDPOINT;
     
-    private static final String TEST_EN_FILE = "test_en.txt";
+    private static final String TEST_EN_FILE;
 //    private static final String TEST_EN2_FILE = "test_en2.txt";
-    private static final String TEST_ES_FILE = "test_es.txt";
-    private static final String TEST_RDF_FILE = "Doctor_Who.txt";
+    private static final String TEST_ES_FILE;
+    private static final String TEST_RDF_FILE;
     private static final String TEST_SENTENCE = "Paris is the capital of France";
+    
+	static {
+		PROPERTIES = new Properties();
+		try {
+			PROPERTIES.load(StanbolClientTest.class.getResourceAsStream(StanbolClientTest.class.getSimpleName() + ".properties"));
+			
+			STANBOL_ENDPOINT = PROPERTIES.getProperty("stanbolEndpoint");
+			TEST_EN_FILE = PROPERTIES.getProperty("testEnFile");
+			TEST_ES_FILE = PROPERTIES.getProperty("testEsFile");
+			TEST_RDF_FILE = PROPERTIES.getProperty("testRdfFile");
+		} catch (IOException e) {
+			// Should never happen
+			throw new AssertionError(e);
+		}
+	}
     
 //    private static final String SPARQL_QUERY = "PREFIX fise: <http://fise.iks-project.eu/ontology/>" +
 //    		"PREFIX dc:   <http://purl.org/dc/terms/>" +
@@ -93,7 +113,7 @@ public class StanbolClientTest
         Assert.assertFalse(enhancements.getEnhancements().size() == 0);
         Assert.assertTrue(enhancements.getEntityAnnotations().size() == 6);
         
-        Assert.assertEquals(enhancements.getEntityAnnotations().iterator().next().getSite(), "dbpedia");
+        Assert.assertEquals("dbpedia", enhancements.getEntityAnnotations().iterator().next().getSite());
         
         List<String> labels = Lists.newArrayList();
         for(EntityAnnotation ea:enhancements.getEntityAnnotations())
@@ -134,17 +154,17 @@ public class StanbolClientTest
         TextAnnotation paris = assertBest("Paris", tas);        		
         Assert.assertNotNull(paris);
         Collection<EntityAnnotation> bestEas = bests.get(paris);
-        Assert.assertEquals(bestEas.size(), 1);
-        Assert.assertEquals(bestEas.iterator().next().getEntityReference(), "http://dbpedia.org/resource/Paris");
+        Assert.assertEquals(1, bestEas.size());
+        Assert.assertEquals("http://dbpedia.org/resource/Paris", bestEas.iterator().next().getEntityReference());
         TextAnnotation france = assertBest("France", tas);
         Assert.assertNotNull(france);
         bestEas = bests.get(france);
-        Assert.assertEquals(bestEas.size(), 1);
-        Assert.assertEquals(bestEas.iterator().next().getEntityReference(), "http://dbpedia.org/resource/France");
+        Assert.assertEquals(1, bestEas.size());
+        Assert.assertEquals("http://dbpedia.org/resource/France", bestEas.iterator().next().getEntityReference());
         
         // Sizing
-        Assert.assertEquals(eRes.getEnhancements().size(), 9);
-        Assert.assertEquals(eRes.getEntities().size(), 6);
+        Assert.assertEquals(9, eRes.getEnhancements().size());
+        Assert.assertEquals(6, eRes.getEntities().size());
         Assert.assertFalse(eRes.getEnhancementGraph().isEmpty());
         
         // Entity
@@ -156,7 +176,7 @@ public class StanbolClientTest
                 
         Assert.assertFalse(eParis.getPropertyValues(RDFS.label).isEmpty());
         Assert.assertTrue(eParis.getLabels("en").contains("Paris"));
-        Assert.assertEquals(eParis.getReferencedSite(), "dbpedia");
+        Assert.assertEquals("dbpedia", eParis.getReferencedSite());
         Assert.assertTrue(eParis.getCategories().isEmpty());
         Assert.assertTrue(eParis.getTypes().contains("http://dbpedia.org/ontology/Place"));
         
@@ -169,12 +189,12 @@ public class StanbolClientTest
         		iterator().next()) == 48.8567f);
         
         Map<String, String> values = eParis.getPropertyValuesByLanguage(RDFS.label);
-        Assert.assertEquals(values.get("it"), "Parigi");
-        Assert.assertEquals(values.get("ru"), "Париж");
+        Assert.assertEquals("Parigi", values.get("it"));
+        Assert.assertEquals("Париж", values.get("ru"));
         
         values = eParis.getPropertyValuesByLanguage(RDFS.label.getURI());
-        Assert.assertEquals(values.get("en"), "Paris");
-        Assert.assertEquals(values.get("es"), "París");
+        Assert.assertEquals("Paris", values.get("en"));
+        Assert.assertEquals("París", values.get("es"));
 
         EntityAnnotation parisEa = eRes.getEntityAnnotation(eParis.getUri());
         Assert.assertNotNull(parisEa);
@@ -188,9 +208,11 @@ public class StanbolClientTest
 //        JsonElement je = jp.parse(jsonEnh);
 //        String prettyJsonString = gson.toJson(je);
 //        System.out.println(prettyJsonString);
-        JSONArray json = new JSONArray(jsonEnh);
-        Assert.assertEquals(json.getJSONObject(1).getString("start"), "24");
-        Assert.assertEquals(json.getJSONObject(1).getString("end"), "30");
+        JSONObject json = new JSONObject(jsonEnh);
+        JSONArray annotations = json.getJSONArray("annotations");
+        JSONObject firstAnnotation = annotations.getJSONObject(1);
+        Assert.assertEquals("24", firstAnnotation.getString("start"));
+        Assert.assertEquals("30", firstAnnotation.getString("end"));
         
     }
     
@@ -222,22 +244,21 @@ public class StanbolClientTest
         // Get the entity
         Entity entity = client.get(resourceId);
         Assert.assertNotNull(entity);
-        Assert.assertEquals(entity.getLabels("en").iterator().next(), "Doctor Who");
-        Assert.assertEquals(entity.getUri(), resourceId);
+        Assert.assertEquals("Doctor Who", entity.getLabels("en").iterator().next());
+        Assert.assertEquals(resourceId, entity.getUri());
 
         // Test Entity Model
-        Assert.assertEquals(entity.getReferencedSite(), "entityhub");
-        Assert.assertEquals(entity.getCategories().iterator().next(), 
-        		"http://dbpedia.org/resource/Category:BBC_television_programmes");
-        Assert.assertEquals(entity.getTypes().iterator().next(), "http://schema.org/CreativeWork");
+        Assert.assertEquals("entityhub", entity.getReferencedSite());
+        Assert.assertEquals("http://dbpedia.org/resource/Category:BBC_television_programmes", entity.getCategories().iterator().next());
+        Assert.assertEquals("http://schema.org/CreativeWork", entity.getTypes().iterator().next());
         Assert.assertNotNull(entity.getComments("en").iterator().next());
         
         Collection<String> labels = entity.getLabels("en");
-        Assert.assertEquals(labels.size(), 1);
-        Assert.assertEquals(entity.getLabels("en").iterator().next(), "Doctor Who");
-        Assert.assertEquals(entity.
+        Assert.assertEquals(1, labels.size());
+        Assert.assertEquals("Doctor Who", entity.getLabels("en").iterator().next());
+        Assert.assertEquals("777", entity.
         		getPropertyValues("http://dbpedia.org/property/", "numEpisodes").
-        		iterator().next(), "777");
+        		iterator().next());
 
         // Remove the entity
         boolean removed = client.delete(resourceId);
@@ -249,12 +270,12 @@ public class StanbolClientTest
         // Test Get Entity Site
         Entity paris = client.get("dbpedia", parisId);
         Assert.assertNotNull(paris);
-        Assert.assertEquals(paris.getUri(), parisId);
-        Assert.assertEquals(paris.getReferencedSite(), "dbpedia");
-        Assert.assertEquals(CollectionUtils.get(paris.getCategories(), 1), "http://dbpedia.org/resource/Category:3rd-century_BC_establishments");
-        Assert.assertEquals(paris.
+        Assert.assertEquals(parisId, paris.getUri());
+        Assert.assertEquals("dbpedia", paris.getReferencedSite());
+        Assert.assertEquals("http://dbpedia.org/resource/Category:3rd-century_BC_establishments", CollectionUtils.get(paris.getCategories(), 1));
+        Assert.assertEquals("2211297", paris.
         		getPropertyValues("http://dbpedia.org/ontology/", 
-        				"populationTotal").iterator().next(), "2211297");
+        				"populationTotal").iterator().next());
 
         // Test Lookup
         paris = client.lookup(parisId, true);
@@ -270,9 +291,9 @@ public class StanbolClientTest
         entities = client.search("dbpedia", "Paris*", null, "en", program, 10, 0);
         Assert.assertFalse(entities.isEmpty());
         List<Entity> eList = Lists.newArrayList(entities);
-        assertEquals(eList.get(2).
+        assertEquals("Civil parishes in England", eList.get(2).
         		getPropertyValues("http://stanbol.apache.org/ontology/entityhub/find/", "labels").
-                iterator().next(), "Civil parishes in England");
+                iterator().next());
         
         // Test ldpath
         program = new LDPathProgram();
@@ -282,7 +303,7 @@ public class StanbolClientTest
         Model model = client.ldpath("dbpedia", parisId, program);
         String category = model.listObjectsOfProperty(model.getResource(parisId),
                 model.createProperty(program.getNamespace("find"), "categories")).next().asResource().getURI();
-        Assert.assertEquals(category, "http://dbpedia.org/resource/Category:Paris");
+        Assert.assertEquals("http://dbpedia.org/resource/Category:Paris", category);
     }
     
 //    @Test
@@ -325,10 +346,10 @@ public class StanbolClientTest
         Assert.assertTrue(annotation instanceof TextAnnotation);
 
         Assert.assertNotNull(annotation.getLanguage());
-        Assert.assertEquals(annotation.getLanguage(), "es");
+        Assert.assertEquals("es", annotation.getLanguage());
         
         Assert.assertFalse(enhancements.getLanguages().isEmpty());
-        Assert.assertEquals(enhancements.getLanguages().size(), 1);
-        Assert.assertEquals(enhancements.getLanguages().iterator().next(), "es");
+        Assert.assertEquals(1, enhancements.getLanguages().size());
+        Assert.assertEquals("es", enhancements.getLanguages().iterator().next());
     }
 }
