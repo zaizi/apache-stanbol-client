@@ -10,7 +10,7 @@ Apache Stanbol Client can be distributed as a regular Java Library or can be int
 
 Current Built Requirements:
 
-* Java 1.6+
+* Java 1.7+
 * Maven 3.x
 
 To start working with the project, just clone it in your local workspace:
