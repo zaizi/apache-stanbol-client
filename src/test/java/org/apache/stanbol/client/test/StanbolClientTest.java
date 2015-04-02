@@ -53,8 +53,6 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 public class StanbolClientTest {
 	private static StanbolClientFactory factory;
 
-	private static final Properties PROPERTIES;
-
 	private static final String STANBOL_ENDPOINT;
 
 	private static final String TEST_EN_FILE;
@@ -64,20 +62,17 @@ public class StanbolClientTest {
 	private static final String TEST_SENTENCE = "Paris is the capital of France";
 
 	static {
-		PROPERTIES = new Properties();
-		try (final InputStream propertyStream = StanbolClientTest.class
-				.getResourceAsStream(StanbolClientTest.class.getSimpleName()
-						+ ".properties")) {
-			PROPERTIES.load(propertyStream);
-		} catch (IOException e) {
+		try {
+			final Properties properties = loadProperties();
+			
+			STANBOL_ENDPOINT = properties.getProperty("stanbolEndpoint");
+			TEST_EN_FILE = properties.getProperty("testEnFile");
+			TEST_ES_FILE = properties.getProperty("testEsFile");
+			TEST_RDF_FILE = properties.getProperty("testRdfFile");
+		} catch (final IOException e) {
 			// Should never happen
 			throw new AssertionError(e);
 		}
-
-		STANBOL_ENDPOINT = PROPERTIES.getProperty("stanbolEndpoint");
-		TEST_EN_FILE = PROPERTIES.getProperty("testEnFile");
-		TEST_ES_FILE = PROPERTIES.getProperty("testEsFile");
-		TEST_RDF_FILE = PROPERTIES.getProperty("testRdfFile");
 	}
 
 	// private static final String SPARQL_QUERY =
@@ -95,6 +90,23 @@ public class StanbolClientTest {
 	@BeforeClass
 	public static void startClient() {
 		factory = new StanbolClientFactory(STANBOL_ENDPOINT);
+	}
+	
+	private static Properties loadProperties() throws IOException {
+		return loadProperties(StanbolClientTest.class);
+	}
+
+	private static Properties loadProperties(final Class<?> loadingClass)
+			throws IOException {
+		final Properties result = new Properties();
+
+		try (final InputStream propertyStream = loadingClass
+				.getResourceAsStream(loadingClass.getSimpleName()
+						+ ".properties")) {
+			result.load(propertyStream);
+		}
+
+		return result;
 	}
 
 	@Test
