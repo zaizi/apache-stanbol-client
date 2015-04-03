@@ -505,4 +505,62 @@ public class EntityHubImpl implements EntityHub
             return new Entity(model, id);
     }
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((builder == null) ? 0 : builder.hashCode());
+		result = prime * result + ((logger == null) ? 0 : logger.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		EntityHubImpl other = (EntityHubImpl) obj;
+		if (builder == null) {
+			if (other.builder != null) {
+				return false;
+			}
+		} else if (!builder.equals(other.builder)) {
+			return false;
+		}
+		if (logger == null) {
+			if (other.logger != null) {
+				return false;
+			}
+		} else if (!logger.equals(other.logger)) {
+			return false;
+		}
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("EntityHubImpl [logger=");
+		sb.append(logger);
+		sb.append(", builder=");
+		sb.append(builder);
+		sb.append("]");
+		return sb.toString();
+	}
+
 }
