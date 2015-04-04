@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.stanbol.client.EntityHub;
 import org.apache.stanbol.client.entityhub.model.Entity;
+import org.apache.stanbol.client.exception.StanbolClientException;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -127,7 +128,9 @@ public class EntityAnnotation extends Annotation
         catch (StanbolServiceException e)
         {
             return null;
-        }
+        } catch (StanbolClientException e) {
+			return null;
+		}
     }
     
     /**
@@ -145,7 +148,9 @@ public class EntityAnnotation extends Annotation
         catch (StanbolServiceException e)
         {
             return null;
-        }
+        } catch (StanbolClientException e) {
+			return null;
+		}
     }
 
 	/* (non-Javadoc)

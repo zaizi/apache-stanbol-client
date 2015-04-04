@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import org.apache.stanbol.client.entityhub.model.Entity;
 import org.apache.stanbol.client.entityhub.model.LDPathProgram;
+import org.apache.stanbol.client.exception.StanbolClientException;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 
 import com.hp.hpl.jena.rdf.model.Model;
@@ -44,8 +45,9 @@ public interface EntityHub
      * 
      * @return List of sites URLs
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public Collection<String> getReferencedSites() throws StanbolServiceException;
+    public Collection<String> getReferencedSites() throws StanbolServiceException, StanbolClientException;
 
     /**
      * Get an entity managed by the EntityHub Cache
@@ -53,8 +55,9 @@ public interface EntityHub
      * @param id Entity's URI
      * @return Entity {@link Entity}
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public Entity get(String id) throws StanbolServiceException;
+    public Entity get(String id) throws StanbolServiceException, StanbolClientException;
 
     /**
      * This service searches the referenced site passed by parameter for the entity with the passed URI. 
@@ -65,8 +68,9 @@ public interface EntityHub
      * @param id Entity's URI
      * @return
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public Entity get(String site, String id) throws StanbolServiceException;
+    public Entity get(String site, String id) throws StanbolServiceException, StanbolClientException;
 
     /**
      * Create entities in the EntityHub. If any of such Entities already exists within the Entityhub and the update parameter
@@ -78,8 +82,9 @@ public interface EntityHub
      * @param update If true, entities that already exist will be updated
      * @return URI of the created Entity.
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public String create(InputStream is, String id, Boolean update) throws StanbolServiceException;
+    public String create(InputStream is, String id, Boolean update) throws StanbolServiceException, StanbolClientException;
     
     /**
      * Create an entity in the EntityHub. If the Entity already exists within the Entityhub and the update parameter
@@ -89,8 +94,9 @@ public interface EntityHub
      * @param update If true and the Entity already exists within the EntityHub, the Entity will be updated
      * @return URI of the created Entity
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public String create(Entity entity, Boolean update) throws StanbolServiceException;
+    public String create(Entity entity, Boolean update) throws StanbolServiceException, StanbolClientException;
 
     /**
      * Update entities for the EntityHub. If any of such Entities doesn't exist within the Entityhub and create parameter is
@@ -102,8 +108,9 @@ public interface EntityHub
      * @param create If true, entities that don't exist will be created
      * @return Data of the entity
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public Entity update(InputStream is, String id, Boolean create) throws StanbolServiceException;
+    public Entity update(InputStream is, String id, Boolean create) throws StanbolServiceException, StanbolClientException;
        
     /**
      * Update entities for the EntityHub. If any of such Entities doesn't exist within the Entityhub and create parameter is
@@ -112,8 +119,9 @@ public interface EntityHub
      * @param entity Entity to be updated
      * @return Data of the entity
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public Entity update(Entity entity, Boolean update) throws StanbolServiceException;
+    public Entity update(Entity entity, Boolean update) throws StanbolServiceException, StanbolClientException;
 
     /**
      * Delete an entity managed by the Entityhub by its URI
@@ -121,16 +129,18 @@ public interface EntityHub
      * @param id URI of the Entity to delete
      * @return boolean True is the Entity has been successfully deleted
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public Boolean delete(String id) throws StanbolServiceException;
+    public Boolean delete(String id) throws StanbolServiceException, StanbolClientException;
 
     /**
      * Delete all entities managed by the Entityhub
      * 
      * @return boolean
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public Boolean deleteAll() throws StanbolServiceException;
+    public Boolean deleteAll() throws StanbolServiceException, StanbolClientException;
 
     /**
      * This service looks-up Symbols (Entities managed by the Entityhub) based on the passed URI. The passed ID can be
@@ -148,8 +158,9 @@ public interface EntityHub
      * @param id URI of the Entity/Symbol/ReferencedSite
      * @param create If true, a new symbol is created if necessary and allowed
      * @return
+     * @throws StanbolClientException 
      */
-    public Entity lookup(String id, Boolean create) throws StanbolServiceException;
+    public Entity lookup(String id, Boolean create) throws StanbolServiceException, StanbolClientException;
 
     /**
      * Find locally managed Entities by label based search
