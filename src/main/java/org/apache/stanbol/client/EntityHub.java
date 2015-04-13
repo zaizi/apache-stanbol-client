@@ -174,9 +174,10 @@ public interface EntityHub
      * @param offset The offset of the first returned Entity (default: 0)
      * @return List of finded entities
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
     public Collection<Entity> search(String name, String field, String language, LDPathProgram ldpath, int limit, int offset)
-            throws StanbolServiceException;
+            throws StanbolServiceException, StanbolClientException;
 
     /**
      * Find ReferencedSite managed Entities by label based search
@@ -191,9 +192,10 @@ public interface EntityHub
      * @param offset The offset of the first returned Entity (default: 0)
      * @return List of finded entities
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
     public Collection<Entity> search(String site, String name, String field, String language, LDPathProgram ldpath,
-            int limit, int offset) throws StanbolServiceException;
+            int limit, int offset) throws StanbolServiceException, StanbolClientException;
 
     /**
      * Allows to execute an LDPath program on one or more Entities (contexts)
@@ -203,8 +205,9 @@ public interface EntityHub
      * @return An RDF Graph with the passed context(s) as subject the field selected by the LDPath program as properties
      *         and the selected values as object.
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public Model ldpath(String contexts, LDPathProgram ldPathProgram) throws StanbolServiceException;
+    public Model ldpath(String contexts, LDPathProgram ldPathProgram) throws StanbolServiceException, StanbolClientException;
 
     /**
      * Allows to execute an LDPath program on one or more Entities (contexts)
@@ -215,7 +218,8 @@ public interface EntityHub
      * @return An RDF Graph with the passed context(s) as subject the field selected by the LDPath program as properties
      *         and the selected values as object.
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public Model ldpath(String site, String contexts, LDPathProgram ldPathProgram) throws StanbolServiceException;
+    public Model ldpath(String site, String contexts, LDPathProgram ldPathProgram) throws StanbolServiceException, StanbolClientException;
 
 }

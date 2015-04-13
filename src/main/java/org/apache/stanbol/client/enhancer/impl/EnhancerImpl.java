@@ -19,10 +19,13 @@ package org.apache.stanbol.client.enhancer.impl;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.StatusType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.stanbol.client.Enhancer;
 import org.apache.stanbol.client.enhancer.model.EnhancementStructure;
+import org.apache.stanbol.client.entityhub.impl.EntityHubImpl;
+import org.apache.stanbol.client.exception.StanbolClientException;
 import org.apache.stanbol.client.rest.RestClientExecutor;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 import org.slf4j.Logger;
@@ -30,12 +33,20 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of {@link Enhancer}
+ * TODO: improve response-code handling, mirroring the style in {@link EntityHubImpl}.
  * 
  * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class EnhancerImpl implements Enhancer
 {
+	
+	private static String createUnknownResponseErrorMessageString(
+			StatusType statusInfo) {
+		return "Received unknown response from server: [HTTP "
+				+ statusInfo.getStatusCode() + "] "
+				+ statusInfo.getReasonPhrase();
+	}
 
     private Logger logger = LoggerFactory.getLogger(EnhancerImpl.class);
     
@@ -55,8 +66,9 @@ public class EnhancerImpl implements Enhancer
      * @see org.apache.stanbol.client.Enhancer#enhance(java.lang.String, org.apache.stanbol.client.enhancer.impl.EnhancerParameters)
      */
     @Override
-    public EnhancementStructure enhance(EnhancerParameters parameters) throws StanbolServiceException {
-
+    public EnhancementStructure enhance(EnhancerParameters parameters) throws StanbolServiceException, StanbolClientException {
+    	final EnhancementStructure result;
+    	
     	UriBuilder enhancerBuilder = builder.
     			clone().
     			path(STANBOL_ENHANCER_PATH);
@@ -69,18 +81,33 @@ public class EnhancerImpl implements Enhancer
     	Entity<?> entity = Entity.entity(parameters.getContent(), MediaType.TEXT_PLAIN_TYPE);
     	Response response = RestClientExecutor.post(enhancerBuilder.build(), entity, parameters.getOutputFormat());
 
-    	int status = response.getStatus();
-    	if (status != 200 && status != 201 && status != 202)
-    	{
-    		throw new StanbolServiceException("[HTTP " + status + "] Error while enhancing content into stanbol server");
-    	}
-
-    	if (logger.isDebugEnabled())
-    	{
+    	final StatusType statusInfo = response.getStatusInfo();
+    	switch (statusInfo.getFamily()) {
+		case CLIENT_ERROR: {
+			throw new StanbolClientException(
+					String.format(
+							"An unknown client error occurred while enhancing content: [HTTP %d] %s",
+							statusInfo.getStatusCode(), statusInfo.getReasonPhrase()));			
+		}
+		case SERVER_ERROR: {
+			throw new StanbolServiceException(
+					String.format(
+							"An unknown server error occurred while enhancing content: [HTTP %d] %s",
+							statusInfo.getStatusCode(), statusInfo.getReasonPhrase()));			
+		}
+		case SUCCESSFUL: {
     		logger.debug("Content has been sucessfully enhanced");
+	    	result = response.readEntity(EnhancementStructure.class);
+			break;	
+		}
+		default: {
+			throw new StanbolServiceException(
+					createUnknownResponseErrorMessageString(statusInfo));
+		}
+    	
     	}
 
-    	return response.readEntity(EnhancementStructure.class);
+    	return result;
     }
 
 	/**

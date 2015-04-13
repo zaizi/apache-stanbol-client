@@ -39,7 +39,6 @@ import org.codehaus.jettison.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -494,12 +493,13 @@ public class EntityHubImpl implements EntityHub {
 	}
 
 	/**
+	 * @throws StanbolClientException 
 	 * @see EntityHub#search(String, String, String, LDPathProgram, int, int)
 	 */
 	@Override
 	public Collection<Entity> search(String name, String field,
 			String language, LDPathProgram ldpath, int limit, int offset)
-			throws StanbolServiceException {
+			throws StanbolServiceException, StanbolClientException {
 
 		UriBuilder findBuilder = builder.clone().path(STANBOL_ENTITYHUB_PATH)
 				.path("find").queryParam("name", name);
@@ -517,13 +517,14 @@ public class EntityHubImpl implements EntityHub {
 	}
 
 	/**
+	 * @throws StanbolClientException 
 	 * @see EntityHub#search(String, String, String, String, LDPathProgram, int,
 	 *      int)
 	 */
 	@Override
 	public Collection<Entity> search(String site, String name, String field,
 			String language, LDPathProgram ldpath, int limit, int offset)
-			throws StanbolServiceException {
+			throws StanbolServiceException, StanbolClientException {
 		UriBuilder findBuilder = builder.clone().path(STANBOL_ENTITYHUB_PATH)
 				.path(STANBOL_ENTITYHUB_SITE_PATH).path(site).path("find")
 				.queryParam("name", name);
@@ -541,48 +542,69 @@ public class EntityHubImpl implements EntityHub {
 	}
 
 	private List<Entity> searchAux(URI uri, String name)
-			throws StanbolServiceException {
+			throws StanbolServiceException, StanbolClientException {
+		List<Entity> result;
+		
 		Response response = RestClientExecutor.get(uri, new MediaType(
 				"application", "rdf+xml"));
 
 		// Check HTTP status code
-		int status = response.getStatus();
-		if (status != 200 && status != 201 && status != 202) {
-			throw new StanbolServiceException("[HTTP " + status
-					+ "] Error retrieving content from Stanbol server");
+		final StatusType statusInfo = response.getStatusInfo();
+		switch (statusInfo.getFamily()) {
+		case CLIENT_ERROR: {
+			final int statusCode = statusInfo.getStatusCode();
+			throw new StanbolClientException(
+					String.format(
+							"An unknown client error occurred while retrieving Stanbol content for URI \"%s\": [HTTP %d] %s",
+							uri, statusCode, statusInfo.getReasonPhrase()));
 		}
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("Entities by " + name + " has been found sucessfully "
-					+ response.getLocation());
+		case SERVER_ERROR: {
+			final int statusCode = statusInfo.getStatusCode();
+			throw new StanbolServiceException(
+					String.format(
+							"An unknown server error occurred while retrieving Stanbol content for URI \"%s\": [HTTP %d] %s",
+							uri, statusCode, statusInfo.getReasonPhrase()));
 		}
+		case SUCCESSFUL: {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Entities by " + name + " has been found sucessfully "
+						+ response.getLocation());
+			}
 
-		Model model = ModelFactory.createDefaultModel();
-		model.read(response.readEntity(InputStream.class), null);
+			Model model = ModelFactory.createDefaultModel();
+			model.read(response.readEntity(InputStream.class), null);
 
-		List<Entity> result = Lists.newArrayList();
-		ResIterator iterator = model.listSubjects();
+			result = new ArrayList<>();
+			ResIterator iterator = model.listSubjects();
 
-		while (iterator.hasNext()) {
-			RDFNode next = iterator.next();
-			if (next.isResource())
-				if (!next
-						.asResource()
-						.getURI()
-						.equals("http://stanbol.apache.org/ontology/entityhub/query#QueryResultSet"))
-					result.add(new Entity(next.asResource().getModel(), next
-							.asResource().getURI()));
+			while (iterator.hasNext()) {
+				RDFNode next = iterator.next();
+				if (next.isResource())
+					if (!next
+							.asResource()
+							.getURI()
+							.equals("http://stanbol.apache.org/ontology/entityhub/query#QueryResultSet"))
+						result.add(new Entity(next.asResource().getModel(), next
+								.asResource().getURI()));
+			}
+			break;
 		}
-
+		default: {
+			throw new StanbolServiceException(
+					createUnknownResponseErrorMessageString(statusInfo));
+		}
+		}
+		
 		return result;
 	}
 
 	/**
+	 * @throws StanbolClientException 
 	 * @see EntityHub#ldpath(String, LDPathProgram)
 	 */
 	@Override
 	public Model ldpath(String context, LDPathProgram ldPathProgram)
-			throws StanbolServiceException {
+			throws StanbolServiceException, StanbolClientException {
 		URI uri = builder.clone().path(STANBOL_ENTITYHUB_PATH).path("ldpath")
 				.queryParam("context", context.toString())
 				.queryParam("ldpath", ldPathProgram.toString()).build();
@@ -590,11 +612,12 @@ public class EntityHubImpl implements EntityHub {
 	}
 
 	/**
+	 * @throws StanbolClientException 
 	 * @see EntityHub#ldpath(String, String, LDPathProgram)
 	 */
 	@Override
 	public Model ldpath(String site, String context, LDPathProgram ldPathProgram)
-			throws StanbolServiceException {
+			throws StanbolServiceException, StanbolClientException {
 		URI uri = builder.clone().path(STANBOL_ENTITYHUB_PATH)
 				.path(STANBOL_ENTITYHUB_SITE_PATH).path(site).path("ldpath")
 				.queryParam("context", context.toString())
@@ -602,20 +625,41 @@ public class EntityHubImpl implements EntityHub {
 		return ldpathAux(uri);
 	}
 
-	private Model ldpathAux(URI uri) throws StanbolServiceException {
+	private Model ldpathAux(URI uri) throws StanbolServiceException, StanbolClientException {
+		Model result;
+		
 		Response response = RestClientExecutor.get(uri, new MediaType(
 				"application", "rdf+xml"));
 
 		// Check HTTP status code
-		int status = response.getStatus();
-		if (status != 200 && status != 201 && status != 202) {
-			throw new StanbolServiceException("[HTTP " + status
-					+ "] Error retrieving content from Stanbol server");
+		final StatusType statusInfo = response.getStatusInfo();
+		switch (statusInfo.getFamily()) {
+		case CLIENT_ERROR: {
+			final int statusCode = statusInfo.getStatusCode();
+			throw new StanbolClientException(
+					String.format(
+							"An unknown client error occurred while retrieving Stanbol content for URI \"%s\": [HTTP %d] %s",
+							uri, statusCode, statusInfo.getReasonPhrase()));
 		}
-
-		Model model = ModelFactory.createDefaultModel();
-		model.read(response.readEntity(InputStream.class), null);
-		return model;
+		case SERVER_ERROR: {
+			final int statusCode = statusInfo.getStatusCode();
+			throw new StanbolServiceException(
+					String.format(
+							"An unknown server error occurred while retrieving Stanbol content for URI \"%s\": [HTTP %d] %s",
+							uri, statusCode, statusInfo.getReasonPhrase()));
+		}
+		case SUCCESSFUL: {
+			result = ModelFactory.createDefaultModel();
+			result.read(response.readEntity(InputStream.class), null);
+			break;
+		}
+		default: {
+			throw new StanbolServiceException(
+					createUnknownResponseErrorMessageString(statusInfo));
+		}
+		}
+		
+		return result;
 	}
 
 	/**

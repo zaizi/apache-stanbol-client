@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.stanbol.client.Sparql;
+import org.apache.stanbol.client.entityhub.impl.EntityHubImpl;
 import org.apache.stanbol.client.rest.RestClientExecutor;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ import com.hp.hpl.jena.query.ResultSetFactory;
 
 /**
  * Stanbol Sparql Endpoint Client Implementation
+ * TODO: improve response-code handling, mirroring the style in {@link EntityHubImpl}.
  * 
  * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  *

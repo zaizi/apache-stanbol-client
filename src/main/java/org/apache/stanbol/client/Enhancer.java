@@ -18,6 +18,7 @@ package org.apache.stanbol.client;
 
 import org.apache.stanbol.client.enhancer.impl.EnhancerParameters;
 import org.apache.stanbol.client.enhancer.model.EnhancementStructure;
+import org.apache.stanbol.client.exception.StanbolClientException;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 
 /**
@@ -41,6 +42,7 @@ public interface Enhancer
      * @param parameters Enhancer parameters
      * @return {@link EnhancementStructure} containing all the semantic metadata extracted from the content
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public EnhancementStructure enhance(EnhancerParameters parameters) throws StanbolServiceException;
+    public EnhancementStructure enhance(EnhancerParameters parameters) throws StanbolServiceException, StanbolClientException;
 }

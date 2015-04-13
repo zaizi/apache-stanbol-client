@@ -111,7 +111,7 @@ public class StanbolClientTest {
 	}
 
 	@Test
-	public void testEnhancerBasic() throws StanbolServiceException, IOException {
+	public void testEnhancerBasic() throws StanbolServiceException, IOException, StanbolClientException {
 		final Enhancer client = factory.createEnhancerClient();
 		EnhancerParameters parameters = EnhancerParameters.builder()
 				.buildDefault(TEST_SENTENCE);
@@ -157,7 +157,7 @@ public class StanbolClientTest {
 
 	@Test
 	public void testEnhancerAdvanced() throws StanbolServiceException,
-			JSONException {
+			JSONException, StanbolClientException {
 		final Enhancer client = factory.createEnhancerClient();
 		EnhancerParameters parameters = EnhancerParameters.builder()
 				.buildDefault(TEST_SENTENCE);
