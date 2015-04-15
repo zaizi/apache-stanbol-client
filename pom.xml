@@ -45,6 +45,10 @@
 			<name>Todd Shore</name>
 			<url>https://github.com/errantlinguist</url>
 		</developer>
+		<developer>
+			<name>Rafa Haro</name>
+			<url>https://github.com/rafaharo</url>
+		</developer>
 	</developers>
 
 	<properties>
