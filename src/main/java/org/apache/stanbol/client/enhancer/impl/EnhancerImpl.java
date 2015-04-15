@@ -32,129 +32,97 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implementation of {@link Enhancer}
- * TODO: improve response-code handling, mirroring the style in {@link EntityHubImpl}.
- * 
+ * Implementation of {@link Enhancer} TODO: improve response-code handling,
+ * mirroring the style in {@link EntityHubImpl}.
+ *
  * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
- * 
+ *
  */
-public class EnhancerImpl implements Enhancer
-{
-	
+public class EnhancerImpl implements Enhancer {
+
 	private static String createUnknownResponseErrorMessageString(
-			StatusType statusInfo) {
+			final StatusType statusInfo) {
 		return "Received unknown response from server: [HTTP "
 				+ statusInfo.getStatusCode() + "] "
 				+ statusInfo.getReasonPhrase();
 	}
 
-    private Logger logger = LoggerFactory.getLogger(EnhancerImpl.class);
-    
-    private UriBuilder builder;
+	private UriBuilder builder;
 
-    /**
-     * Constructor
-     * 
-     */
-    public EnhancerImpl(UriBuilder builder)
-    {
-        this.builder = builder;
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.apache.stanbol.client.Enhancer#enhance(java.lang.String, org.apache.stanbol.client.enhancer.impl.EnhancerParameters)
-     */
-    @Override
-    public EnhancementStructure enhance(EnhancerParameters parameters) throws StanbolServiceException, StanbolClientException {
-    	final EnhancementStructure result;
-    	
-    	UriBuilder enhancerBuilder = builder.
-    			clone().
-    			path(STANBOL_ENHANCER_PATH);
+	private Logger logger = LoggerFactory.getLogger(EnhancerImpl.class);
 
-    	if(parameters.getChain() != DEFAULT_CHAIN)
-    		enhancerBuilder.path(STANBOL_CHAIN_PATH).path(parameters.getChain());
-    	
-    	// TODO Include Dereferrencing stuff
+	/**
+	 * Constructor
+	 * 
+	 */
+	public EnhancerImpl(final UriBuilder builder) {
+		this.builder = builder;
+	}
 
-    	Entity<?> entity = Entity.entity(parameters.getContent(), MediaType.TEXT_PLAIN_TYPE);
-    	Response response = RestClientExecutor.post(enhancerBuilder.build(), entity, parameters.getOutputFormat());
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.apache.stanbol.client.Enhancer#enhance(java.lang.String,
+	 * org.apache.stanbol.client.enhancer.impl.EnhancerParameters)
+	 */
+	@Override
+	public EnhancementStructure enhance(final EnhancerParameters parameters)
+			throws StanbolServiceException, StanbolClientException {
+		final EnhancementStructure result;
 
-    	final StatusType statusInfo = response.getStatusInfo();
-    	switch (statusInfo.getFamily()) {
+		final UriBuilder enhancerBuilder = builder.clone().path(
+				STANBOL_ENHANCER_PATH);
+
+		if (parameters.getChain() != DEFAULT_CHAIN) {
+			enhancerBuilder.path(STANBOL_CHAIN_PATH)
+					.path(parameters.getChain());
+		}
+
+		// TODO Include Dereferrencing stuff
+
+		final Entity<?> entity = Entity.entity(parameters.getContent(),
+				MediaType.TEXT_PLAIN_TYPE);
+		final Response response = RestClientExecutor.post(
+				enhancerBuilder.build(), entity, parameters.getOutputFormat());
+
+		final StatusType statusInfo = response.getStatusInfo();
+		switch (statusInfo.getFamily()) {
 		case CLIENT_ERROR: {
 			throw new StanbolClientException(
 					String.format(
 							"An unknown client error occurred while enhancing content: [HTTP %d] %s",
-							statusInfo.getStatusCode(), statusInfo.getReasonPhrase()));			
+							statusInfo.getStatusCode(),
+							statusInfo.getReasonPhrase()));
 		}
 		case SERVER_ERROR: {
 			throw new StanbolServiceException(
 					String.format(
 							"An unknown server error occurred while enhancing content: [HTTP %d] %s",
-							statusInfo.getStatusCode(), statusInfo.getReasonPhrase()));			
+							statusInfo.getStatusCode(),
+							statusInfo.getReasonPhrase()));
 		}
 		case SUCCESSFUL: {
-    		logger.debug("Content has been sucessfully enhanced");
-	    	result = response.readEntity(EnhancementStructure.class);
-			break;	
+			logger.debug("Content has been sucessfully enhanced");
+			result = response.readEntity(EnhancementStructure.class);
+			break;
 		}
 		default: {
 			throw new StanbolServiceException(
 					createUnknownResponseErrorMessageString(statusInfo));
 		}
-    	
-    	}
 
-    	return result;
-    }
+		}
 
-	/**
-	 * @return the logger
-	 */
-	public Logger getLogger() {
-		return logger;
-	}
-
-	/**
-	 * @param logger the logger to set
-	 */
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
-
-	/**
-	 * @return the builder
-	 */
-	public UriBuilder getBuilder() {
-		return builder;
-	}
-
-	/**
-	 * @param builder the builder to set
-	 */
-	public void setBuilder(UriBuilder builder) {
-		this.builder = builder;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((builder == null) ? 0 : builder.hashCode());
-		result = prime * result + ((logger == null) ? 0 : logger.hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -164,7 +132,7 @@ public class EnhancerImpl implements Enhancer
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		EnhancerImpl other = (EnhancerImpl) obj;
+		final EnhancerImpl other = (EnhancerImpl) obj;
 		if (builder == null) {
 			if (other.builder != null) {
 				return false;
@@ -181,13 +149,60 @@ public class EnhancerImpl implements Enhancer
 		}
 		return true;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
+	 * @return the builder
+	 */
+	public UriBuilder getBuilder() {
+		return builder;
+	}
+
+	/**
+	 * @return the logger
+	 */
+	public Logger getLogger() {
+		return logger;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = (prime * result)
+				+ ((builder == null) ? 0 : builder.hashCode());
+		result = (prime * result) + ((logger == null) ? 0 : logger.hashCode());
+		return result;
+	}
+
+	/**
+	 * @param builder
+	 *            the builder to set
+	 */
+	public void setBuilder(final UriBuilder builder) {
+		this.builder = builder;
+	}
+
+	/**
+	 * @param logger
+	 *            the logger to set
+	 */
+	public void setLogger(final Logger logger) {
+		this.logger = logger;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("EnhancerImpl [logger=");
 		sb.append(logger);
 		sb.append(", builder=");
