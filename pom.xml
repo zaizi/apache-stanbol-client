@@ -1,14 +1,19 @@
 <?xml version="1.0"?>
-<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
-	license agreements. See the NOTICE file distributed with this work for additional 
-	information regarding copyright ownership. The ASF licenses this file to 
-	You under the Apache License, Version 2.0 (the "License"); you may not use 
-	this file except in compliance with the License. You may obtain a copy of 
-	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
-	by applicable law or agreed to in writing, software distributed under the 
-	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
-	OF ANY KIND, either express or implied. See the License for the specific 
-	language governing permissions and limitations under the License. -->
+<!--
+	Copyright 2015 Todd Shore
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+		http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+ -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -16,14 +21,37 @@
 	<groupId>org.apache.stanbol</groupId>
 	<artifactId>client</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
 	<name>Apache Stanbol Client</name>
+	<description>A client library for accessing Apache Stanbol REST services.</description>
+	<url>https://github.com/errantlinguist/apache-stanbol-client</url>
+	<inceptionYear>2015</inceptionYear>
 	<scm>
-		<connection>scm:git:git@github.com:rafaharo/apache-stanbol-client.git</connection>
-		<url>scm:git:git@github.com:rafaharo/apache-stanbol-client.git</url>
-		<developerConnection>scm:git:git@github.com:rafaharo/apache-stanbol-client.git</developerConnection>
+		<connection>scm:git:https://github.com/errantlinguist/apache-stanbol-client.git</connection>
+		<developerConnection>scm:git:git@github.com:errantlinguist/apache-stanbol-client.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/errantlinguist/apache-stanbol-client</url>
 	</scm>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Todd Shore</name>
+			<url>https://github.com/errantlinguist</url>
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
+		<jena.version>2.6.4</jena.version>
+	</properties>
 
 	<build>
 		<plugins>
@@ -81,15 +109,8 @@
 		</testResources>
 	</build>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.7</java.version>
-		<jena.version>2.6.4</jena.version>
-	</properties>
-
 	<dependencies>
 		<!-- REST -->
-
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-client</artifactId>
@@ -114,30 +135,12 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.5</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.slf4j</groupId> -->
-<!-- 			<artifactId>slf4j-ext</artifactId> -->
-<!-- 			<version>1.7.5</version> -->
-<!-- 			<scope>runtime</scope> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.slf4j</groupId> -->
-<!-- 			<artifactId>jcl-over-slf4j</artifactId> -->
-<!-- 			<version>1.7.5</version> -->
-<!-- 			<scope>runtime</scope> -->
-<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>log4j-over-slf4j</artifactId>
 			<version>1.7.5</version>
 			<scope>test</scope>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.slf4j</groupId> -->
-<!-- 			<artifactId>jul-to-slf4j</artifactId> -->
-<!-- 			<version>1.7.5</version> -->
-<!-- 			<scope>runtime</scope> -->
-<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
