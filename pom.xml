@@ -24,13 +24,13 @@
 
 	<name>Apache Stanbol Client</name>
 	<description>A client library for accessing Apache Stanbol REST services.</description>
-	<url>https://github.com/errantlinguist/apache-stanbol-client</url>
-	<inceptionYear>2015</inceptionYear>
+	<url>https://github.com/rafaharo/apache-stanbol-client</url>
+	<inceptionYear>2014</inceptionYear>
 	<scm>
-		<connection>scm:git:https://github.com/errantlinguist/apache-stanbol-client.git</connection>
-		<developerConnection>scm:git:git@github.com:errantlinguist/apache-stanbol-client.git</developerConnection>
+		<connection>scm:git:https://github.com/rafaharo/apache-stanbol-client.git</connection>
+		<developerConnection>scm:git:git@github.com:rafaharo/apache-stanbol-client.git</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://github.com/errantlinguist/apache-stanbol-client</url>
+		<url>https://github.com/rafaharo/apache-stanbol-client</url>
 	</scm>
 
 	<licenses>
