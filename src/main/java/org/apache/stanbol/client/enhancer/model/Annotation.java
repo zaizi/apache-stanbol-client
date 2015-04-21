@@ -22,13 +22,13 @@ import com.hp.hpl.jena.rdf.model.Resource;
  * Represents an annotation in the Stanbol EnhancementStructure
  * 
  * @author efoncubierta
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class Annotation extends Enhancement implements Comparable<Annotation>
 {
 
-    // properties
+	// properties
     private final String extractedFrom; // http://fise.iks-project.eu/ontology/extracted-from
     private final Double confidence; // http://fise.iks-project.eu/ontology/confidence
 
@@ -77,4 +77,27 @@ public class Annotation extends Enhancement implements Comparable<Annotation>
         else 
             return 1;
     }
+    
+    /* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Annotation [getExtractedFrom()=");
+		builder.append(getExtractedFrom());
+		builder.append(", getConfidence()=");
+		builder.append(getConfidence());
+		builder.append(", getUri()=");
+		builder.append(getUri());
+		builder.append(", getCreator()=");
+		builder.append(getCreator());
+		builder.append(", getCreated()=");
+		builder.append(getCreated());
+		builder.append(", getRelation()=");
+		builder.append(getRelation());
+		builder.append("]");
+		return builder.toString();
+	}
+  	
 }

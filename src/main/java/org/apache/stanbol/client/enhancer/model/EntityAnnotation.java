@@ -17,11 +17,18 @@
 package org.apache.stanbol.client.enhancer.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.stanbol.client.EntityHub;
 import org.apache.stanbol.client.entityhub.model.Entity;
+import org.apache.stanbol.client.exception.StanbolClientException;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
@@ -30,121 +37,202 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * Represents an entity annotation in the FISE ontology
  * 
  * @author efoncubierta
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
-public class EntityAnnotation extends Annotation
-{
+public class EntityAnnotation extends Annotation {
 
-    // properties
-    private final String entityLabel; // http://fise.iks-project.eu/ontology/entity-label
-    private final String entityReference; // http://fise.iks-project.eu/ontology/entity-reference
-    private final List<String> entityTypes; // http://fise.iks-project.eu/ontology/entity-type
-    private final String site; // http://fise.iks-project.eu/ontology/entity-site
-    private final Entity entity;
-    
+	// properties
+	private final String entityLabel; // http://fise.iks-project.eu/ontology/entity-label
+	private final String entityReference; // http://fise.iks-project.eu/ontology/entity-reference
+	private final List<String> entityTypes; // http://fise.iks-project.eu/ontology/entity-type
+	private final String site; // http://fise.iks-project.eu/ontology/entity-site
+	private final Entity entity;
 
-    /**
-     * Constructor
-     * 
-     * @param resource Jena resource
-     */
-    EntityAnnotation(Resource resource, 
-    		Entity dereferencedEntity)
-    {
-        super(resource);
-        this.entityLabel = resource.hasProperty(EnhancementStructureOntology.ENTITY_LABEL) ? resource.getProperty(EnhancementStructureOntology.ENTITY_LABEL).getString() : null;
-        this.entityReference = resource.hasProperty(EnhancementStructureOntology.ENTITY_REFERENCE) ? resource.getPropertyResourceValue(EnhancementStructureOntology.ENTITY_REFERENCE).getURI() : null;
-        this.site = resource.hasProperty(EnhancementStructureOntology.ENTITYHUB_SITE) ? resource.getProperty(EnhancementStructureOntology.ENTITYHUB_SITE).getString() : null;
-        
-        if(resource.hasProperty(EnhancementStructureOntology.ENTITY_TYPE)){
-            entityTypes = new ArrayList<String>();
-            StmtIterator iterator = resource.listProperties(EnhancementStructureOntology.ENTITY_TYPE);
-            while(iterator.hasNext())
-                entityTypes.add(iterator.next().getObject().asResource().getURI());
-        }
-        else
-            entityTypes = null;
-        
-        entity = dereferencedEntity;
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param resource
+	 *            Jena resource
+	 */
+	EntityAnnotation(Resource resource, Entity dereferencedEntity) {
+		super(resource);
+		this.entityLabel = resource
+				.hasProperty(EnhancementStructureOntology.ENTITY_LABEL) ? resource
+				.getProperty(EnhancementStructureOntology.ENTITY_LABEL)
+				.getString() : null;
+		this.entityReference = resource
+				.hasProperty(EnhancementStructureOntology.ENTITY_REFERENCE) ? resource
+				.getPropertyResourceValue(
+						EnhancementStructureOntology.ENTITY_REFERENCE).getURI()
+				: null;
+		this.site = resource
+				.hasProperty(EnhancementStructureOntology.ENTITYHUB_SITE) ? resource
+				.getProperty(EnhancementStructureOntology.ENTITYHUB_SITE)
+				.getString() : null;
 
-    /**
-     * Get the fise:entity-label property
-     * 
-     * @return fise:entity-label property
-     */
-    public String getEntityLabel()
-    {
-        return entityLabel;
-    }
+		if (resource.hasProperty(EnhancementStructureOntology.ENTITY_TYPE)) {
+			entityTypes = new ArrayList<String>();
+			StmtIterator iterator = resource
+					.listProperties(EnhancementStructureOntology.ENTITY_TYPE);
+			while (iterator.hasNext())
+				entityTypes.add(iterator.next().getObject().asResource()
+						.getURI());
+		} else
+			entityTypes = null;
 
-    /**
-     * Get the fise:entity-reference property
-     * 
-     * @return fise:entity-reference property
-     */
-    public String getEntityReference()
-    {
-        return entityReference;
-    }
+		entity = dereferencedEntity;
+	}
 
-    /**
-     * Get the fise:entity-type property
-     * 
-     * @return fise:entity-type property
-     */
-    public List<String> getEntityTypes()
-    {
-        return entityTypes;
-    }
-    
-    /**
-     * Get the fise:site property
-     * 
-     * @return fise:site property
-     */
-    public String getSite()
-    {
-        return site;
-    }
-    
-    public Entity getDereferencedEntity(){
-    	return entity;
-    }
-    
-    /**
-     * Retrieve the Entity Associated to the EntityAnnotation from Stanbol Local EntityHub 
-     * 
-     * @param service {@link EntityHub}
-     * @return {@link Entity} object
-     */
-    public Entity getEntity(EntityHub service){
-        try
-        {
-            return service.get(this.entityReference);
-        }
-        catch (StanbolServiceException e)
-        {
-            return null;
-        }
-    }
-    
-    /**
-     * Retrieve the Entity Associated to the EntityAnnotation from Stanbol EntityHub Referenced site
-     * 
-     * @param site Referenced Site within EntityHUb
-     * @param service {@link EntityHub}
-     * @return {@link Entity} object
-     */
-    public Entity getEntity(String site, EntityHub service){
-        try
-        {
-            return service.get(site, this.entityReference);
-        }
-        catch (StanbolServiceException e)
-        {
-            return null;
-        }
-    }
+	/**
+	 * Get the fise:entity-label property
+	 * 
+	 * @return fise:entity-label property
+	 */
+	public String getEntityLabel() {
+		return entityLabel;
+	}
+
+	/**
+	 * Get the fise:entity-reference property
+	 * 
+	 * @return fise:entity-reference property
+	 */
+	public String getEntityReference() {
+		return entityReference;
+	}
+
+	/**
+	 * Get the fise:entity-type property
+	 * 
+	 * @return fise:entity-type property
+	 */
+	public List<String> getEntityTypes() {
+		return entityTypes;
+	}
+
+	/**
+	 * Get the fise:site property
+	 * 
+	 * @return fise:site property
+	 */
+	public String getSite() {
+		return site;
+	}
+
+	public Entity getDereferencedEntity() {
+		return entity;
+	}
+
+	/**
+	 * Retrieve the Entity Associated to the EntityAnnotation from Stanbol Local
+	 * EntityHub
+	 * 
+	 * @param service
+	 *            {@link EntityHub}
+	 * @return {@link Entity} object
+	 */
+	public Entity getEntity(EntityHub service) {
+		try {
+			return service.get(this.entityReference);
+		} catch (StanbolServiceException e) {
+			return null;
+		} catch (StanbolClientException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Retrieve the Entity Associated to the EntityAnnotation from Stanbol
+	 * EntityHub Referenced site
+	 * 
+	 * @param site
+	 *            Referenced Site within EntityHUb
+	 * @param service
+	 *            {@link EntityHub}
+	 * @return {@link Entity} object
+	 */
+	public Entity getEntity(String site, EntityHub service) {
+		try {
+			return service.get(site, this.entityReference);
+		} catch (StanbolServiceException e) {
+			return null;
+		} catch (StanbolClientException e) {
+			return null;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("EntityAnnotation [getEntityLabel()=");
+		builder.append(getEntityLabel());
+		builder.append(", getEntityReference()=");
+		builder.append(getEntityReference());
+		builder.append(", getEntityTypes()=");
+		builder.append(getEntityTypes());
+		builder.append(", getSite()=");
+		builder.append(getSite());
+		builder.append(", getDereferencedEntity()=");
+		builder.append(getDereferencedEntity());
+		builder.append(", getExtractedFrom()=");
+		builder.append(getExtractedFrom());
+		builder.append(", getConfidence()=");
+		builder.append(getConfidence());
+		builder.append(", getUri()=");
+		builder.append(getUri());
+		builder.append(", getCreator()=");
+		builder.append(getCreator());
+		builder.append(", getCreated()=");
+		builder.append(getCreated());
+		builder.append(", getRelation()=");
+		builder.append(getRelation());
+		builder.append("]");
+		return builder.toString();
+	}
+
+	protected JSONObject toJSON() throws JSONException {
+		// TODO: create attribute Map and then pass map to "result" in order to
+		// optimize map capacity/load factor, etc.
+		final JSONObject result = new JSONObject();
+
+		result.put("preferred-label", getEntityLabel());
+		result.put("uri", getEntityReference());
+		result.put("types", getEntityTypes());
+		result.put("site", getSite());
+		result.put("confidence", getConfidence());
+
+		JSONObject properties = new JSONObject();
+		Entity entity = getDereferencedEntity();
+
+		JSONObject labels = new JSONObject();
+		Set<Entry<String, String>> labelsByLanguage = entity
+				.getLabelsByLanguage().entrySet();
+		for (Entry<String, String> entry : labelsByLanguage) {
+			labels.put(entry.getKey(), entry.getValue());
+		}
+		properties.put("all-labels", labels);
+
+		JSONObject descriptions = new JSONObject();
+		Map<String, String> descriptionsByLanguage = entity
+				.getCommentsByLanguage();
+		for (Entry<String, String> entry : descriptionsByLanguage.entrySet()) {
+			descriptions.put(entry.getKey(), entry.getValue());
+		}
+		properties.put("descriptions", descriptions);
+
+		properties.put("categories", entity.getCategories());
+		Collection<String> rdfProperties = entity.getProperties();
+		for (String rdfProperty : rdfProperties)
+			properties.put(rdfProperty, entity.getPropertyValues(rdfProperty));
+
+		result.put("properties", properties);
+
+		return result;
+	}
 }
