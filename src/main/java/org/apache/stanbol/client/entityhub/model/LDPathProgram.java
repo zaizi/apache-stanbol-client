@@ -30,7 +30,7 @@ import org.apache.stanbol.client.exception.StanbolClientException;
  * to ease the integration of the Stanbol Client in other applications or frameworks. Currently, it supports the definitions of Namespaces
  * and fields and the parsing of LDPath programs in String formats 
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class LDPathProgram
@@ -277,5 +277,50 @@ public class LDPathProgram
         }
 
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fields == null) ? 0 : fields.hashCode());
+		result = prime * result
+				+ ((namespaces == null) ? 0 : namespaces.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		LDPathProgram other = (LDPathProgram) obj;
+		if (fields == null) {
+			if (other.fields != null) {
+				return false;
+			}
+		} else if (!fields.equals(other.fields)) {
+			return false;
+		}
+		if (namespaces == null) {
+			if (other.namespaces != null) {
+				return false;
+			}
+		} else if (!namespaces.equals(other.namespaces)) {
+			return false;
+		}
+		return true;
+	}
 
 }

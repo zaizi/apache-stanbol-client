@@ -1,5 +1,5 @@
 /*
-* Licensed to the Apache Software Foundation (ASF) under one or more
+ * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
@@ -19,12 +19,13 @@ package org.apache.stanbol.client.enhancer.model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
@@ -56,581 +57,597 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.vocabulary.DC;
+import com.hp.hpl.jena.vocabulary.DC_11;
 
 /**
- * Represents the result of Enhancement Services in Stanbol managing the list of resultant Enhancements and the RDF Enhancement Graph
- * 
- * @author Rafa Haro <rharo@zaizi.com>
-* 
+ * Represents the result of Enhancement Services in Stanbol managing the list of
+ * resultant Enhancements and the RDF Enhancement Graph
+ *
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
+ *
  */
-public class EnhancementStructure 
-{
-	
+public class EnhancementStructure {
+
+	@Provider
+	@Consumes("*/*")
+	public static class EnhancementStructureReader implements
+			MessageBodyReader<EnhancementStructure> {
+
+		@Override
+		public boolean isReadable(final Class<?> type, final Type genericType,
+				final java.lang.annotation.Annotation[] annotations,
+				final MediaType mediaType) {
+			if (mediaType.isCompatible(OutputFormat.NT.value())
+					|| mediaType.isCompatible(OutputFormat.RDFXML.value())
+					|| mediaType.isCompatible(OutputFormat.TURTLE.value())) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		public EnhancementStructure readFrom(
+				final Class<EnhancementStructure> type, final Type genericType,
+				final java.lang.annotation.Annotation[] annotations,
+				final MediaType mediaType,
+				final MultivaluedMap<String, String> httpHeaders,
+				final InputStream entityStream) throws IOException,
+				WebApplicationException {
+
+			// Parse the RDF model
+			final Model model = ModelFactory.createDefaultModel();
+			String mediaTypeStr = null;
+			if (mediaType.isCompatible(OutputFormat.NT.value())) {
+				mediaTypeStr = "N3";
+			} else if (mediaType.isCompatible(OutputFormat.TURTLE.value())) {
+				mediaTypeStr = "TTL";
+			} else {
+				mediaTypeStr = "RDF/XML";
+			}
+
+			model.read(entityStream, null, mediaTypeStr);
+
+			final EnhancementStructure result = new EnhancementStructure(model);
+			final Collection<Enhancement> enhancements = EnhancementParser
+					.parse(model);
+			result.enhancements = enhancements;
+
+			final Collection<EntityAnnotation> eas = result
+					.getEntityAnnotations();
+			for (final EntityAnnotation ea : eas) {
+				result.entities.put(ea.getDereferencedEntity().getUri(),
+						ea.getDereferencedEntity());
+			}
+
+			final Collection<TextAnnotation> tas = result.getTextAnnotations();
+			for (final TextAnnotation ta : tas) {
+				result.languages.add(ta.getLanguage());
+			}
+
+			return result;
+		}
+
+	}
+
+	private static JSONObject toJSON(final TextAnnotation nextTA,
+			final Collection<EntityAnnotation> entityAnnotations)
+			throws JSONException {
+		// TODO: create attribute Map and then pass map to "result" in order to optimize map capacity/load factor, etc.
+		final JSONObject result = new JSONObject();
+
+		result.put("start", nextTA.getStart());
+		result.put("end", nextTA.getEnd());
+		result.put("language", nextTA.getLanguage());
+		result.put("selected-text", nextTA.getSelectedText());
+		result.put("confidence", nextTA.getConfidence());
+		result.put("type", nextTA.getType());
+
+		final List<JSONObject> entities = new ArrayList<>(entityAnnotations.size());
+		for (final EntityAnnotation ea : entityAnnotations) {
+			final JSONObject nextEA = ea.toJSON();
+			entities.add(nextEA);
+		}
+		result.put("entities", new JSONArray(entities));
+
+		return result;
+	}
+
 	/**
 	 * Enhancement Structure based on Enhancements Relations
 	 */
-	private Collection<Enhancement> enhancements = Sets.newHashSet(); 
+	private Collection<Enhancement> enhancements = Sets.newHashSet();
 
-	private Map<String, Entity> entities = Maps.newHashMap();
-	
-	private Collection<String> languages = Sets.newHashSet();
-	
-    /**
-     * Enhancement Graph
-     */
-    private Model enhancementGraph;
+	private final Map<String, Entity> entities = Maps.newHashMap();
 
-    /**
-     * Constructor
-     * 
-     * @param enhancementGraph Jena Model containing the Enhancement Graph in RDF format
-     */
-    private EnhancementStructure(Model enhancementGraph)
-    {
-        this.enhancementGraph = enhancementGraph;
-     }
-    
-    /**
-     * Get the {@link List} of {@link Annotation}s
-     * 
-     * @return {@link List} of {@link Annotation}s
-     */
-    public Collection<Enhancement> getEnhancements()
-    {
-        return enhancements;
-    }
-    
-    /**
-     * Get the {@link Collection} of {@link TextAnnotation}s
-     * 
-     * @return {@link Collection} of {@link TextAnnotation}s
-     */
-    public Collection<TextAnnotation> getTextAnnotations(){
-        return FluentIterable.
-        		from(getEnhancements()).
-        		filter(new Predicate<Enhancement>(){
-					@Override
-					public boolean apply(Enhancement input) {
-						return input instanceof TextAnnotation;
+	private final Collection<String> languages = Sets.newHashSet();
+
+	/**
+	 * Enhancement Graph
+	 */
+	private Model enhancementGraph;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param enhancementGraph
+	 *            Jena Model containing the Enhancement Graph in RDF format
+	 */
+	private EnhancementStructure(final Model enhancementGraph) {
+		this.enhancementGraph = enhancementGraph;
+	}
+
+	/**
+	 * Filter the {@link Annotation} results by a confidence threshold. This
+	 * method remove all {@link EntityAnnotation} with a confidence value lower
+	 * than a threshold value passed by parameter
+	 * 
+	 * @param confidenceThreshold
+	 *            Threshold Value
+	 */
+	public void filterByConfidence(final Double confidenceThreshold) {
+		final List<Annotation> toBeRemoved = Lists.newArrayList();
+
+		for (final EntityAnnotation ea : getEntityAnnotations()) {
+			if (((Annotation) ea).getConfidence() < confidenceThreshold) {
+				toBeRemoved.add(ea);
+			}
+		}
+
+		for (final Annotation e : toBeRemoved) {
+			removeEnhancement(e.getUri());
+		}
+
+	}
+
+	/**
+	 * Returns the best {@link EntityAnnotation}s (those with the highest
+	 * confidence value) for each extracted {@link TextAnnotation}
+	 *
+	 * @return best annotations
+	 */
+	public Multimap<TextAnnotation, EntityAnnotation> getBestAnnotations() {
+
+		final Ordering<EntityAnnotation> o = new Ordering<EntityAnnotation>() {
+			@Override
+			public int compare(final EntityAnnotation left,
+					final EntityAnnotation right) {
+				return Doubles.compare(left.getConfidence(),
+						right.getConfidence());
+			}
+		}.reverse();
+
+		final Multimap<TextAnnotation, EntityAnnotation> result = ArrayListMultimap
+				.create();
+		for (final TextAnnotation ta : getTextAnnotations()) {
+			final List<EntityAnnotation> eas = o
+					.sortedCopy(getEntityAnnotations(ta));
+			if (!eas.isEmpty()) {
+				final Collection<EntityAnnotation> highest = Sets.newHashSet();
+				final Double confidence = eas.get(0).getConfidence();
+				for (final EntityAnnotation ea : eas) {
+					if (ea.getConfidence() < confidence) {
+						break;
+					} else {
+						highest.add(ea);
 					}
-        			
-        		}).
-        		transform(new Function<Enhancement, TextAnnotation>(){
-					@Override
-					public TextAnnotation apply(Enhancement input) {
-						return (TextAnnotation) input;
-					}
-        			
-        		}).toSet();
-    }
-    
-    /**
-     * Get the {@link Collection} of {@link EntityAnnotation}s
-     * 
-     * @return {@link Collection} of {@link EntityAnnotation}s
-     */
-    public Collection<EntityAnnotation> getEntityAnnotations(){
-    	return FluentIterable.
-        		from(getEnhancements()).
-        		filter(new Predicate<Enhancement>(){
-					@Override
-					public boolean apply(Enhancement input) {
-						return input instanceof EntityAnnotation;
-					}
-        			
-        		}).
-        		transform(new Function<Enhancement, EntityAnnotation>(){
-					@Override
-					public EntityAnnotation apply(Enhancement input) {
-						return (EntityAnnotation) input;
-					}
-        			
-        		}).toSet();
-    }
-
-    /**
-     * Get the Enhancement Graph
-     * 
-     * @return Jena {@link Model} containing the RDF Enhancement Graph
-     */
-    public Model getEnhancementGraph()
-    {
-        return enhancementGraph;
-    }
-
-    /**
-     * Set the Enhancement Graph
-     * 
-     * @param enhancementGraph Jena {@link Model} containing the RDF Enhancement Graph
-     */
-    public void setEnhancementGraph(Model enhancementGraph)
-    {
-        this.enhancementGraph = enhancementGraph;
-    }
-
-    /**
-     * Get a {@link Annotation} from the list of Enhancements by its URI
-     * 
-     * @param URI URI of the {@link Annotation}
-     * @return {@link Annotation} within the list identified by its URI
-     */
-    public Enhancement getEnhancement(final String URI)
-    {
-    	return FluentIterable.from(getEnhancements()).
-    		firstMatch(new Predicate<Enhancement>(){
-				@Override
-				public boolean apply(Enhancement input) {
-					return input.getUri().equals(URI);
 				}
-    		}).orNull();
-    }
+				result.putAll(ta, highest);
+			}
+		}
 
-    private Enhancement removeEnhancementFromList(String URI)
-    {
-    	Iterator<Enhancement> it = enhancements.iterator();
-    	while(it.hasNext()){
-    		Enhancement next = it.next();
-    		if(next.getUri().equals(URI)){
-    			enhancements.remove(next);
-    			return next;
-    		}
-    	}
-        
-    	return null;
-    }
+		return result;
+	}
 
-    /**
-     * Remove an {@link Annotation} from the results by its URI
-     * 
-     * @param enhancementURI {@link Annotation} URI
-     */
-    public void removeEnhancement(String enhancementURI)
-    {
-
-        if (isInTheGraph(enhancementURI))
-        {
-        	Enhancement enhancement = removeEnhancementFromList(enhancementURI);
-
-            if (enhancement instanceof TextAnnotation){
-                removeTextAnnotation(enhancementGraph.getResource(enhancementURI));
-            }
-            else{
-                Resource entityResource = enhancementGraph.getResource(enhancementURI);
-                removeEntityAnnotation(entityResource);
-            }
-        }
-    }
-
-    /**
-     * Remove a {@link TextAnnotation} enhancement from the results by its URI
-     * 
-     * @param URI {@link TextAnnotation} URI
-     */
-    public void removeTextAnnotation(String URI)
-    {
-        removeEnhancement(URI);
-    }
-
-    /**
-     * Remove a {@link EntityAnnotation} enhancement from the results by its URI
-     * 
-     * @param URI {@link EntityAnnotation} URI
-     */
-    public void removeEntityAnnotation(String URI)
-    {
-        removeEnhancement(URI);
-    }
-    
-    /**
-     * Return the {@link List} of {@link EntityAnnotation}s associated to the {@link TextAnnotation}
-     * passed by parameter
-     * 
-     * @param ta TextAnnotation
-     * @return {@link List} of {@link EntityAnnotation}s
-     */
-    public Collection<EntityAnnotation> getEntityAnnotations(final TextAnnotation ta){
-    	
-    	Collection<EntityAnnotation> eas = getEntityAnnotations();
-    	return FluentIterable.
-    		from(eas).
-    		filter(new Predicate<EntityAnnotation>(){
-				@Override
-				public boolean apply(EntityAnnotation input) {
-					return FluentIterable.
-							from(input.getRelation()).
-							anyMatch(new Predicate<Enhancement>(){
-								@Override
-								public boolean apply(Enhancement input) {
-									return input.getUri().equals(ta.getUri());
-								}
-							});
-				}
-    		}).toSet();
-    }
-    
-    /**
-     * Return the {@link List} of {@link EntityAnnotation}s associated to the TextAnnotation
-     * which URI is passed by parameter
-     * 
-     * @param taURI URI of the TextAnnotation
-     * @return {@link List} of {@link EntityAnnotation}s
-     */
-    public Collection<EntityAnnotation> getEntityAnnotations(String taURI){
-    	Enhancement e = getEnhancement(taURI);
-        if(e instanceof TextAnnotation)
-            return getEntityAnnotations((TextAnnotation) getEnhancement(taURI));
-        else
-            return Collections.emptyList();
-    }
-    
-    /**
-     * Returns the {@link Collection} of dereferenced {@link Entity}s
-     *
-     * @return
-     */
-    public Collection<Entity> getEntities() {
-        return Collections.unmodifiableCollection(entities.values());
-    }
-    
-    /**
-     * Returns a dereferenced entity by its URI
-     *
-     * @param URI
-     * @return
-     */
-    public Entity getEntity(String URI) {
-        return entities.get(URI);
-    }
-
-    /**
-     * Returns a {@link Collection} of {@link Entity}s for which associated {@link EntityAnnotation}s has a confidence value
-     * greater than or equal to the value passed by parameter
-     *
-     * @param confidenceValue Threshold confidence value
-     * @return
-     */
-    public Collection<Entity> getEntitiesByConfidenceValue(final Double confidenceValue) {
-
-        Collection<EntityAnnotation> sortedEas = getEntityAnnotationsByConfidenceValue(confidenceValue);
-
-        return Collections2.transform(sortedEas,
-                new Function<EntityAnnotation, Entity>() {
-                    @Override
-                    public Entity apply(final EntityAnnotation ea) {
-                        return ea.getDereferencedEntity();
-                    }
-                }
-        );
-    }
-
-    /**
-     * Returns a {@link Collection} of {@link TextAnnotation}s which confidences values are greater than or equal
-     * to the value passed by parameter
-     *
-     * @param confidenceValue Threshold confidence value
-     * @return
-     */
-    public Collection<TextAnnotation> getTextAnnotationsByConfidenceValue(final Double confidenceValue) {
-        return FluentIterable.from(getTextAnnotations())
-                .filter(new Predicate<TextAnnotation>() {
-                    @Override
-                    public boolean apply(TextAnnotation e) {
-                        return e.getConfidence().doubleValue() >= confidenceValue
-                                .doubleValue();
-                    }
-                }).toSet();
-    }
-
-    /**
-     * Returns a {@link Collection} of {@link EntityAnnotation}s which confidences values are greater than or equal
-     * to the value passed by parameter
-     *
-     * @param confidenceValue Threshold confidence value
-     * @return
-     */
-    public Collection<EntityAnnotation> getEntityAnnotationsByConfidenceValue(
-            final Double confidenceValue) {
-        return FluentIterable.from(getEntityAnnotations())
-                .filter(new Predicate<EntityAnnotation>() {
-                    @Override
-                    public boolean apply(EntityAnnotation e) {
-                        return e.getConfidence().doubleValue() >= confidenceValue
-                                .doubleValue();
-                    }
-                }).toSet();
-    }
-
-    /**
-     * Returns all the entity annotations for each text annotation
-     * 
-     * @return
-     */
-    public Multimap<TextAnnotation, EntityAnnotation> getEntityAnnotationsByTextAnnotation() {
-        Multimap<TextAnnotation, EntityAnnotation> map = ArrayListMultimap.create();
-
-        Collection<EntityAnnotation> eas = getEntityAnnotations();
-        for (EntityAnnotation ea : eas) {
-            if (ea.getRelation() != null) {
-                for (Enhancement e : ea.getRelation()) {
-                    if (e instanceof TextAnnotation) {
-                        map.put((TextAnnotation) e, ea);
-                    }
-                }
-            }
-        }
-        return map;
-    }
-
-    /**
-     * Returns the best {@link EntityAnnotation}s (those with the highest confidence value) for each extracted {@link TextAnnotation}
-     *
-     * @return best annotations
-     */
-    public Multimap<TextAnnotation, EntityAnnotation> getBestAnnotations() {
-
-        Ordering<EntityAnnotation> o = new Ordering<EntityAnnotation>() {
-            @Override
-            public int compare(EntityAnnotation left, EntityAnnotation right) {
-                return Doubles.compare(left.getConfidence(), right.getConfidence());
-            }
-        }.reverse();
-
-        Multimap<TextAnnotation, EntityAnnotation> result = ArrayListMultimap.create();
-        for (TextAnnotation ta : getTextAnnotations()) {
-            List<EntityAnnotation> eas = o.sortedCopy(getEntityAnnotations(ta));
-            if (!eas.isEmpty()) {
-                Collection<EntityAnnotation> highest = Sets.newHashSet();
-                Double confidence = eas.get(0).getConfidence();
-                for (EntityAnnotation ea : eas) {
-                    if (ea.getConfidence() < confidence) {
-                        break;
-                    } else {
-                        highest.add(ea);
-                    }
-                }
-                result.putAll(ta, highest);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Returns an {@link EntityAnnotation} by its associated dereferenced {@link Entity} URI
-     *
-     * @param entityUri
-     * @return
-     */
-    public EntityAnnotation getEntityAnnotation(final String entityUri) {
-        return Iterables.tryFind(getEntityAnnotations(),
-                new Predicate<EntityAnnotation>() {
-
-                    @Override
-                    public boolean apply(EntityAnnotation ea) {
-                        return ea.getDereferencedEntity().getUri()
-                                .equals(entityUri);
-                    }
-
-                }
-        ).orNull();
-    }
-
-    /**
-     * Returns a {@link Collection} of identified languages in the analyzed content
-     *
-     * @return
-     */
-    public Collection<String> getLanguages() {
-        return languages;
-    }
-    
-    private void removeEntityAnnotation(Resource entityAnnotation)
-    {
-        List<Statement> list = entityAnnotation.listProperties().toList();
-        for (Statement nextStatement : list)
-            enhancementGraph.remove(nextStatement);       
-    }
-
-    private void removeTextAnnotation(Resource enhancement)
-    {
-        final ResIterator entityIterator = enhancementGraph.listSubjectsWithProperty(DC.relation, enhancement);
-        while(entityIterator.hasNext())
-            removeEntityAnnotation(entityIterator.next());
-                
-        List<Statement> list = enhancement.listProperties().toList();
-        for (Statement nextStatement : list)
-            enhancementGraph.remove(nextStatement);
-        
-    }
-
-    private boolean isInTheGraph(final String URI)
-    {
-    	return FluentIterable.
-    			from(getEnhancements()).
-    			anyMatch(new Predicate<Enhancement>(){
+	/**
+	 * Get a {@link Annotation} from the list of Enhancements by its URI
+	 * 
+	 * @param URI
+	 *            URI of the {@link Annotation}
+	 * @return {@link Annotation} within the list identified by its URI
+	 */
+	public Enhancement getEnhancement(final String URI) {
+		return FluentIterable.from(getEnhancements())
+				.firstMatch(new Predicate<Enhancement>() {
 					@Override
-					public boolean apply(Enhancement input) {
+					public boolean apply(final Enhancement input) {
 						return input.getUri().equals(URI);
 					}
-    			});
-    }
-    
-    /**
-     * String representing the Enhancement Structure in JSON format
-     * 
-     * @return
-     */
-    public String toJSONString(){
-    	Multimap<TextAnnotation, EntityAnnotation> annotations = getEntityAnnotationsByTextAnnotation();
-    	JSONObject result = new JSONObject();
-    	Collection<JSONObject> aCol = Lists.newArrayList();
-    	try{
-    		result.put("languages", getLanguages());
-    		for(TextAnnotation nextTA:annotations.keySet()){
-    			Collection<EntityAnnotation> eas = annotations.get(nextTA);
-    			JSONObject next = new JSONObject();
-    			next.put("start", nextTA.getStart());
-    			next.put("end", nextTA.getEnd());
-    			next.put("language", nextTA.getLanguage());
-    			next.put("selected-text", nextTA.getSelectedText());
-    			JSONArray entities = new JSONArray();
-    			for(EntityAnnotation ea:eas){
-    				JSONObject nextEA = new JSONObject();
-    				nextEA.put("preferred-label", ea.getEntityLabel());
-    				nextEA.put("uri", ea.getEntityReference());
-    				nextEA.put("types", ea.getEntityTypes());
-    				nextEA.put("site", ea.getSite());
+				}).orNull();
+	}
 
-    				JSONObject properties = new JSONObject();
-    				Entity entity = ea.getDereferencedEntity();
+	/**
+	 * Get the Enhancement Graph
+	 * 
+	 * @return Jena {@link Model} containing the RDF Enhancement Graph
+	 */
+	public Model getEnhancementGraph() {
+		return enhancementGraph;
+	}
 
-    				JSONObject labels = new JSONObject();
-    				Map<String, String> labelsByLanguage = entity.getLabelsByLanguage();
-    				for(Entry<String, String> entry:labelsByLanguage.entrySet()){
-    					labels.put(entry.getKey(), entry.getValue());
-    				}
-    				properties.put("all-labels", labels);
+	/**
+	 * Get the {@link List} of {@link Annotation}s
+	 * 
+	 * @return {@link List} of {@link Annotation}s
+	 */
+	public Collection<Enhancement> getEnhancements() {
+		return enhancements;
+	}
 
-    				JSONObject descriptions = new JSONObject();
-    				Map<String, String> descriptionsByLanguage = entity.getCommentsByLanguage();
-    				for(Entry<String, String> entry:descriptionsByLanguage.entrySet()){
-    					descriptions.put(entry.getKey(), entry.getValue());
-    				}
-    				properties.put("descriptions", descriptions);
+	/**
+	 * Returns the {@link Collection} of dereferenced {@link Entity}s
+	 *
+	 * @return
+	 */
+	public Collection<Entity> getEntities() {
+		return Collections.unmodifiableCollection(entities.values());
+	}
 
-    				properties.put("categories", entity.getCategories());
-    				Collection<String> rdfProperties = entity.getProperties();
-    				for(String rdfProperty:rdfProperties)
-    					properties.put(rdfProperty, entity.getPropertyValues(rdfProperty));
+	/**
+	 * Returns a {@link Collection} of {@link Entity}s for which associated
+	 * {@link EntityAnnotation}s has a confidence value greater than or equal to
+	 * the value passed by parameter
+	 *
+	 * @param confidenceValue
+	 *            Threshold confidence value
+	 * @return
+	 */
+	public Collection<Entity> getEntitiesByConfidenceValue(
+			final Double confidenceValue) {
 
-    				nextEA.put("properties", properties);
-    				entities.put(nextEA);
-    			}
-    			next.put("entities", entities);
-    			aCol.add(next);
-    		}
-    		JSONArray annotationsArr = new JSONArray(aCol);
-    		result.put("annotations", annotationsArr);
-    		return result.toString();
-    	} catch (JSONException e){
-    		return new JSONArray().toString();
-    	}
+		final Collection<EntityAnnotation> sortedEas = getEntityAnnotationsByConfidenceValue(confidenceValue);
 
-    }
+		return Collections2.transform(sortedEas,
+				new Function<EntityAnnotation, Entity>() {
+					@Override
+					public Entity apply(final EntityAnnotation ea) {
+						return ea.getDereferencedEntity();
+					}
+				});
+	}
 
-    /**
-     * Filter the {@link Annotation} results by a confidence threshold. This method remove all {@link EntityAnnotation} 
-     * with a confidence value lower than a threshold value passed by parameter
-     * 
-     * @param confidenceThreshold Threshold Value
-     */
-    public void filterByConfidence(Double confidenceThreshold)
-    {
-        List<Annotation> toBeRemoved = Lists.newArrayList();
+	/**
+	 * Returns a dereferenced entity by its URI
+	 *
+	 * @param URI
+	 * @return
+	 */
+	public Entity getEntity(final String URI) {
+		return entities.get(URI);
+	}
 
-        for (EntityAnnotation ea : getEntityAnnotations())
-            if (((Annotation) ea).getConfidence() < confidenceThreshold)
-                toBeRemoved.add(ea);
+	/**
+	 * Returns an {@link EntityAnnotation} by its associated dereferenced
+	 * {@link Entity} URI
+	 *
+	 * @param entityUri
+	 * @return
+	 */
+	public EntityAnnotation getEntityAnnotation(final String entityUri) {
+		return Iterables.tryFind(getEntityAnnotations(),
+				new Predicate<EntityAnnotation>() {
 
-        for (Annotation e : toBeRemoved)
-            this.removeEnhancement(e.getUri());
+					@Override
+					public boolean apply(final EntityAnnotation ea) {
+						return ea.getDereferencedEntity().getUri()
+								.equals(entityUri);
+					}
 
-    }
-    
-//    /**
-//     * For each {@link TextAnnotation}, remove all {@link EntityAnnotation}s with a confidence lower than the higher one 
-//     */
-//    public void disambiguate(){
-//        
-//        List<EntityAnnotation> toBeRemoved = Lists.newArrayList();
-//        for(SortedSet<EntityAnnotation> s:enhancementsMap.values()){
-//            Iterator<EntityAnnotation> it = s.iterator();
-//            
-//            if(it.hasNext())
-//                it.next();
-//            
-//            while(it.hasNext())
-//                toBeRemoved.add(it.next());
-//        }
-//        
-//        for (Annotation e : toBeRemoved)
-//            this.removeEnhancement(e.getUri());
-//    }
-    
-    @Provider
-    @Consumes("*/*")
-    public static class EnhancementStructureReader implements MessageBodyReader<EnhancementStructure>{
-    	
-		@Override
-		public boolean isReadable(Class<?> type, Type genericType,
-				java.lang.annotation.Annotation[] annotations,
-				MediaType mediaType) {
-			if(mediaType.isCompatible(OutputFormat.NT.value()) ||
-					mediaType.isCompatible(OutputFormat.RDFXML.value()) ||
-					mediaType.isCompatible(OutputFormat.TURTLE.value()))
-					return true;
-			else
-				return false;
+				}).orNull();
+	}
+
+	/**
+	 * Get the {@link Collection} of {@link EntityAnnotation}s
+	 * 
+	 * @return {@link Collection} of {@link EntityAnnotation}s
+	 */
+	public Collection<EntityAnnotation> getEntityAnnotations() {
+		return FluentIterable.from(getEnhancements())
+				.filter(new Predicate<Enhancement>() {
+					@Override
+					public boolean apply(final Enhancement input) {
+						return input instanceof EntityAnnotation;
+					}
+
+				}).transform(new Function<Enhancement, EntityAnnotation>() {
+					@Override
+					public EntityAnnotation apply(final Enhancement input) {
+						return (EntityAnnotation) input;
+					}
+
+				}).toSet();
+	}
+
+	/**
+	 * Return the {@link List} of {@link EntityAnnotation}s associated to the
+	 * TextAnnotation which URI is passed by parameter
+	 * 
+	 * @param taURI
+	 *            URI of the TextAnnotation
+	 * @return {@link List} of {@link EntityAnnotation}s
+	 */
+	public Collection<EntityAnnotation> getEntityAnnotations(final String taURI) {
+		final Enhancement e = getEnhancement(taURI);
+		if (e instanceof TextAnnotation) {
+			return getEntityAnnotations((TextAnnotation) getEnhancement(taURI));
+		} else {
+			return Collections.emptyList();
 		}
+	}
 
-		@Override
-		public EnhancementStructure readFrom(Class<EnhancementStructure> type,
-				Type genericType,
-				java.lang.annotation.Annotation[] annotations,
-				MediaType mediaType,
-				MultivaluedMap<String, String> httpHeaders,
-				InputStream entityStream) throws IOException,
-				WebApplicationException {
+	/**
+	 * Return the {@link List} of {@link EntityAnnotation}s associated to the
+	 * {@link TextAnnotation} passed by parameter
+	 * 
+	 * @param ta
+	 *            TextAnnotation
+	 * @return {@link List} of {@link EntityAnnotation}s
+	 */
+	public Collection<EntityAnnotation> getEntityAnnotations(
+			final TextAnnotation ta) {
 
-	        // Parse the RDF model
-	        Model model = ModelFactory.createDefaultModel();
-	        String mediaTypeStr = null;
-	        if(mediaType.isCompatible(OutputFormat.NT.value()))
-	        		mediaTypeStr = "N3";
-	        else if(mediaType.isCompatible(OutputFormat.TURTLE.value()))
-	        		mediaTypeStr = "TTL";
-	        else
-	        	mediaTypeStr = "RDF/XML";
-	        
-	        model.read(entityStream, null, mediaTypeStr);
-	        
-	        EnhancementStructure result = new EnhancementStructure(model);
-	        Collection<Enhancement> enhancements = EnhancementParser.parse(model);
-	        result.enhancements = enhancements;
-	        
-	        Collection<EntityAnnotation> eas = result.getEntityAnnotations();
-	        for(EntityAnnotation ea:eas)
-	        	result.entities.put(
-	        			ea.getDereferencedEntity().getUri(),
-	        			ea.getDereferencedEntity());
-	        
-			Collection<TextAnnotation> tas = result.getTextAnnotations();
-			for(TextAnnotation ta:tas)
-				result.languages.add(ta.getLanguage());
+		final Collection<EntityAnnotation> eas = getEntityAnnotations();
+		return FluentIterable.from(eas)
+				.filter(new Predicate<EntityAnnotation>() {
+					@Override
+					public boolean apply(final EntityAnnotation input) {
+						return FluentIterable.from(input.getRelation())
+								.anyMatch(new Predicate<Enhancement>() {
+									@Override
+									public boolean apply(final Enhancement input) {
+										return input.getUri().equals(
+												ta.getUri());
+									}
+								});
+					}
+				}).toSet();
+	}
+
+	/**
+	 * Returns a {@link Collection} of {@link EntityAnnotation}s which
+	 * confidences values are greater than or equal to the value passed by
+	 * parameter
+	 *
+	 * @param confidenceValue
+	 *            Threshold confidence value
+	 * @return
+	 */
+	public Collection<EntityAnnotation> getEntityAnnotationsByConfidenceValue(
+			final Double confidenceValue) {
+		return FluentIterable.from(getEntityAnnotations())
+				.filter(new Predicate<EntityAnnotation>() {
+					@Override
+					public boolean apply(final EntityAnnotation e) {
+						return e.getConfidence().doubleValue() >= confidenceValue
+								.doubleValue();
+					}
+				}).toSet();
+	}
+
+	/**
+	 * Returns all the entity annotations for each text annotation
+	 * 
+	 * @return
+	 */
+	public Multimap<TextAnnotation, EntityAnnotation> getEntityAnnotationsByTextAnnotation() {
+		final Multimap<TextAnnotation, EntityAnnotation> map = ArrayListMultimap
+				.create();
+
+		final Collection<EntityAnnotation> eas = getEntityAnnotations();
+		for (final EntityAnnotation ea : eas) {
+			if (ea.getRelation() != null) {
+				for (final Enhancement e : ea.getRelation()) {
+					if (e instanceof TextAnnotation) {
+						map.put((TextAnnotation) e, ea);
+					}
+				}
+			}
+		}
+		return map;
+	}
+
+	/**
+	 * Returns a {@link Collection} of identified languages in the analyzed
+	 * content
+	 *
+	 * @return
+	 */
+	public Collection<String> getLanguages() {
+		return languages;
+	}
+
+	/**
+	 * Get the {@link Collection} of {@link TextAnnotation}s
+	 * 
+	 * @return {@link Collection} of {@link TextAnnotation}s
+	 */
+	public Collection<TextAnnotation> getTextAnnotations() {
+		return FluentIterable.from(getEnhancements())
+				.filter(new Predicate<Enhancement>() {
+					@Override
+					public boolean apply(final Enhancement input) {
+						return input instanceof TextAnnotation;
+					}
+
+				}).transform(new Function<Enhancement, TextAnnotation>() {
+					@Override
+					public TextAnnotation apply(final Enhancement input) {
+						return (TextAnnotation) input;
+					}
+
+				}).toSet();
+	}
+
+	/**
+	 * Returns a {@link Collection} of {@link TextAnnotation}s which confidences
+	 * values are greater than or equal to the value passed by parameter
+	 *
+	 * @param confidenceValue
+	 *            Threshold confidence value
+	 * @return
+	 */
+	public Collection<TextAnnotation> getTextAnnotationsByConfidenceValue(
+			final Double confidenceValue) {
+		return FluentIterable.from(getTextAnnotations())
+				.filter(new Predicate<TextAnnotation>() {
+					@Override
+					public boolean apply(final TextAnnotation e) {
+						return e.getConfidence().doubleValue() >= confidenceValue
+								.doubleValue();
+					}
+				}).toSet();
+	}
+
+	/**
+	 * Remove an {@link Annotation} from the results by its URI
+	 * 
+	 * @param enhancementURI
+	 *            {@link Annotation} URI
+	 */
+	public void removeEnhancement(final String enhancementURI) {
+
+		if (isInTheGraph(enhancementURI)) {
+			final Enhancement enhancement = removeEnhancementFromList(enhancementURI);
+
+			if (enhancement instanceof TextAnnotation) {
+				removeTextAnnotation(enhancementGraph
+						.getResource(enhancementURI));
+			} else {
+				final Resource entityResource = enhancementGraph
+						.getResource(enhancementURI);
+				removeEntityAnnotation(entityResource);
+			}
+		}
+	}
+
+	/**
+	 * Remove a {@link EntityAnnotation} enhancement from the results by its URI
+	 * 
+	 * @param URI
+	 *            {@link EntityAnnotation} URI
+	 */
+	public void removeEntityAnnotation(final String URI) {
+		removeEnhancement(URI);
+	}
+
+	/**
+	 * Remove a {@link TextAnnotation} enhancement from the results by its URI
+	 * 
+	 * @param URI
+	 *            {@link TextAnnotation} URI
+	 */
+	public void removeTextAnnotation(final String URI) {
+		removeEnhancement(URI);
+	}
+
+	/**
+	 * Set the Enhancement Graph
+	 * 
+	 * @param enhancementGraph
+	 *            Jena {@link Model} containing the RDF Enhancement Graph
+	 */
+	public void setEnhancementGraph(final Model enhancementGraph) {
+		this.enhancementGraph = enhancementGraph;
+	}
+
+	public JSONObject toJSON() throws JSONException {
+		final Multimap<TextAnnotation, EntityAnnotation> annotations = getEntityAnnotationsByTextAnnotation();
+		final JSONObject result = new JSONObject();
+		final Set<TextAnnotation> textAnnotations = annotations.keySet();
+		final List<JSONObject> aCol = new ArrayList<>(textAnnotations.size());
+
+		result.put("languages", getLanguages());
+		for (final TextAnnotation nextTA : textAnnotations) {
+			final Collection<EntityAnnotation> entityAnnotations = annotations
+					.get(nextTA);
+			final JSONObject textEntityAnnotationMapping = toJSON(nextTA,
+					entityAnnotations);
+			aCol.add(textEntityAnnotationMapping);
+		}
+		final JSONArray annotationsArr = new JSONArray(aCol);
+		result.put("annotations", annotationsArr);
+		return result;
+
+	}
+
+	/**
+	 * 
+	 * @return String representing the Enhancement Structure in JSON format
+	 */
+	public String toJSONString() {
+		Object json;
+		try {
+			json = toJSON();
 			
-			return result;
+		} catch (final JSONException e) {
+			json = new JSONArray();
 		}
-    	
-    }
+
+		return json.toString();
+	}
+
+	private boolean isInTheGraph(final String URI) {
+		return FluentIterable.from(getEnhancements()).anyMatch(
+				new Predicate<Enhancement>() {
+					@Override
+					public boolean apply(final Enhancement input) {
+						return input.getUri().equals(URI);
+					}
+				});
+	}
+
+	private Enhancement removeEnhancementFromList(final String URI) {
+		final Iterator<Enhancement> it = enhancements.iterator();
+		while (it.hasNext()) {
+			final Enhancement next = it.next();
+			if (next.getUri().equals(URI)) {
+				enhancements.remove(next);
+				return next;
+			}
+		}
+
+		return null;
+	}
+
+	private void removeEntityAnnotation(final Resource entityAnnotation) {
+		final List<Statement> list = entityAnnotation.listProperties().toList();
+		for (final Statement nextStatement : list) {
+			enhancementGraph.remove(nextStatement);
+		}
+	}
+
+	// /**
+	// * For each {@link TextAnnotation}, remove all {@link EntityAnnotation}s
+	// with a confidence lower than the higher one
+	// */
+	// public void disambiguate(){
+	//
+	// List<EntityAnnotation> toBeRemoved = Lists.newArrayList();
+	// for(SortedSet<EntityAnnotation> s:enhancementsMap.values()){
+	// Iterator<EntityAnnotation> it = s.iterator();
+	//
+	// if(it.hasNext())
+	// it.next();
+	//
+	// while(it.hasNext())
+	// toBeRemoved.add(it.next());
+	// }
+	//
+	// for (Annotation e : toBeRemoved)
+	// this.removeEnhancement(e.getUri());
+	// }
+
+	private void removeTextAnnotation(final Resource enhancement) {
+		final ResIterator entityIterator = enhancementGraph
+				.listSubjectsWithProperty(DC_11.relation, enhancement);
+		while (entityIterator.hasNext()) {
+			removeEntityAnnotation(entityIterator.next());
+		}
+
+		final List<Statement> list = enhancement.listProperties().toList();
+		for (final Statement nextStatement : list) {
+			enhancementGraph.remove(nextStatement);
+		}
+
+	}
 }

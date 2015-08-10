@@ -31,7 +31,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 /**
  * RestEasy based implementation REST operations
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  *
  */
 public class RestClientExecutor {

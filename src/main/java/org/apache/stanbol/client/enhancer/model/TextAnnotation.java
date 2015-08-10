@@ -23,13 +23,13 @@ import com.hp.hpl.jena.vocabulary.DCTerms;
  * Represents a text annotation from FISE ontology
  * 
  * @author efoncubierta
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public class TextAnnotation extends Annotation
 {
 
-    // properties
+	// properties
     private final String type; // http://purl.org/dc/terms/type
     private final String selectedText; // http://fise.iks-project.eu/ontology/selected-text
     private final String selectionContext; // http://fise.iks-project.eu/ontology/selection-context
@@ -50,8 +50,13 @@ public class TextAnnotation extends Annotation
         this.selectionContext = resource.hasProperty(EnhancementStructureOntology.SELECTION_CONTEXT) ? resource.getProperty(EnhancementStructureOntology.SELECTION_CONTEXT).getString() : null;
         this.start = resource.hasProperty(EnhancementStructureOntology.START) ? resource.getProperty(EnhancementStructureOntology.START).getLong() : null;
         this.end = resource.hasProperty(EnhancementStructureOntology.END) ? resource.getProperty(EnhancementStructureOntology.END).getLong() : null;
-        this.language = resource.hasProperty(DCTerms.language) ? 
-        		resource.getProperty(DCTerms.language).getString() : resource.getProperty(EnhancementStructureOntology.SELECTED_TEXT).getLanguage();
+        if (resource.hasProperty(DCTerms.language)) {
+        	this.language = resource.getProperty(DCTerms.language).getString();
+        } else if (resource.hasProperty(EnhancementStructureOntology.SELECTED_TEXT)) {
+        	this.language = resource.getProperty(EnhancementStructureOntology.SELECTED_TEXT).getLanguage();
+        } else {
+        	this.language = null;
+        }
     }
 
     /**
@@ -113,4 +118,39 @@ public class TextAnnotation extends Annotation
     {
         return language;
     }
+    
+    /* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TextAnnotation [getType()=");
+		builder.append(getType());
+		builder.append(", getSelectedText()=");
+		builder.append(getSelectedText());
+		builder.append(", getSelectionContext()=");
+		builder.append(getSelectionContext());
+		builder.append(", getStart()=");
+		builder.append(getStart());
+		builder.append(", getEnd()=");
+		builder.append(getEnd());
+		builder.append(", getLanguage()=");
+		builder.append(getLanguage());
+		builder.append(", getExtractedFrom()=");
+		builder.append(getExtractedFrom());
+		builder.append(", getConfidence()=");
+		builder.append(getConfidence());
+		builder.append(", getUri()=");
+		builder.append(getUri());
+		builder.append(", getCreator()=");
+		builder.append(getCreator());
+		builder.append(", getCreated()=");
+		builder.append(getCreated());
+		builder.append(", getRelation()=");
+		builder.append(getRelation());
+		builder.append("]");
+		return builder.toString();
+	}
+    
 }

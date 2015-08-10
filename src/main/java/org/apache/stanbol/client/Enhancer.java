@@ -18,12 +18,13 @@ package org.apache.stanbol.client;
 
 import org.apache.stanbol.client.enhancer.impl.EnhancerParameters;
 import org.apache.stanbol.client.enhancer.model.EnhancementStructure;
+import org.apache.stanbol.client.exception.StanbolClientException;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 
 /**
  * Define operations for Stanbol Enhancer according to its REST API
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
  * 
  */
 public interface Enhancer
@@ -38,10 +39,10 @@ public interface Enhancer
     /**
      * Enhance an {@link String} content with the settings specified as parameters
      * 
-     * @param content Content to be enhanced
      * @param parameters Enhancer parameters
      * @return {@link EnhancementStructure} containing all the semantic metadata extracted from the content
      * @throws StanbolServiceException
+     * @throws StanbolClientException 
      */
-    public EnhancementStructure enhance(EnhancerParameters parameters) throws StanbolServiceException;
+    public EnhancementStructure enhance(EnhancerParameters parameters) throws StanbolServiceException, StanbolClientException;
 }

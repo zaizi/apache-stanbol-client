@@ -10,12 +10,12 @@ Apache Stanbol Client can be distributed as a regular Java Library or can be int
 
 Current Built Requirements:
 
-* Java 1.6+
+* Java 1.7+
 * Maven 3.x
 
 To start working with the project, just clone it in your local workspace:
 
-    git clone https://github.com/zaizi/apache-stanbol-client.git
+    git clone https://github.com/rafaharo/apache-stanbol-client.git
 
 In order to use it into another Maven project, you need to install the library in your local Maven repository: 
 
@@ -27,7 +27,7 @@ Once the library has been installed in your maven local repository, add the depe
 
     <dependency>
           <groupId>org.apache.stanbol</groupId>
-          <artifactId>org.apache.stanbol.client</artifactId>
+          <artifactId>client</artifactId>
           <version>1.0-SNAPSHOT</version>
     </dependency>
 
@@ -39,7 +39,7 @@ This will create a jar with the project dependencies in the target directory.
 
 ## How to Use
 
-Below you can find some code examples showing part of the covered features for each Stanbol component. For a full specification of the Apache Stanbol Client API, consider explore the project [Javadoc]().
+Below you can find some code examples showing part of the covered features for each Stanbol component. For a full specification of the Apache Stanbol Client API, consider explore the project Javadoc.
 
 ### [1. ENHANCER](http://stanbol.apache.org/docs/trunk/components/enhancer/)
 
@@ -49,7 +49,7 @@ Below you can find some code examples showing part of the covered features for e
     final Enhancer client = factory.createEnhancerClient();
     EnhancerParameters parameters = EnhancerParameters.
     			builder().
-    			buildDefault("Paris is the capital of France);
+    			buildDefault("Paris is the capital of France");
     EnhancementStructure eRes = client.enhance(parameters);
     
     for(TextAnnotation ta: eRes.getTextAnnotations()){
@@ -83,8 +83,7 @@ Produces:
 
 #### Local Disambiguation
 
-    EnhancementResult eRes = 
-        client.enhancer().enhance(TEST_URI, "Paris is the capital of France");
+    EnhancementStructure eRes = client.enhance(parameters);
     eRes.getBestAnnotations();
 
 This piece of code removes all Entity Annotations from the results with confidence value less than the highest candidate's value, therefore it would print the following:
@@ -105,23 +104,22 @@ This piece of code removes all Entity Annotations from the results with confiden
 
 #### Filter By Confidence
 
-    EnhancementResult eRes = 
-        client.enhancer().enhance(TEST_URI, "Paris is the capital of France");
+    EnhancementStructure eRes = client.enhance(parameters);
     assertTrue(eRes.getEntityAnnotations().size() == 5);
     eRes.filterByConfidence(0.2);
     assertTrue(eRes.getEntityAnnotations().size() == 3);
 
 #### Enhance a File or InputStream with any Enhancement Engine
 
-    parameters = EnhancerParameters.
-    			builder().
-    			setContent(this.getClass().getClassLoader().getResourceAsStream(TEST_EN_FILE)).
-    			build();
+    EnhancerParameters parameters = EnhancerParameters.
+    		builder().
+    		setContent(this.getClass().getClassLoader().getResourceAsStream(TEST_EN_FILE)).
+    		build();
         
-        enhancements = client.enhance(parameters);
+    EnhancementStructure eRes = client.enhance(parameters);
     
     assertTrue(eRes.getEnhancements().size() == 1);
-    TextAnnotation annotation = (TextAnnotation) eRes.getEnhancements().get(0);
+    TextAnnotation annotation = (TextAnnotation) eRes.getEnhancements().iterator().next();
     assertTrue(annotation.getLanguage().equals("en"));
    
 
