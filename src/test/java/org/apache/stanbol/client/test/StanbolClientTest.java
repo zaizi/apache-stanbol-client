@@ -51,7 +51,7 @@ public class StanbolClientTest
 {
 	private static StanbolClientFactory factory;
 
-    private static final String STANBOL_ENDPOINT = "http://localhost:9090/";
+    private static final String STANBOL_ENDPOINT = "http://localhost:8080/";
     
     private static final String TEST_EN_FILE = "test_en.txt";
 //    private static final String TEST_EN2_FILE = "test_en2.txt";
@@ -69,6 +69,20 @@ public class StanbolClientTest
 //    		"  ?enhancement dc:created ?extraction_time ." +
 //    		"}" +
 //    		"ORDER BY DESC(?extraction_time) LIMIT 5";
+    
+    public static void main(String[] args)
+    {
+        StanbolClientTest stanbolTest = new StanbolClientTest();
+        try
+        {
+           
+        }
+        catch (Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
     
     @BeforeClass
     public static void startClient(){

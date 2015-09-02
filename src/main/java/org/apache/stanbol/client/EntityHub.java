@@ -29,7 +29,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 /**
  * Define operations for Stanbol Entityhub
  * 
- * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
+ * @author Rafa Haro <rharo@zaizi.com>
  * 
  */
 public interface EntityHub
@@ -45,9 +45,8 @@ public interface EntityHub
      * 
      * @return List of sites URLs
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
-    public Collection<String> getReferencedSites() throws StanbolServiceException, StanbolClientException;
+    public Collection<String> getReferencedSites() throws StanbolServiceException;
 
     /**
      * Get an entity managed by the EntityHub Cache
@@ -55,9 +54,8 @@ public interface EntityHub
      * @param id Entity's URI
      * @return Entity {@link Entity}
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
-    public Entity get(String id) throws StanbolServiceException, StanbolClientException;
+    public Entity get(String id) throws StanbolServiceException;
 
     /**
      * This service searches the referenced site passed by parameter for the entity with the passed URI. 
@@ -68,9 +66,8 @@ public interface EntityHub
      * @param id Entity's URI
      * @return
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
-    public Entity get(String site, String id) throws StanbolServiceException, StanbolClientException;
+    public Entity get(String site, String id) throws StanbolServiceException;
 
     /**
      * Create entities in the EntityHub. If any of such Entities already exists within the Entityhub and the update parameter
@@ -82,9 +79,8 @@ public interface EntityHub
      * @param update If true, entities that already exist will be updated
      * @return URI of the created Entity.
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
-    public String create(InputStream is, String id, Boolean update) throws StanbolServiceException, StanbolClientException;
+    public String create(InputStream is, String id, Boolean update) throws StanbolServiceException;
     
     /**
      * Create an entity in the EntityHub. If the Entity already exists within the Entityhub and the update parameter
@@ -94,9 +90,8 @@ public interface EntityHub
      * @param update If true and the Entity already exists within the EntityHub, the Entity will be updated
      * @return URI of the created Entity
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
-    public String create(Entity entity, Boolean update) throws StanbolServiceException, StanbolClientException;
+    public String create(Entity entity, Boolean update) throws StanbolServiceException;
 
     /**
      * Update entities for the EntityHub. If any of such Entities doesn't exist within the Entityhub and create parameter is
@@ -108,39 +103,36 @@ public interface EntityHub
      * @param create If true, entities that don't exist will be created
      * @return Data of the entity
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
-    public Entity update(InputStream is, String id, Boolean create) throws StanbolServiceException, StanbolClientException;
+    public Entity update(InputStream is, String id, Boolean create) throws StanbolServiceException;
        
     /**
      * Update entities for the EntityHub. If any of such Entities doesn't exist within the Entityhub and create parameter is
      * false, a {@link StanbolServiceException} will be thrown
      * 
      * @param entity Entity to be updated
+     * @param create If true and the Entity doesn't exist within the EntityHub, the Entity will be created
      * @return Data of the entity
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
-    public Entity update(Entity entity, Boolean update) throws StanbolServiceException, StanbolClientException;
+    public Entity update(Entity entity, Boolean update) throws StanbolServiceException;
 
     /**
      * Delete an entity managed by the Entityhub by its URI
      * 
      * @param id URI of the Entity to delete
      * @return boolean True is the Entity has been successfully deleted
-     * @throws StanbolServiceException
-     * @throws StanbolClientException 
+     * @throws StanbolClientException
      */
-    public Boolean delete(String id) throws StanbolServiceException, StanbolClientException;
+    public Boolean delete(String id) throws StanbolServiceException;
 
     /**
      * Delete all entities managed by the Entityhub
      * 
      * @return boolean
-     * @throws StanbolServiceException
-     * @throws StanbolClientException 
+     * @throws StanbolClientException
      */
-    public Boolean deleteAll() throws StanbolServiceException, StanbolClientException;
+    public Boolean deleteAll() throws StanbolServiceException;
 
     /**
      * This service looks-up Symbols (Entities managed by the Entityhub) based on the passed URI. The passed ID can be
@@ -158,9 +150,8 @@ public interface EntityHub
      * @param id URI of the Entity/Symbol/ReferencedSite
      * @param create If true, a new symbol is created if necessary and allowed
      * @return
-     * @throws StanbolClientException 
      */
-    public Entity lookup(String id, Boolean create) throws StanbolServiceException, StanbolClientException;
+    public Entity lookup(String id, Boolean create) throws StanbolServiceException;
 
     /**
      * Find locally managed Entities by label based search
@@ -174,10 +165,9 @@ public interface EntityHub
      * @param offset The offset of the first returned Entity (default: 0)
      * @return List of finded entities
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
     public Collection<Entity> search(String name, String field, String language, LDPathProgram ldpath, int limit, int offset)
-            throws StanbolServiceException, StanbolClientException;
+            throws StanbolServiceException;
 
     /**
      * Find ReferencedSite managed Entities by label based search
@@ -192,10 +182,9 @@ public interface EntityHub
      * @param offset The offset of the first returned Entity (default: 0)
      * @return List of finded entities
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
     public Collection<Entity> search(String site, String name, String field, String language, LDPathProgram ldpath,
-            int limit, int offset) throws StanbolServiceException, StanbolClientException;
+            int limit, int offset) throws StanbolServiceException;
 
     /**
      * Allows to execute an LDPath program on one or more Entities (contexts)
@@ -205,9 +194,8 @@ public interface EntityHub
      * @return An RDF Graph with the passed context(s) as subject the field selected by the LDPath program as properties
      *         and the selected values as object.
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
-    public Model ldpath(String contexts, LDPathProgram ldPathProgram) throws StanbolServiceException, StanbolClientException;
+    public Model ldpath(String contexts, LDPathProgram ldPathProgram) throws StanbolServiceException;
 
     /**
      * Allows to execute an LDPath program on one or more Entities (contexts)
@@ -218,8 +206,7 @@ public interface EntityHub
      * @return An RDF Graph with the passed context(s) as subject the field selected by the LDPath program as properties
      *         and the selected values as object.
      * @throws StanbolServiceException
-     * @throws StanbolClientException 
      */
-    public Model ldpath(String site, String contexts, LDPathProgram ldPathProgram) throws StanbolServiceException, StanbolClientException;
+    public Model ldpath(String site, String contexts, LDPathProgram ldPathProgram) throws StanbolServiceException;
 
 }

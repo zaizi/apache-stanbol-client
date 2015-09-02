@@ -41,7 +41,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 /**
  * Represent an Entity from the EntityHub
  * 
- * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
+ * @author Rafa Haro <rharo@zaizi.com>
  * 
  */
 public class Entity
@@ -180,6 +180,30 @@ public class Entity
         }
 
         return result;
+    }
+    
+    
+    /**
+     * Get entity type labels by removing the namespaces
+     * @return type label
+     */
+    public Collection<String> getTypesAsLabels(){
+        List<String> result = new ArrayList<String>();
+        StmtIterator iterator = resource.listProperties(RDF.type);
+
+        while (iterator.hasNext())
+        {
+            Statement nextNode = iterator.next();
+            String namespace = nextNode.getObject().asResource().getNameSpace();
+            if (!namespace.equals("http://www.w3.org/2002/07/owl#"))
+            {
+                String literal = nextNode.getObject().toString();
+                literal.replace(namespace, "");
+                result.add(literal);
+            }
+        }
+
+        return result;        
     }
 
     /**

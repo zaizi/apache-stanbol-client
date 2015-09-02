@@ -36,7 +36,7 @@ import com.hp.hpl.jena.vocabulary.RDF;
 /**
  * Utility class for extracting Enhancements and Metadata objects from RDF Graphs
  * 
- * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
+ * @author Rafa Haro <rharo@zaizi.com>
  * 
  */
 public class EnhancementParser

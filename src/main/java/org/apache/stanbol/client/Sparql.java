@@ -22,7 +22,7 @@ import com.hp.hpl.jena.query.ResultSet;
 
 /**
  *  
- * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
+ * @author Rafa Haro <rharo@zaizi.com>
  *
  */
 public interface Sparql

@@ -32,7 +32,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 /**
  * RestEasy based implementation REST operations
  * 
- * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
+ * @author Rafa Haro <rharo@zaizi.com>
  *
  */
 public class RestClientExecutor {
