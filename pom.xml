@@ -200,7 +200,7 @@
 		<dependency>
 			<artifactId>solr-solrj</artifactId>
 			<groupId>org.apache.solr</groupId>
-			<version>3.6.2</version>
+			 <version>4.7.0</version>
 		</dependency>
 
 		<!-- JUnit -->
