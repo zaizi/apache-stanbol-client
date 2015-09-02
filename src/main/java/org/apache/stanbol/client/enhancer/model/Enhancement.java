@@ -19,7 +19,10 @@ package org.apache.stanbol.client.enhancer.model;
 import java.util.Collection;
 
 import com.google.common.collect.Sets;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.DCTerms;
 
 /**
@@ -112,6 +115,23 @@ public abstract class Enhancement
     public Collection<Enhancement> getRelation()
     {
         return relation;
+    }
+    
+    public Collection<String> getPropertyValues(String property){
+    	return this.getPropertyValues(this.resource.getModel().createProperty(property));
+    }
+    
+    public Collection<String> getPropertyValues(Property property){
+    	Collection<String> result = Sets.newHashSet();
+    	StmtIterator iterator = this.resource.listProperties(property);
+    	while(iterator.hasNext()){
+    		Statement next = iterator.next();
+            if(next.getObject().isLiteral())
+                result.add(next.getObject().asLiteral().getString());
+            else
+                result.add(next.getObject().asResource().getURI());
+    	}
+    	return result;
     }
 
     /* (non-Javadoc)

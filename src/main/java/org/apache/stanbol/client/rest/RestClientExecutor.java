@@ -17,16 +17,17 @@
 package org.apache.stanbol.client.rest;
 
 import java.net.URI;
-import java.util.concurrent.TimeUnit;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.stanbol.client.enhancer.model.EnhancementStructure.EnhancementStructureReader;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.WebResource.Builder;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 /**
  * RestEasy based implementation REST operations
@@ -38,35 +39,47 @@ public class RestClientExecutor {
 	
 	private static final int TIMEOUT = 60;
 	
-	private static ResteasyClientBuilder builder;
+	private static Client builder;
 	
 	static{
-		builder = new ResteasyClientBuilder();
-		builder.connectionPoolSize(5);
-		builder.establishConnectionTimeout(TIMEOUT, TimeUnit.SECONDS);
-		builder.register(EnhancementStructureReader.class);
+		ClientConfig cc = new DefaultClientConfig();
+		
+		cc.getProperties().
+			put(ClientConfig.PROPERTY_THREADPOOL_SIZE, 5);
+		cc.getProperties().
+			put(ClientConfig.PROPERTY_CONNECT_TIMEOUT, TIMEOUT);
+		cc.getClasses().add(EnhancementStructureReader.class);
+		builder = Client.create(cc);
 	}
 
-	public static Response get(URI uri, MediaType acceptType) {
-		WebTarget target = builder.build().target(uri);
-		Builder httpRequest = target.request();
+	public static <T> T get(URI uri, MediaType acceptType,
+			Class<T> returnType) {
+		WebResource target = builder.resource(uri);
+		Builder httpRequest = target.getRequestBuilder();
 		if(acceptType != null)
 			httpRequest.accept(acceptType);
-		return httpRequest.get();
+		return httpRequest.get(returnType);
 	}
 	
-	public static Response post(URI uri, Entity<?> entity, MediaType acceptType){
-		WebTarget target = builder.build().target(uri);
-		Builder httpRequest = target.request();
+	public static <T> T post(URI uri, 
+			Object entity, 
+			MediaType acceptType,
+			MediaType contentType,
+			Class<T> returnType) {
+		WebResource target = builder.resource(uri);
+		Builder httpRequest = target.getRequestBuilder();
 		if(acceptType != null)
 			httpRequest.accept(acceptType);
-		return httpRequest.post(entity);
+		if(contentType != null)
+			httpRequest.type(contentType);
+		httpRequest.entity(entity);
+		return httpRequest.post(returnType);
 	}
 
-	public static Response delete(URI uri) {
-		WebTarget target = builder.build().target(uri);
-		Builder httpRequest = target.request();
-		return httpRequest.delete();
+	public static ClientResponse delete(URI uri) {
+		WebResource target = builder.resource(uri);
+		Builder httpRequest = target.getRequestBuilder();
+		return httpRequest.delete(ClientResponse.class);
 	}
 	
 

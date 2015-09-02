@@ -19,11 +19,9 @@ package org.apache.stanbol.client.sparql.impl;
 import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.stanbol.client.Sparql;
-import org.apache.stanbol.client.entityhub.impl.EntityHubImpl;
 import org.apache.stanbol.client.rest.RestClientExecutor;
 import org.apache.stanbol.client.services.exception.StanbolServiceException;
 import org.slf4j.Logger;
@@ -31,12 +29,14 @@ import org.slf4j.LoggerFactory;
 
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 /**
  * Stanbol Sparql Endpoint Client Implementation
- * TODO: improve response-code handling, mirroring the style in {@link EntityHubImpl}.
  * 
- * @author <a href="mailto:rharo@zaizi.com">Rafa Haro</a>
+ * @author Rafa Haro <rharo@zaizi.com>
  *
  */
 public class SparqlImpl implements Sparql
@@ -48,6 +48,7 @@ public class SparqlImpl implements Sparql
     /**
      * Constructor
      * 
+     * @param restClient REST Client
      */
     public SparqlImpl(UriBuilder builder)
     {
@@ -72,85 +73,40 @@ public class SparqlImpl implements Sparql
         	sparqlBuilder = sparqlBuilder.queryParam("query", sparqlQuery);
         
         URI uri = sparqlBuilder.build();
-        Response response = RestClientExecutor.get(uri, new MediaType("application", "sparql-results+xml"));
-       
-        // Check HTTP status code
-        int status = response.getStatus();
-        if (status == 404){
-        	String stackTrace = response.readEntity(String.class);
-        	logger.error(stackTrace);
-            return null;
-        }
+        try{
+        	String response = RestClientExecutor.get(uri,
+        			new MediaType("application", "sparql-results+xml"), String.class);
+        	
+        	if (logger.isDebugEnabled())
+            {
+                logger.debug("SPARQL query sucessfully executed through " + graph + " graph at Stanbol Server");
+            }
+        	
+        	return ResultSetFactory.fromXML(response);
+        	
+        }catch(UniformInterfaceException e){
+        	ClientResponse response = e.getResponse();
+            
+            // Check HTTP status code
+            int status = response.getStatus();
+            if (status == 404){
+            	throw new StanbolServiceException("Stanbol Server unrecheable");
+            }
 
-        if (status != 200 && status != 201 && status != 202)
-        {
+            if (status != 200 && status != 201 && status != 202)
+            {
+            	if(logger.isTraceEnabled()){
+            		String trace = response.getEntity(String.class);
+            		logger.trace(trace);
+            	}
+            }
+            
             throw new StanbolServiceException("[HTTP " + status + "] Error executing the following SPARQL query in stanbol server:\n" + sparqlQuery);
+        }catch(ClientHandlerException e){
+        	String message = "Error Parsing SPARQL Service Response";
+        	if(logger.isTraceEnabled())
+        		logger.trace(message, e);
+        	throw new StanbolServiceException(message);
         }
-
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("SPARQL query sucessfully executed through " + graph + " graph at Stanbol Server");
-        }
-
-        return ResultSetFactory.fromXML(response.readEntity(String.class));
     }
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((builder == null) ? 0 : builder.hashCode());
-		result = prime * result + ((logger == null) ? 0 : logger.hashCode());
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		SparqlImpl other = (SparqlImpl) obj;
-		if (builder == null) {
-			if (other.builder != null) {
-				return false;
-			}
-		} else if (!builder.equals(other.builder)) {
-			return false;
-		}
-		if (logger == null) {
-			if (other.logger != null) {
-				return false;
-			}
-		} else if (!logger.equals(other.logger)) {
-			return false;
-		}
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder2 = new StringBuilder();
-		builder2.append("SparqlImpl [logger=");
-		builder2.append(logger);
-		builder2.append(", builder=");
-		builder2.append(builder);
-		builder2.append("]");
-		return builder2.toString();
-	}
-
 }
