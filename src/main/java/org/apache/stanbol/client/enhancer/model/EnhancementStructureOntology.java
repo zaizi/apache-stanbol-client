@@ -51,4 +51,9 @@ public class EnhancementStructureOntology
     public static final Property SELECTION_CONTEXT = new PropertyImpl(FISE_URI + "selection-context");
     public static final Property START = new PropertyImpl(FISE_URI + "start");
     public static final Property END = new PropertyImpl(FISE_URI + "end");
+    
+    public static final Property SENTIMENT = new PropertyImpl(FISE_URI + "sentiment");
+    public static final Property POSTIVIE_SENTIMENT = new PropertyImpl(FISE_URI + "positive-sentiment");
+    public static final Property NEGATIVE_SENTIMENT = new PropertyImpl(FISE_URI + "negative-sentiment");
+    public static final Property DOCUMENT_SENTIMENT = new PropertyImpl(FISE_URI + "DocumentSentiment");
 }

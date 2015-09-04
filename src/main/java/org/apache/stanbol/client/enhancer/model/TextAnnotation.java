@@ -37,6 +37,9 @@ public class TextAnnotation extends Annotation
     private final Long end; // http://fise.iks-project.eu/ontology/end
     private final String language; // http://purl.org/dc/terms/language
 
+	private Double positiveSentiment;
+	private Double negativeSentiment;
+	private Double sentiment;
     /**
      * Constructor
      * 
@@ -57,6 +60,16 @@ public class TextAnnotation extends Annotation
         } else {
         	this.language = null;
         }
+        
+        this.sentiment = resource.hasProperty(EnhancementStructureOntology.SENTIMENT) ? resource
+				.getProperty(EnhancementStructureOntology.SENTIMENT).getDouble()
+				: null;
+		this.positiveSentiment = resource.hasProperty(EnhancementStructureOntology.POSTIVIE_SENTIMENT) ? resource
+				.getProperty(EnhancementStructureOntology.POSTIVIE_SENTIMENT).getDouble()
+				: null;
+		this.negativeSentiment = resource.hasProperty(EnhancementStructureOntology.NEGATIVE_SENTIMENT) ? resource
+				.getProperty(EnhancementStructureOntology.NEGATIVE_SENTIMENT).getDouble()
+				: null;
     }
 
     /**
@@ -119,7 +132,31 @@ public class TextAnnotation extends Annotation
         return language;
     }
     
-    /* (non-Javadoc)
+    public Double getPositiveSentiment() {
+		return positiveSentiment;
+	}
+
+	public void setPositiveSentiment(Double positiveSentiment) {
+		this.positiveSentiment = positiveSentiment;
+	}
+
+	public Double getNegativeSentiment() {
+		return negativeSentiment;
+	}
+
+	public void setNegativeSentiment(Double negativeSentiment) {
+		this.negativeSentiment = negativeSentiment;
+	}
+
+	public Double getSentiment() {
+		return sentiment;
+	}
+
+	public void setSentiment(Double sentiment) {
+		this.sentiment = sentiment;
+	}
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
