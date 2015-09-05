@@ -36,10 +36,9 @@ public class TextAnnotation extends Annotation
     private final Long start; // http://fise.iks-project.eu/ontology/start
     private final Long end; // http://fise.iks-project.eu/ontology/end
     private final String language; // http://purl.org/dc/terms/language
-
-	private Double positiveSentiment;
-	private Double negativeSentiment;
-	private Double sentiment;
+	private Double positiveSentiment; // http://fise.iks-project.eu/ontology/positive-sentiment
+	private Double negativeSentiment; // http://fise.iks-project.eu/ontology/negative-sentiment
+	private Double sentiment; // http://fise.iks-project.eu/ontology/sentiment
     /**
      * Constructor
      * 
@@ -61,15 +60,9 @@ public class TextAnnotation extends Annotation
         	this.language = null;
         }
         
-        this.sentiment = resource.hasProperty(EnhancementStructureOntology.SENTIMENT) ? resource
-				.getProperty(EnhancementStructureOntology.SENTIMENT).getDouble()
-				: null;
-		this.positiveSentiment = resource.hasProperty(EnhancementStructureOntology.POSTIVIE_SENTIMENT) ? resource
-				.getProperty(EnhancementStructureOntology.POSTIVIE_SENTIMENT).getDouble()
-				: null;
-		this.negativeSentiment = resource.hasProperty(EnhancementStructureOntology.NEGATIVE_SENTIMENT) ? resource
-				.getProperty(EnhancementStructureOntology.NEGATIVE_SENTIMENT).getDouble()
-				: null;
+        this.sentiment = resource.hasProperty(EnhancementStructureOntology.SENTIMENT) ? resource .getProperty(EnhancementStructureOntology.SENTIMENT).getDouble() : null;
+		this.positiveSentiment = resource.hasProperty(EnhancementStructureOntology.POSTIVIE_SENTIMENT) ? resource.getProperty(EnhancementStructureOntology.POSTIVIE_SENTIMENT).getDouble() : null;
+		this.negativeSentiment = resource.hasProperty(EnhancementStructureOntology.NEGATIVE_SENTIMENT) ? resource.getProperty(EnhancementStructureOntology.NEGATIVE_SENTIMENT).getDouble() : null;
     }
 
     /**
@@ -132,29 +125,33 @@ public class TextAnnotation extends Annotation
         return language;
     }
     
+    /**
+     * Get the fise:positive-sentiment property
+     * 
+     * @return fise:positive-sentiment property
+     */
     public Double getPositiveSentiment() {
 		return positiveSentiment;
 	}
 
-	public void setPositiveSentiment(Double positiveSentiment) {
-		this.positiveSentiment = positiveSentiment;
-	}
-
+    /**
+     * Get the fise:negative-sentiment property
+     * 
+     * @return fise:negative-sentiment property
+     */
 	public Double getNegativeSentiment() {
 		return negativeSentiment;
 	}
-
-	public void setNegativeSentiment(Double negativeSentiment) {
-		this.negativeSentiment = negativeSentiment;
-	}
-
+	
+	/**
+     * Get the fise:negative-sentiment property
+     * 
+     * @return fise:negative-sentiment property
+     */
 	public Double getSentiment() {
 		return sentiment;
 	}
 
-	public void setSentiment(Double sentiment) {
-		this.sentiment = sentiment;
-	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -182,6 +179,12 @@ public class TextAnnotation extends Annotation
 		builder.append(getUri());
 		builder.append(", getCreator()=");
 		builder.append(getCreator());
+		builder.append(", getSentiment()=");
+		builder.append(getSentiment());
+		builder.append(", getPositiveSentiment()=");
+		builder.append(getPositiveSentiment());
+		builder.append(", getNegativeSentiment()=");
+		builder.append(getNegativeSentiment());
 		builder.append(", getCreated()=");
 		builder.append(getCreated());
 		builder.append(", getRelation()=");
