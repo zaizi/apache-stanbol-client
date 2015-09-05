@@ -36,9 +36,9 @@ public class TextAnnotation extends Annotation
     private final Long start; // http://fise.iks-project.eu/ontology/start
     private final Long end; // http://fise.iks-project.eu/ontology/end
     private final String language; // http://purl.org/dc/terms/language
-	private Double positiveSentiment; // http://fise.iks-project.eu/ontology/positive-sentiment
-	private Double negativeSentiment; // http://fise.iks-project.eu/ontology/negative-sentiment
-	private Double sentiment; // http://fise.iks-project.eu/ontology/sentiment
+	private final Double positiveSentiment; // http://fise.iks-project.eu/ontology/positive-sentiment
+	private final Double negativeSentiment; // http://fise.iks-project.eu/ontology/negative-sentiment
+	private final Double sentiment; // http://fise.iks-project.eu/ontology/sentiment
     /**
      * Constructor
      * 
