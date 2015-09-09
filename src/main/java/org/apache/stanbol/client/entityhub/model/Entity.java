@@ -323,8 +323,12 @@ public class Entity
             Statement next = iterator.next();
             if(next.getObject().isLiteral())
                 result.add(next.getObject().asLiteral().getString());
-            else
-                result.add(next.getObject().asResource().getLocalName());
+            else if(next.getObject().isURIResource()){
+                result.add(next.getObject().asResource().getURI());
+            }
+            else{
+                result.add(next.getObject().asResource().getLocalName());   
+            }
         }
         return result;
     }
