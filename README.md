@@ -15,7 +15,7 @@ Current Built Requirements:
 
 To start working with the project, just clone it in your local workspace:
 
-    git clone https://github.com/rafaharo/apache-stanbol-client.git
+    git clone https://github.com/zaizi/apache-stanbol-client.git
 
 In order to use it into another Maven project, you need to install the library in your local Maven repository: 
 
