@@ -36,7 +36,10 @@ public class TextAnnotation extends Annotation
     private final Long start; // http://fise.iks-project.eu/ontology/start
     private final Long end; // http://fise.iks-project.eu/ontology/end
     private final String language; // http://purl.org/dc/terms/language
-
+	private final Double positiveSentiment; // http://fise.iks-project.eu/ontology/positive-sentiment
+	private final Double negativeSentiment; // http://fise.iks-project.eu/ontology/negative-sentiment
+	private final Double sentiment; // http://fise.iks-project.eu/ontology/sentiment
+	
     /**
      * Constructor
      * 
@@ -57,6 +60,10 @@ public class TextAnnotation extends Annotation
         } else {
         	this.language = null;
         }
+        
+        this.sentiment = resource.hasProperty(EnhancementStructureOntology.SENTIMENT) ? resource .getProperty(EnhancementStructureOntology.SENTIMENT).getDouble() : null;
+		this.positiveSentiment = resource.hasProperty(EnhancementStructureOntology.POSTIVIE_SENTIMENT) ? resource.getProperty(EnhancementStructureOntology.POSTIVIE_SENTIMENT).getDouble() : null;
+		this.negativeSentiment = resource.hasProperty(EnhancementStructureOntology.NEGATIVE_SENTIMENT) ? resource.getProperty(EnhancementStructureOntology.NEGATIVE_SENTIMENT).getDouble() : null;
     }
 
     /**
@@ -119,7 +126,35 @@ public class TextAnnotation extends Annotation
         return language;
     }
     
-    /* (non-Javadoc)
+    /**
+     * Get the fise:positive-sentiment property
+     * 
+     * @return fise:positive-sentiment property
+     */
+    public Double getPositiveSentiment() {
+		return positiveSentiment;
+	}
+
+    /**
+     * Get the fise:negative-sentiment property
+     * 
+     * @return fise:negative-sentiment property
+     */
+	public Double getNegativeSentiment() {
+		return negativeSentiment;
+	}
+	
+	/**
+     * Get the fise:negative-sentiment property
+     * 
+     * @return fise:negative-sentiment property
+     */
+	public Double getSentiment() {
+		return sentiment;
+	}
+
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -145,6 +180,12 @@ public class TextAnnotation extends Annotation
 		builder.append(getUri());
 		builder.append(", getCreator()=");
 		builder.append(getCreator());
+		builder.append(", getSentiment()=");
+		builder.append(getSentiment());
+		builder.append(", getPositiveSentiment()=");
+		builder.append(getPositiveSentiment());
+		builder.append(", getNegativeSentiment()=");
+		builder.append(getNegativeSentiment());
 		builder.append(", getCreated()=");
 		builder.append(getCreated());
 		builder.append(", getRelation()=");
