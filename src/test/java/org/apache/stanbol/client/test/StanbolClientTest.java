@@ -23,10 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.stanbol.client.Enhancer;
 import org.apache.stanbol.client.EntityHub;
 import org.apache.stanbol.client.StanbolClientFactory;
 import org.apache.stanbol.client.enhancer.impl.EnhancerParameters;
+import org.apache.stanbol.client.enhancer.impl.EnhancerParameters.EnhancerParametersBuilder;
 import org.apache.stanbol.client.enhancer.model.EnhancementStructure;
 import org.apache.stanbol.client.enhancer.model.EntityAnnotation;
 import org.apache.stanbol.client.enhancer.model.TextAnnotation;
@@ -314,11 +316,13 @@ public class StanbolClientTest
     public void testLanguage() throws Exception
     {
     	final Enhancer client = factory.createEnhancerClient();
-    	EnhancerParameters parameters = EnhancerParameters.
+    	String content = IOUtils.toString(
+    			this.getClass().getClassLoader().getResourceAsStream(TEST_ES_FILE));
+    	EnhancerParametersBuilder builder = EnhancerParameters.
     			builder().
     			setChain("language").
-    			setContent(this.getClass().getClassLoader().getResourceAsStream(TEST_ES_FILE)).
-    			build();
+    			setContent(content); 
+    	EnhancerParameters parameters = builder.build();
         EnhancementStructure enhancements = client.enhance(parameters);
 
         Assert.assertNotNull(enhancements);
@@ -332,5 +336,16 @@ public class StanbolClientTest
         Assert.assertFalse(enhancements.getLanguages().isEmpty());
         Assert.assertEquals(enhancements.getLanguages().size(), 1);
         Assert.assertEquals(enhancements.getLanguages().iterator().next(), "es");
+        
+        parameters = builder.setContentLanguage("en").build();
+        enhancements = client.enhance(parameters);
+
+        Assert.assertNotNull(enhancements);
+        Assert.assertTrue(enhancements.getEnhancements().size() == 2);
+        
+        Assert.assertFalse(enhancements.getLanguages().isEmpty());
+        Assert.assertEquals(enhancements.getLanguages().size(), 2);
+        Assert.assertTrue(enhancements.getLanguages().contains("en"));
+        Assert.assertTrue(enhancements.getLanguages().contains("es"));
     }
 }

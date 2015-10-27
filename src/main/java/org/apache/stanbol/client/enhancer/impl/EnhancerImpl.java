@@ -16,6 +16,8 @@
  */
 package org.apache.stanbol.client.enhancer.impl;
 
+import java.util.Map;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
@@ -26,6 +28,7 @@ import org.apache.stanbol.client.services.exception.StanbolServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Maps;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
@@ -69,11 +72,17 @@ public class EnhancerImpl implements Enhancer
     	
     	// TODO Include Dereferrencing stuff
     	
+    	// Content Language
+    	Map<String, String> headers = Maps.newHashMap();
+    	if(parameters.getContentLanguage() != null)
+    		headers.put(Enhancer.CONTENT_LANGUAGE_HEADER, parameters.getContentLanguage());
+    	
     	try{
     		EnhancementStructure response = RestClientExecutor.post(enhancerBuilder.build(),
     			parameters.getContent(), 
     			parameters.getOutputFormat(),
     			MediaType.TEXT_PLAIN_TYPE,
+    			headers,
     			EnhancementStructure.class);
     		
     		if (logger.isDebugEnabled())
