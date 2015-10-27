@@ -50,8 +50,14 @@ public class TextAnnotation extends Annotation
         this.selectionContext = resource.hasProperty(EnhancementStructureOntology.SELECTION_CONTEXT) ? resource.getProperty(EnhancementStructureOntology.SELECTION_CONTEXT).getString() : null;
         this.start = resource.hasProperty(EnhancementStructureOntology.START) ? resource.getProperty(EnhancementStructureOntology.START).getLong() : null;
         this.end = resource.hasProperty(EnhancementStructureOntology.END) ? resource.getProperty(EnhancementStructureOntology.END).getLong() : null;
-        this.language = resource.hasProperty(DCTerms.language) ? 
-        		resource.getProperty(DCTerms.language).getString() : resource.getProperty(EnhancementStructureOntology.SELECTED_TEXT).getLanguage();
+        
+        if(resource.hasProperty(DCTerms.language)){
+            this.language = resource.getProperty(DCTerms.language).getString();
+        }else if(resource.hasProperty(EnhancementStructureOntology.SELECTED_TEXT)){
+            this.language = resource.getProperty(EnhancementStructureOntology.SELECTED_TEXT).getLanguage();
+        }else{
+            this.language = null;
+        }
     }
 
     /**
