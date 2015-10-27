@@ -72,20 +72,6 @@ public class StanbolClientTest
 //    		"}" +
 //    		"ORDER BY DESC(?extraction_time) LIMIT 5";
     
-    public static void main(String[] args)
-    {
-        StanbolClientTest stanbolTest = new StanbolClientTest();
-        try
-        {
-           
-        }
-        catch (Exception e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    
     @BeforeClass
     public static void startClient(){
     	factory = new StanbolClientFactory(STANBOL_ENDPOINT);
