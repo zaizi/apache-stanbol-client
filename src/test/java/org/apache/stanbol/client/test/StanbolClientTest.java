@@ -193,8 +193,8 @@ public class StanbolClientTest
 //        System.out.println(prettyJsonString);
         JSONObject json = new JSONObject(jsonEnh);
         JSONArray array = json.getJSONArray("annotations");
-        Assert.assertEquals(array.getJSONObject(1).getString("start"), "24");
-        Assert.assertEquals(array.getJSONObject(1).getString("end"), "30");
+        Assert.assertEquals(array.getJSONObject(1).getString("start"), "0");
+        Assert.assertEquals(array.getJSONObject(1).getString("end"), "5");
         
     }
     
