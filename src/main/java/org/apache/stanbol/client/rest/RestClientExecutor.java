@@ -17,6 +17,8 @@
 package org.apache.stanbol.client.rest;
 
 import java.net.URI;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.core.MediaType;
 
@@ -52,10 +54,16 @@ public class RestClientExecutor {
 		builder = Client.create(cc);
 	}
 
-	public static <T> T get(URI uri, MediaType acceptType,
+	public static <T> T get(URI uri,
+			MediaType acceptType,
+			Map<String, String> headers,
 			Class<T> returnType) {
 		WebResource target = builder.resource(uri);
 		Builder httpRequest = target.getRequestBuilder();
+		if(headers != null){
+			for(Entry<String, String> nextHeader:headers.entrySet())
+				httpRequest.header(nextHeader.getKey(), nextHeader.getValue());
+		}
 		if(acceptType != null)
 			httpRequest.accept(acceptType);
 		return httpRequest.get(returnType);
@@ -65,6 +73,7 @@ public class RestClientExecutor {
 			Object entity, 
 			MediaType acceptType,
 			MediaType contentType,
+			Map<String, String> headers,
 			Class<T> returnType) {
 		WebResource target = builder.resource(uri);
 		Builder httpRequest = target.getRequestBuilder();
@@ -72,6 +81,10 @@ public class RestClientExecutor {
 			httpRequest.accept(acceptType);
 		if(contentType != null)
 			httpRequest.type(contentType);
+		if(headers != null){
+			for(Entry<String, String> nextHeader:headers.entrySet())
+				httpRequest.header(nextHeader.getKey(), nextHeader.getValue());
+		}
 		httpRequest.entity(entity);
 		return httpRequest.post(returnType);
 	}

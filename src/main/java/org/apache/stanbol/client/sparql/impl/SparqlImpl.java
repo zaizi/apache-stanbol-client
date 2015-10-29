@@ -17,6 +17,7 @@
 package org.apache.stanbol.client.sparql.impl;
 
 import java.net.URI;
+import java.util.Collections;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
@@ -75,7 +76,9 @@ public class SparqlImpl implements Sparql
         URI uri = sparqlBuilder.build();
         try{
         	String response = RestClientExecutor.get(uri,
-        			new MediaType("application", "sparql-results+xml"), String.class);
+        			new MediaType("application", "sparql-results+xml"),
+        			Collections.<String, String> emptyMap(),
+        			String.class);
         	
         	if (logger.isDebugEnabled())
             {

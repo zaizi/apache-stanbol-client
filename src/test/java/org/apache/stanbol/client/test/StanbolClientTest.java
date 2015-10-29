@@ -23,10 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.stanbol.client.Enhancer;
 import org.apache.stanbol.client.EntityHub;
 import org.apache.stanbol.client.StanbolClientFactory;
 import org.apache.stanbol.client.enhancer.impl.EnhancerParameters;
+import org.apache.stanbol.client.enhancer.impl.EnhancerParameters.EnhancerParametersBuilder;
 import org.apache.stanbol.client.enhancer.model.EnhancementStructure;
 import org.apache.stanbol.client.enhancer.model.EntityAnnotation;
 import org.apache.stanbol.client.enhancer.model.TextAnnotation;
@@ -69,20 +71,6 @@ public class StanbolClientTest
 //    		"  ?enhancement dc:created ?extraction_time ." +
 //    		"}" +
 //    		"ORDER BY DESC(?extraction_time) LIMIT 5";
-    
-    public static void main(String[] args)
-    {
-        StanbolClientTest stanbolTest = new StanbolClientTest();
-        try
-        {
-           
-        }
-        catch (Exception e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
     
     @BeforeClass
     public static void startClient(){
@@ -205,8 +193,8 @@ public class StanbolClientTest
 //        System.out.println(prettyJsonString);
         JSONObject json = new JSONObject(jsonEnh);
         JSONArray array = json.getJSONArray("annotations");
-        Assert.assertEquals(array.getJSONObject(1).getString("start"), "24");
-        Assert.assertEquals(array.getJSONObject(1).getString("end"), "30");
+        Assert.assertEquals(array.getJSONObject(1).getString("start"), "0");
+        Assert.assertEquals(array.getJSONObject(1).getString("end"), "5");
         
     }
     
@@ -328,11 +316,13 @@ public class StanbolClientTest
     public void testLanguage() throws Exception
     {
     	final Enhancer client = factory.createEnhancerClient();
-    	EnhancerParameters parameters = EnhancerParameters.
+    	String content = IOUtils.toString(
+    			this.getClass().getClassLoader().getResourceAsStream(TEST_ES_FILE));
+    	EnhancerParametersBuilder builder = EnhancerParameters.
     			builder().
     			setChain("language").
-    			setContent(this.getClass().getClassLoader().getResourceAsStream(TEST_ES_FILE)).
-    			build();
+    			setContent(content); 
+    	EnhancerParameters parameters = builder.build();
         EnhancementStructure enhancements = client.enhance(parameters);
 
         Assert.assertNotNull(enhancements);
@@ -346,5 +336,16 @@ public class StanbolClientTest
         Assert.assertFalse(enhancements.getLanguages().isEmpty());
         Assert.assertEquals(enhancements.getLanguages().size(), 1);
         Assert.assertEquals(enhancements.getLanguages().iterator().next(), "es");
+        
+        parameters = builder.setContentLanguage("en").build();
+        enhancements = client.enhance(parameters);
+
+        Assert.assertNotNull(enhancements);
+        Assert.assertTrue(enhancements.getEnhancements().size() == 2);
+        
+        Assert.assertFalse(enhancements.getLanguages().isEmpty());
+        Assert.assertEquals(enhancements.getLanguages().size(), 2);
+        Assert.assertTrue(enhancements.getLanguages().contains("en"));
+        Assert.assertTrue(enhancements.getLanguages().contains("es"));
     }
 }

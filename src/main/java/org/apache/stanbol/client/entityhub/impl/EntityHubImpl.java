@@ -19,6 +19,7 @@ package org.apache.stanbol.client.entityhub.impl;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -82,7 +83,9 @@ public class EntityHubImpl implements EntityHub
 		JSONArray array = null;
 		try{
 			array = RestClientExecutor.get(uri, 
-					new MediaType("application", "rdf+xml"), JSONArray.class);
+					new MediaType("application", "rdf+xml"),
+					Collections.<String, String> emptyMap(),
+					JSONArray.class);
 
 			if (logger.isDebugEnabled())
 			{
@@ -164,6 +167,7 @@ public class EntityHubImpl implements EntityHub
 		try{
 			InputStream response = RestClientExecutor.get(uri, 
 					new MediaType("application", "rdf+xml"),
+					Collections.<String, String> emptyMap(),
 					InputStream.class);
 			if (logger.isDebugEnabled())
 			{
@@ -216,6 +220,7 @@ public class EntityHubImpl implements EntityHub
 					is, 
 					MediaType.TEXT_XML_TYPE,
 					new MediaType("application", "rdf+xml"),
+					Collections.<String, String> emptyMap(),
 					String.class);
 			if (logger.isDebugEnabled())
 			{
@@ -278,6 +283,7 @@ public class EntityHubImpl implements EntityHub
 					is, 
 					new MediaType("application", "rdf+xml"),
 					new MediaType("application", "rdf+xml"),
+					Collections.<String, String> emptyMap(),
 					InputStream.class);
 
 			if (logger.isDebugEnabled())
@@ -385,6 +391,7 @@ public class EntityHubImpl implements EntityHub
 		try{
 			InputStream response = RestClientExecutor.get(uri, 
 					new MediaType("application", "rdf+xml"),
+					Collections.<String, String> emptyMap(),
 					InputStream.class);
 
 			if (logger.isDebugEnabled())
@@ -476,6 +483,7 @@ public class EntityHubImpl implements EntityHub
     	try{
     		response = RestClientExecutor.get(uri, 
     				new MediaType("application", "rdf+xml"),
+    				Collections.<String, String> emptyMap(),
     				InputStream.class);
     		if (logger.isDebugEnabled())
             {
@@ -548,6 +556,7 @@ public class EntityHubImpl implements EntityHub
     	try{		
     		response = RestClientExecutor.get(uri, 
     				new MediaType("application", "rdf+xml"),
+    				Collections.<String, String> emptyMap(),
     				InputStream.class);
     		
     	}catch(UniformInterfaceException e){

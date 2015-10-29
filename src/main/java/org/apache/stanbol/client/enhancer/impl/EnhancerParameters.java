@@ -30,7 +30,7 @@ import com.google.common.collect.Sets;
 /**
  * Collect all the parameters that can be sent to the enhancer in order to configure both the type of enrichment and the response
  * 
- * @author Rafa Haro <rharo@zaizi.com>
+ * @author Rafa Haro <rh@zaizi.com>
  *
  */
 public class EnhancerParameters {
@@ -69,6 +69,7 @@ public class EnhancerParameters {
     private String chain = Enhancer.DEFAULT_CHAIN;
     private Collection<String> dereferencedFields = Sets.newHashSet();
     private Optional<String> ldpath = Optional.absent();
+    private Optional<String> language = Optional.absent(); // Content Language
     
     public MediaType getOutputFormat(){
     	return outputFormat.value();
@@ -93,6 +94,10 @@ public class EnhancerParameters {
     	return ldpath.orNull();
     }
     
+    public String getContentLanguage(){
+    	return language.orNull();
+    }
+    
     public static class EnhancerParametersBuilder {
     	private final EnhancerParameters parameters = new EnhancerParameters();
     	
@@ -115,6 +120,11 @@ public class EnhancerParameters {
     	
     	public EnhancerParametersBuilder setChain(String chain){
     		this.parameters.chain = chain;
+    		return this;
+    	}
+    	
+    	public EnhancerParametersBuilder setContentLanguage(String language){
+    		this.parameters.language = Optional.of(language);
     		return this;
     	}
     	

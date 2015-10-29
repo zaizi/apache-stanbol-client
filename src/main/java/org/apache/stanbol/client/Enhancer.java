@@ -33,6 +33,7 @@ public interface Enhancer
     public static final String STANBOL_ENHANCER_PATH = "enhancer";
     public static final String STANBOL_CHAIN_PATH = "chain";
     public static final String DEFAULT_CHAIN = "default";
+    public static final String CONTENT_LANGUAGE_HEADER = "Content-Language";
     
     
     /**
