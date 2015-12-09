@@ -138,6 +138,11 @@ public class EnhancerParameters {
         	return this;
         }
     	
+        public EnhancerParametersBuilder setDereferencingFields(Collection<String> fields){
+            this.parameters.dereferencedFields = fields;
+            return this;
+        }
+        
     	public EnhancerParameters buildDefault(String content){
     		EnhancerParameters params = new EnhancerParameters();
     		params.contentSwitch = true;

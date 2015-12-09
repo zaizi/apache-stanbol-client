@@ -16,6 +16,7 @@
  */
 package org.apache.stanbol.client.enhancer.impl;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
@@ -70,8 +71,20 @@ public class EnhancerImpl implements Enhancer
     	if(parameters.getChain() != DEFAULT_CHAIN)
     		enhancerBuilder.path(STANBOL_CHAIN_PATH).path(parameters.getChain());
     	
-    	// TODO Include Dereferrencing stuff
-    	
+    	//LDPAth param
+        if(parameters.getLdPath() != null && !parameters.getLdPath().equals(""))
+        {
+            enhancerBuilder.queryParam(DEREF_LDPATH, parameters.getLdPath());            
+        }
+          
+        //Dereferencing fields for enhancement query
+        if(parameters.getDereferencedFields() != null && !parameters.getDereferencedFields().isEmpty())
+        {
+            for(String derefField : parameters.getDereferencedFields()){
+                enhancerBuilder.queryParam(DEREF_FIELDS, derefField);
+            }
+        }
+       
     	// Content Language
     	Map<String, String> headers = Maps.newHashMap();
     	if(parameters.getContentLanguage() != null)

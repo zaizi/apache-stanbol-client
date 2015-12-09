@@ -35,6 +35,10 @@ public interface Enhancer
     public static final String DEFAULT_CHAIN = "default";
     public static final String CONTENT_LANGUAGE_HEADER = "Content-Language";
     
+    public static final String DEREF_LDPATH = "enhancer.engines.dereference.ldpath";
+    public static final String DEREF_FIELDS = "enhancer.engines.dereference.fields";
+
+    
     
     /**
      * Enhance an {@link String} content with the settings specified as parameters
